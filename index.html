@@ -1,0 +1,360 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>菜の寻鲲</title><meta name="author" content="The Kun"><meta name="copyright" content="The Kun"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta property="og:type" content="website">
+<meta property="og:title" content="菜の寻鲲">
+<meta property="og:url" content="http://www.wanchelai.com/index.html">
+<meta property="og:site_name" content="菜の寻鲲">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.wanchelai.com/img/hy.png">
+<meta property="article:author" content="The Kun">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.wanchelai.com/img/hy.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.wanchelai.com/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/image/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/image/pwa/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/image/pwa/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/image/pwa/16.png"/><link rel="mask-icon" href="/image/pwa/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2020-10-13 23:46:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont.css"><style type="text/css">.app-refresh{position:fixed;top:-2.2rem;left:0;right:0;z-index:99999;padding:0 1rem;font-size:15px;height:2.2rem;transition:all .3s ease}.app-refresh-wrap{display:flex;color:#fff;height:100%;align-items:center;justify-content:center}.app-refresh-wrap a{color:#fff;text-decoration:underline;cursor:pointer}</style><meta name="generator" content="Hexo 5.2.0"></head><body><div id="web_bg"></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="full_page" id="page-header" style="background-image: url(/img/top_img/1.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">菜の寻鲲</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="site-info"><h1 id="site-title">菜の寻鲲</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com/285208049" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/06/26/HelloWorld/" title="Hello World">     <img class="post_bg" data-lazy-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/06/26/HelloWorld/" title="Hello World">Hello World</a><div class="article-meta-wrap"><span class="article-meta"><i class="fas fa-thumbtack article-meta__icon sticky"></i><span class="sticky">置顶</span><span class="article-meta__separator">|</span></span><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-06-25T16:00:00.000Z" title="发表于 2020-06-26 00:00:00">2020-06-26</time></span></div><div class="content">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+ Quick Start
+ Create a new post
+1$ hexo new &quot;My New Post&quot;
+More info: Writing
+ Run server
+1$ hexo server
+More info: Server
+ Generate static files
+1$ hexo generate
+More info: Generating
+ Deploy to remote sites
+1$ hexo deploy
+More info: Deployment
+</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(2)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)">Linux系统管理--软件包管理(2)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-10-08T16:00:00.000Z" title="发表于 2020-10-09 00:00:00">2020-10-09</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 源码包安装
+
+注意事项
+1.1 应该选择哪种软件包？
+
+
+如果软件包是给大量客户提供访问，建议使用源码包安装，如LAMP环境搭建，因为源码包效率更高。
+如果软件包是给Linux底层使用，或只给少量客户访问，建议使用rpm包安装，因为rpm包简单。
+
+1.2 源码包是从哪里来？
+rpm包是光盘中直接包含的，所以不需要用户单独下载。而源码包是通过官方网站下载的，如果需要使用，是需要单独下载的。
+1.3 是否可以在系统中既安装rpm包的Apache，又安装源码包的Apache？
+答案是可以，因为两种安装方法安装的Apache，安装位置是不一样的，例如：
+123456789101112RPM 包：不建议指定安装位置，建议安装在more位置（RPM包安装的服务又标准卸载命令，不怕文件到处都是）。配置文件：&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf网页位置：&#x2F;var&#x2F;www&#x2F;html&#x2F;日志位置：&#x2F;varlog&#x2F;httpd&#x2F;启动方法：1）service  httpd  resta ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(1)"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)">Linux系统管理--软件包管理(1)</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-09-21T16:00:00.000Z" title="发表于 2020-09-22 00:00:00">2020-09-22</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 软件包管理
+ 软件包分类
+1.软件包分类
+
+源码包
+二进制包
+
+
+源码包
+2.1 源码包什么样
+
+123456[root@localhost ~]# vim  hello.c#include &lt;stdio.h&gt;int main (void)&#123;	print(&quot;hello world\n&quot;);&#125;
+1[root@localhost ~]# rpm  -ivh  &#x2F;mnt&#x2F;dcrom&#x2F;Packages&#x2F;gcc-4.4.6-4.el6.i686.rpm
+1234567[root@localhost ~]# gcc  -c hello.c#-c 生成 &quot; .o &quot; 头文件。这里会生成hello.o头文件，但是不会i执行文件。[root@localhost ~]# gcc  -o  hello  hello.o#-o  生成执行文件，并制定执行文件名。这里生成的hello就是可执行文件。 [root@localhost ~]# 。&#x2F;hellohello world#执行hell ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--vim编辑器"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器">Linux系统管理--vim编辑器</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-09-19T16:00:00.000Z" title="发表于 2020-09-20 00:00:00">2020-09-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> vim 编辑器
+ vi 编辑器简介
+vim是一个全屏幕纯文本编辑器，是vi编辑器的增强版，我们主要讲解的是vim编辑器。可以利用别命让输入vi目录的时候，实际上执行vim编辑器，例如：
+12[root@localhost ~] #  alias  vi&#x3D;&quot;vim&quot;#定义别名
+这样定义别命是临时生效的，如果需要永久生效，请放入环境变量配置文件(~/.bashrc)。
+ vim 基本使用
+1.vim的工作模式
+vim工作在三种模式之下：
+
+命令模式： 是主要使用快捷键的模式，是学习的重点。命令模式想要进入输入模式可以用以下方法：
+
+
+
+命令
+作用
+
+
+
+
+a
+在光标所在字符后插入
+
+
+A
+在光标所在行尾插入
+
+
+i
+在光标所在字符前插入
+
+
+I
+在光标所在行行首插入
+
+
+o（小写）
+在光标下插入新行
+
+
+O（大写）
+在光标上插入新行
+
+
+
+**输入模式：**主要用于文本编辑，输入数据。
+编辑模式（末行模式）：
+1234567:w   保存不退出	:w 新文件名     把文件另存为新文件:q    不保存退出:wq   保存退出:!  强制:q!    强制 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（4）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）">Linux系统管理--常用命令（4）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-09-15T16:00:00.000Z" title="发表于 2020-09-16 00:00:00">2020-09-16</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 系统痕迹命令
+ w 命令
+w 命令是显示系统中正在登陆的用户信息的命令，这个命令查看的痕迹日志是/var/run/utmp。
+
+命令名称：w
+英文原意：Show who is logged on and what they are doing
+所在路径：/usr/bin/w
+执行权限：所有用户
+功能描述：显示登陆用户信息
+
+
+ 123456[root@localhost ~]# w 15:59:40  up 19 min,  2 users,  load average: 0.00, 0.02, 0.09 #系统时间  持续开机时间   登陆用户       系统在1分钟，  5分钟， 15分钟的平均负载USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHATthekun   :0       :0               15:40   ?xdm?  32.63s  0.43s &#x2F;usr&#x2F;libexec&#x2F;gnome-session-binary --seroot      ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（3）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）">Linux系统管理--常用命令（3）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-22T16:00:00.000Z" title="发表于 2020-07-23 00:00:00">2020-07-23</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 压缩和解压命令
+在Linux中可以识别的常见的压缩格式有十几种，比如：&quot;.zip&quot;  &quot;.gz&quot;  &quot;.bz2&quot;  &quot;.tar&quot;  &quot;.tar.gz&quot;  &quot;.tar.bz2&quot;等。
+
+ “.zip” 格式
+&quot; .zip &quot;格式的压缩命令
+&quot; .zip &quot; 时Windows系统中最常见的压缩格式，Linux中也可以识别。
+&quot; .zip &quot; 格式的压缩命令
+
+命令名称：zip
+英文原意：package and compress (archive) files
+所在路径：/usr/bin/zip
+执行权限：所有用户
+功能描述：压缩文件或目录
+
+1234[root@localhost ~] #  zip [选项]  压缩包名  源文件或源目录选项： -r ：压缩目录例：[root@localhost ~] #  zip  cai.zip  caixunkun.cfg
+&quot; .zip &quot; 格式的解压缩 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/07/20/Hexo%E5%8D%9A%E5%AE%A2%E5%AE%9A%E5%88%B6--5.%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" title="Hexo博客定制--5.主题配置">     <img class="post_bg" data-lazy-src="/img/cover_picture/bk5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hexo博客定制--5.主题配置"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/20/Hexo%E5%8D%9A%E5%AE%A2%E5%AE%9A%E5%88%B6--5.%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE/" title="Hexo博客定制--5.主题配置">Hexo博客定制--5.主题配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-19T16:00:00.000Z" title="发表于 2020-07-20 00:00:00">2020-07-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/Hexo%E6%8A%80%E6%9C%AF/">Hexo技术</a></span></div><div class="content"> 本地搜索
+首先在命令行输入：
+1npm install hexo-generator-search --save
+然后打开butterfly.yml文件,false改为true。
+12345678# Local search# Please see doc for more details: https://docs.jerryc.me/config.html#本地搜索# ---------------local_search:  enable: false  labels:    input_placeholder: Search for Posts    hits_empty: &quot;We didn&#x27;t find any results for the search: $&#123;query&#125;&quot; # if there are no result
+
+ 访客地图
+此处感谢一百个Chocolate大佬
+进入ClustrMaps网站注册一个账号，并登录。
+登录之后，页面往下拉，点击红圈处。
+
+输入你的博客网址：https://你的github用户名. ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/07/15/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%882%EF%BC%89/" title="Linux系统管理--常用命令（2）">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux5.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（2）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/15/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%882%EF%BC%89/" title="Linux系统管理--常用命令（2）">Linux系统管理--常用命令（2）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-14T16:00:00.000Z" title="发表于 2020-07-15 00:00:00">2020-07-15</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 搜索命令
+ whereis 命令
+whereis是搜索系统命令的命令，不能搜索普通文件，只能搜索系统命令。
+
+命令名称：whereis
+英文原意： locate the binary,source,and manual page files for a command
+所在路径：/usr/bin/whereis
+执行权限： 所有用户
+功能描述：查找二进制命令、源文件和帮助文档的命令
+
+ which命令
+
+命令名称：which
+因为原意：shows the full path of(shell) command
+所在路径：/usr/bin/which
+执行权限：所有用户
+功能描述：列出命令的所在路径。
+which与whereis的区别：①. whereis命令可以在查找二进制命令的同时，查找帮助文档位置。② which命令在查找二进制命令时，如果这个命令有别名，则还可以找到别命命令。
+
+ locate 命令
+
+命令名称：locate
+英文原意：find files by name
+所在路径： /usr/bin/locate
+执行权限： 所有用户
+功能描述：按照文件名搜索文件
+
+优点：按 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2020/07/13/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%20%20(1)/" title="Linux系统管理--常用命令（1）">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（1）"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/13/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%20%20(1)/" title="Linux系统管理--常用命令（1）">Linux系统管理--常用命令（1）</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-12T16:00:00.000Z" title="发表于 2020-07-13 00:00:00">2020-07-13</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> 命令的基本格式
+ 命令提示符
+1234567891011     [root@localhost ~]#     []:提示符的分隔符     root：显示当前等登陆用户     @ : 分隔符     localhost：当前系统的简写主机名     ~：代表用户当前所在的最后一级目录，此例所在是家目录    # #：命令提示符，超集用户是#，普通用户是$&#96;&#96;&#96;    ### 命令的基本格式&#96;&#96;&#96;       [root@localhost ~]# 命令 [选项] [参数] 
+ls是最常见 的目录操作命令
+
+
+命令名称：ls
+英文原意：list
+所在路径：/bin/ls
+执行权限：所有用户
+功能描述：显示目录下的内容
+
+123456789[root@localhost ~]# ls [选项] [文件名或目录名] 选项：-a ：显示所有文件--color&#x3D;when ：支持颜色输出， when的默认值是always（总显示颜色），      也可以是never（从不显示颜色）和auto（自动）-d：显示目录信息-h：人性话显示 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2020/07/12/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--Linux%E5%AE%89%E8%A3%85/" title="Linux系统管理--Linux安装">     <img class="post_bg" data-lazy-src="/img/cover_picture/lux2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--Linux安装"></a></div><div class="recent-post-info"><a class="article-title" href="/2020/07/12/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--Linux%E5%AE%89%E8%A3%85/" title="Linux系统管理--Linux安装">Linux系统管理--Linux安装</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2020-07-11T16:00:00.000Z" title="发表于 2020-07-12 00:00:00">2020-07-12</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="content"> Linux安装
+ VMware虚拟机安装与使用
+  1.VMware简介
+  VMware是一个虚拟PC的软件，可以在现有的操作系统上虚拟出一个新的硬件环境，相当于模拟出一台新的PC，一次来实现一台机器上真正同时运行两个独立的操作系统。
+  VMware官方网站：http://www.vmware.com
+  2.建议的VMware配置
+  3.安装VMware
+  4.新建虚拟机
+  5.虚拟机硬件设置
+  6.虚拟机使用技巧
+  7.虚拟机网络设置  
+
+ 系统分区
+ 磁盘分区
+      两种分区表现形式：
+         MBR分区表：最大支持2.1TB硬盘，最多支持4个分区
+         GPT分区表（全局唯一标示分区表）：GPT分区支持9.4ZB硬盘（1ZB=1024PB，1PB=1024EB
+            1EB=1024TB）理论上支持的分区数没有限制，但Windows限制128个主导分区
+      分区类型：
+          主分区：最多只能4个
+          拓展分区：最多只能与一个
+                       主分区 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">The Kun</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com/285208049" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)"><img data-lazy-src="/img/cover_picture/lux10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(2)"/></a><div class="content"><a class="title" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)">Linux系统管理--软件包管理(2)</a><time datetime="2020-10-08T16:00:00.000Z" title="发表于 2020-10-09 00:00:00">2020-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)"><img data-lazy-src="/img/cover_picture/lux9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(1)"/></a><div class="content"><a class="title" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)">Linux系统管理--软件包管理(1)</a><time datetime="2020-09-21T16:00:00.000Z" title="发表于 2020-09-22 00:00:00">2020-09-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器"><img data-lazy-src="/img/cover_picture/lux8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--vim编辑器"/></a><div class="content"><a class="title" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器">Linux系统管理--vim编辑器</a><time datetime="2020-09-19T16:00:00.000Z" title="发表于 2020-09-20 00:00:00">2020-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）"><img data-lazy-src="/img/cover_picture/lux7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（4）"/></a><div class="content"><a class="title" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）">Linux系统管理--常用命令（4）</a><time datetime="2020-09-15T16:00:00.000Z" title="发表于 2020-09-16 00:00:00">2020-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）"><img data-lazy-src="/img/cover_picture/lux6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（3）"/></a><div class="content"><a class="title" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）">Linux系统管理--常用命令（3）</a><time datetime="2020-07-22T16:00:00.000Z" title="发表于 2020-07-23 00:00:00">2020-07-23</time></div></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="card-content"><div class="item-headline"><i class="fas fa-bolt"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="card-widget card-categories"><div class="card-content"><div class="item-headline"><i class="fas fa-folder-open"></i><span>分类</span></div><ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Hexo%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">Hexo技术</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/"><span class="card-category-list-name">linux系统管理</span><span class="card-category-list-count">10</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"><span class="card-category-list-name">python基础知识</span><span class="card-category-list-count">12</span></a></li>
+            
+            </ul></div></div><div class="card-widget card-tags"><div class="card-content"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Hello/" style="font-size: 1.1em; color: rgb(91, 130, 128)">Hello</a><a href="/tags/Hexo/" style="font-size: 1.23em; color: rgb(18, 176, 141)">Hexo</a><a href="/tags/linux/" style="font-size: 1.37em; color: rgb(101, 11, 11)">linux</a><a href="/tags/python/" style="font-size: 1.5em; color: rgb(124, 92, 133)">python</a></div></div></div><div class="card-widget card-archives"><div class="card-content"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/10/"><span class="card-archive-list-date">十月 2020</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/09/"><span class="card-archive-list-date">九月 2020</span><span class="card-archive-list-count">3</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/07/"><span class="card-archive-list-date">七月 2020</span><span class="card-archive-list-count">19</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/06/"><span class="card-archive-list-date">六月 2020</span><span class="card-archive-list-count">5</span></a></li></ul></div></div><div class="card-widget card-calendar"><div class="card-content"><div class="item-headline"><i class="far fa-calendar-alt" aria-hidden="true"></i><span>日历</span></div><div class="widget-wrap"></div><div class="widget" id="calendar"></div></div></div><div class="card-widget card-webinfo"><div class="card-content"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">28</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2020-06-19T16:00:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">62.1k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2020-10-13T15:46:34.744Z"></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/top_img/1.png)"><div id="footer-wrap"><div class="copyright">&copy;2020  <i id="heartbeat" class="fa fas fa-heartbeat"></i> The Kun</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="http://www.wanchelai.com/">blog</a>!</div></div><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></head></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    var typed = new Typed("#subtitle", {
+      strings: "树生于此&#44;群鸟栖居.,Never put off till tomorrow what you can do today.".split(","),
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '树生于此&#44;群鸟栖居.'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') subtitleType()
+  else $.getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js', subtitleType)
+} else {
+  subtitleType()
+}</script><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/calendar.js"></script><script src="/js/languages.js"></script><div class="app-refresh" id="app-refresh"> <div class="app-refresh-wrap"> <label>✨ 網站已更新最新版本 👉</label> <a href="javascript:void(0)" onclick="location.reload()">點擊刷新</a> </div></div><script>function showNotification(){if(GLOBAL_CONFIG.Snackbar){var t="light"===document.documentElement.getAttribute("data-theme")?GLOBAL_CONFIG.Snackbar.bgLight:GLOBAL_CONFIG.Snackbar.bgDark,e=GLOBAL_CONFIG.Snackbar.position;Snackbar.show({text:"已更新最新版本",backgroundColor:t,duration:5e5,pos:e,actionText:"點擊刷新",actionTextColor:"#fff",onActionClick:function(t){location.reload()}})}else{var o=`top: 0; background: ${"light"===document.documentElement.getAttribute("data-theme")?"#49b1f5":"#1f1f1f"};`;document.getElementById("app-refresh").style.cssText=o}}"serviceWorker"in navigator&&(navigator.serviceWorker.controller&&navigator.serviceWorker.addEventListener("controllerchange",function(){showNotification()}),window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js")}));</script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>

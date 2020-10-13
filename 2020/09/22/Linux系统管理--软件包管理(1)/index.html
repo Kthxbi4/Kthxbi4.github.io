@@ -1,0 +1,484 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux系统管理--软件包管理(1) | 菜の寻鲲</title><meta name="keywords" content="linux"><meta name="author" content="The Kun"><meta name="copyright" content="The Kun"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="软件包管理  软件包分类 1.软件包分类  源码包 二进制包   源码包 2.1 源码包什么样  123456[root@localhost ~]# vim  hello.c#include &lt;stdio.h&gt;int main (void)&amp;#123;	print(&quot;hello world\n&quot;);&amp;#125; 1[root@localhost ~]# rpm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统管理--软件包管理(1)">
+<meta property="og:url" content="http://www.wanchelai.com/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/index.html">
+<meta property="og:site_name" content="菜の寻鲲">
+<meta property="og:description" content="软件包管理  软件包分类 1.软件包分类  源码包 二进制包   源码包 2.1 源码包什么样  123456[root@localhost ~]# vim  hello.c#include &lt;stdio.h&gt;int main (void)&amp;#123;	print(&quot;hello world\n&quot;);&amp;#125; 1[root@localhost ~]# rpm">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.wanchelai.com/img/cover_picture/lux9.png">
+<meta property="article:published_time" content="2020-09-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-10T15:12:30.045Z">
+<meta property="article:author" content="The Kun">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.wanchelai.com/img/cover_picture/lux9.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.wanchelai.com/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/image/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/image/pwa/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/image/pwa/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/image/pwa/16.png"/><link rel="mask-icon" href="/image/pwa/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-10 23:12:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont.css"><style type="text/css">.app-refresh{position:fixed;top:-2.2rem;left:0;right:0;z-index:99999;padding:0 1rem;font-size:15px;height:2.2rem;transition:all .3s ease}.app-refresh-wrap{display:flex;color:#fff;height:100%;align-items:center;justify-content:center}.app-refresh-wrap a{color:#fff;text-decoration:underline;cursor:pointer}</style><meta name="generator" content="Hexo 5.2.0"></head><body><div id="web_bg"></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover_picture/lux9.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">菜の寻鲲</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Linux系统管理--软件包管理(1)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-09-21T16:00:00.000Z" title="发表于 2020-09-22 00:00:00">2020-09-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-10-10T15:12:30.045Z" title="更新于 2020-10-10 23:12:30">2020-10-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>23分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="软件包管理"><a class="markdownIt-Anchor" href="#软件包管理"></a> 软件包管理</h1>
+<h2 id="软件包分类"><a class="markdownIt-Anchor" href="#软件包分类"></a> 软件包分类</h2>
+<p>1.软件包分类</p>
+<ul>
+<li>源码包</li>
+<li>二进制包</li>
+</ul>
+<ol start="2">
+<li>源码包<br />
+2.1 源码包什么样</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vim  hello.c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">int main (void)</span><br><span class="line">&#123;</span><br><span class="line">	print(&quot;hello world\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  -ivh  &#x2F;mnt&#x2F;dcrom&#x2F;Packages&#x2F;gcc-4.4.6-4.el6.i686.rpm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# gcc  -c hello.c</span><br><span class="line">#-c 生成 &quot; .o &quot; 头文件。这里会生成hello.o头文件，但是不会i执行文件。</span><br><span class="line">[root@localhost ~]# gcc  -o  hello  hello.o</span><br><span class="line">#-o  生成执行文件，并制定执行文件名。这里生成的hello就是可执行文件。 </span><br><span class="line">[root@localhost ~]# 。&#x2F;hello</span><br><span class="line">hello world</span><br><span class="line">#执行hello文件</span><br></pre></td></tr></table></figure>
+<p>2.2 源码包特点<br />
+源码包的优点：</p>
+<ul>
+<li>开源，如果有能力可以自己修改源代码。</li>
+<li>可以自由选择所需的功能。</li>
+<li>软件是编译安装，所以更加适合自己的系统，更加稳定也效率高。</li>
+<li>卸载方便。</li>
+</ul>
+<p>源码包的缺点：</p>
+<ul>
+<li>安装过程步骤较多，尤其安装较大的软件集合时（如LAMP环境搭建），容易出现拼写错误。</li>
+<li>编译时间过长，安装比二进制安装时间长。</li>
+<li>因为是编译安装，安装过程中一旦报错新手很难解决。</li>
+</ul>
+<ol start="3">
+<li>二进制包<br />
+3.1 二进制包分类</li>
+</ol>
+<ul>
+<li>DKPG包：是有Debian Linux 所开发出来的包管理机制，通过DPKG包，Debian Linux就可以进行软件包管理。主要应用再Debian和unbuntu中。</li>
+<li>RPM包：是由Red Hat 公司所开发的包管理系统。功能强大，安装、升级、查询和卸载都非常简单和方便。目前很多Linux都在使用这种包管理方式，包括Fedora、CentOS、SuSE等。我们这里主要学习的是RPM包gu案例系统。<br />
+3.2 特点<br />
+RPM包的优点：</li>
+<li>包管理系统简单，只通过几个命令就可以实现包的安装、升级、查询和卸载。</li>
+<li>安装速度比源码包安装块的很多。<br />
+RPM的缺点：</li>
+<li>经过编译，不可以看到源代码。</li>
+<li>功能选择不如源码包灵活。</li>
+<li>依赖性。有时我们会发现需要安装软件包 a 时需要先安装b和c，而安装b时需要安装d和e。这时需要先安装d和e，再安装b和c，最后才能安装a包。<br />
+3.3 RPM包依赖<br />
+1)树形依赖：<br />
+<img src= "/img/loading.gif" data-lazy-src="https://img-blog.csdnimg.cn/20200923165548254.png#pic_center" alt="" /><br />
+2）环形依赖：<br />
+<img src= "/img/loading.gif" data-lazy-src="https://img-blog.csdnimg.cn/2020092317012399.png#pic_center" alt="" /><br />
+3）函数库依赖：<br />
+什么是函数库依赖？我们举一个例子，尝试安装以下文件：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost Packages]# rpm  -ivh  mysql-connector-odbc-5.2.5-7.el7.x86_64.rpm</span><br><span class="line">错误：依赖检测失败：</span><br><span class="line">	libodbc.so.2()(64bit)  被connector-odbc-5.2.5-7.el7.x86_64 需要</span><br><span class="line">	libodbcinst.so.2()(64bit)  被connector-odbc-5.2.5-7.el7.x86_64 需要</span><br></pre></td></tr></table></figure>
+<p>发现报错，需要安装“<a target="_blank" rel="noopener" href="http://libodbc.so">libodbc.so</a>。2”函数库文件，这是会发现光盘中根本找不到这个文件。是因为函数库没有单独成包，是包含在某一个软件包中的。而如果要知道在哪个软件包中，需要查询网站 <a target="_blank" rel="noopener" href="http://www.rpmfind.net">www.rpmfind.net</a> .</p>
+<h2 id="rpm安装"><a class="markdownIt-Anchor" href="#rpm安装"></a> rpm安装</h2>
+<ol>
+<li>rpm包命名</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">httpd-2.2.15-15.el6.centos.1.i686.rpm</span><br></pre></td></tr></table></figure>
+<pre><code>httpd        软件包名
+2.2.15       软件版本
+15           软件发布的次数
+el6          软件发行商。el6是RedHat公司发布，适合RHEL6.x(Red Hat Enterprise linux)和 CentOS6.x下使用。
+i686         适合的硬件平台。RPM包可以在不同的硬件平台安装，选择适合不同CPU的软件版本，可以最大化的发挥CPU性能，所以出现了所谓的i386（386以上的计算机都可以安装），i586（586以上的计算机都可以安装），i686（奔腾II以上计算机都可以安装，目前所有的CPU都是奔腾II以上，所有这个软件版本居多，x86_64(64位CPU可以安装）和noarch（没有硬件限制）等文件名。
+rpm          rpm包的扩展名。我们说过Linux下文件是不靠扩展名区分文件类型，也就是Linux中扩展名没有任何意含义。可是这里怎么又出现了扩展名呢？原因很简单，如果我们不把RPM的扩展名叫做&quot;.rpm&quot; ,管理员很难知道这是一个RPM包，当然也就无法正确安装了。也就是说如果RPM包不用&quot;.rpm&quot; 作为扩展名，系统可以正确识别没有问题，可是管理员很难识别这是什么软件。
+
+包全名：如果操作的是未安装软件包，则使用包全名，而且需要注意绝对路径。
+包名： 如果操作的是已经安装的软件包，则使用包名即可，系统会产生RPM包的数据库**（/var/lib/rpm/）**，而且可以在任意路径下操作。
+</code></pre>
+<p>2.依赖性<br />
+参考上边③RPM包依赖，这里不再重复。</p>
+<ol start="3">
+<li>rpm包手工命令安装</li>
+</ol>
+<p>3.1 默认安装位置<br />
+RPM包默认安装路径：</p>
+<table>
+<thead>
+<tr>
+<th>位置</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/etc/</td>
+<td>配置文件安装目录</td>
+</tr>
+<tr>
+<td>/usr/bin/</td>
+<td>可执行的命令安装目录</td>
+</tr>
+<tr>
+<td>/usr/lib/</td>
+<td>程序所使用的函数库保存位置</td>
+</tr>
+<tr>
+<td>/usr/share/doc/</td>
+<td>基本的软件使用手册保存位置</td>
+</tr>
+<tr>
+<td>/usr/share/man/</td>
+<td>帮助文件保存位置</td>
+</tr>
+</tbody>
+</table>
+<p>2.2 RPM包安装<br />
+1）安装命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  -ivh  包全名</span><br><span class="line">#注意一定是包全名，如果跟包全名的命令要注意路径，因为软件包在光盘中</span><br><span class="line">选项：</span><br><span class="line">-i     install安装（intall）</span><br><span class="line">-v     显示更详细的信息（verbose）</span><br><span class="line">-h     打印#显示安装进度（hash）</span><br></pre></td></tr></table></figure>
+<ul>
+<li>–nodeps  不检测依赖性安装。软件在安装时会检测依赖性，确定所需的底层软件是否安装，如果没有安装则会报错。如果不管依赖性，想强行安装，可以使用这个选项。注意：这样不检测依赖性安装的软件基本是不能使用的，所以不建议这样做。</li>
+<li>–replacefiles  替换文件安装。如果安装软件包，可是包中部分文件已经存在，那么正常安装时候，会报错“某个文件已经存在”从而导致软件无法安装，使用这个选项可以户是这个报错，而覆盖安装。</li>
+<li>–replacepkgs   替换软件包安装。如果软件包已经安装，此选项可以把软件包重复安装一遍。</li>
+<li>–force  强制安装，不管是否已经安装，都重新安装一遍。就是–replace files 和–replacepkgs 的结合。</li>
+<li>–test  测试安装，不会实际安装，知识检测一下依赖性。</li>
+<li>–prefix  指定安装路径。为安装软件指定安装路径，而不是使用默认安装路径。注意：如果指定了安装路径，软件没有安装到系统默认路径中的画，系统会找不到这些安装的软件，需要进行手工配置才能被系统识别。<strong>所以rpm包我们要采用默认路径安装。</strong><br />
+2）服务启动</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# service 服务名 start|stop|restart|status</span><br><span class="line">参数：</span><br><span class="line">start：    启动服务</span><br><span class="line">stop：    停止服务</span><br><span class="line">restart：   重启服务</span><br><span class="line">status：   查看服务状态</span><br><span class="line">[root@localhost ~]# &#x2F;etc&#x2F;rc.d&#x2F;init.d&#x2F;httpd  start|stop|restart|status</span><br><span class="line">#推荐这个👆</span><br><span class="line">[root@localhost ~]#  systemctl  restart  httpd</span><br><span class="line">#这个命令也行</span><br><span class="line"></span><br><span class="line">#网页位置：&#x2F;var&#x2F;www&#x2F;html&#x2F;</span><br><span class="line">#配置文件位置：&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf</span><br></pre></td></tr></table></figure>
+<p>3.3 RPM包升级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -Uvh  包全名</span><br><span class="line">选项：</span><br><span class="line">-U（大写）  升级安装，如果没有安装过，系统直接安装。如果安装过的版本过旧，则升级到最新版本（upgrade）</span><br><span class="line">[root@localhost ~]#   rpm   -Fvh  包全名</span><br><span class="line">选项：</span><br><span class="line">-F（大写）    升级安装，如果没有安装过，则不会安装。必须安装有较旧版本，才能升级（freshen）</span><br></pre></td></tr></table></figure>
+<p>3.4 卸载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  -e  包名</span><br><span class="line">选项：</span><br><span class="line">--nodeps   不检查依赖性</span><br><span class="line">-e   卸载</span><br></pre></td></tr></table></figure>
+<p>3.5 查询<br />
+1）查询软件包是否安装<br />
+可以查询软件包是否安装，命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -q  包名</span><br><span class="line">选项：</span><br><span class="line">-q：  查询（query）</span><br></pre></td></tr></table></figure>
+<p>2)查询系统中的所有安装软件包<br />
+可以查询Linux系统中所有已经安装的软件包，命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qa</span><br><span class="line">选项：</span><br><span class="line">-a：所有（all）</span><br></pre></td></tr></table></figure>
+<p>当然，可以用管道符来查看所需的内容，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qa  |  grep  httpd</span><br></pre></td></tr></table></figure>
+<p>可以看出使用&quot;rpm  -q  包名&quot; 只能查看这个包是否安装，但是使用&quot;rpm  -qa  |  grep  包名&quot; 会把包含包名称的所有包都列出来。<br />
+3）查询软件包的详细信息<br />
+可以查询已经安装的某个软件包的详细信息，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qi  包名</span><br><span class="line">选项：</span><br><span class="line">-i： 查询软件信息（information）</span><br></pre></td></tr></table></figure>
+<p>也可以查询还没有安装的软件包的详细信息，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qip  包全名</span><br><span class="line">选项：</span><br><span class="line">-p: 查询没有安装的软件包（package）</span><br></pre></td></tr></table></figure>
+<p>4)查询软件包中的文件列表<br />
+可以查询已经安装的软件包中的文件列表和安装的完整目录，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -ql  包名</span><br><span class="line">选项：</span><br><span class="line">-l： 列出软件包中所有的文件列表和软件所安装的目录（list）</span><br></pre></td></tr></table></figure>
+<p>还可以查询没有安装的软件包中的文件列表和打算安装的位置，命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qlp  包全名</span><br><span class="line">选项：</span><br><span class="line">-p：查询没有安装的软件包信息（package）</span><br></pre></td></tr></table></figure>
+<p>5)查询系统文件属于哪个RPM包<br />
+既然可以知道每个RPM包中的文件的安装位置，那么可以查询系统文件属于哪个RPM包吗？当然可以，不过需要注意的是，手工建立的文件是不能查询的，因为这些文件不是通过RPM包安装的，当然不能反向查询它属于哪个RPM包，命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qf  系统文件名</span><br><span class="line">选项：</span><br><span class="line">-f: 查询系统文件属于哪个软件包（file）</span><br></pre></td></tr></table></figure>
+<p>6）查询软件包所依赖的软件包<br />
+查询系统中和已经安装的软件包有依赖关系的软件包，命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qR  包名</span><br><span class="line">选项：</span><br><span class="line">-R: 查询软件包的依赖性（requires）</span><br></pre></td></tr></table></figure>
+<p>可以查询没有安装的软件包的依赖性吗？加&quot;-p&quot; 选项即可。例如，查看一下还没有安装的bind软件包的依赖包，可以执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qRp  &#x2F;mnt&#x2F;cdrom&#x2F;Packages&#x2F;bind-9.8.2-0.10.rc1.el6.i686.rpm</span><br></pre></td></tr></table></figure>
+<p>3.6 验证<br />
+1）基本命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -Va</span><br><span class="line">选项：</span><br><span class="line">-Va校验本及已经安装的所有软件包</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  rpm  -V  已安装的包名</span><br><span class="line">选项：-V   校验指定RPM包中的文件（verify）</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  rpm  -Vf  系统文件名</span><br><span class="line">选项：-Vf  校验某个系统文件是否被修改</span><br></pre></td></tr></table></figure>
+<p>2）验证举例<br />
+在源文件内做出改动后验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -V  httpd</span><br><span class="line">S.5....T.              c             &#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd&#x2F;conf</span><br><span class="line">验证内容        文件类型           文件名</span><br></pre></td></tr></table></figure>
+<p>出现了提示信息，我们来解释一下最前面共有8个信息内容，是表示验证内容的。文件名前面的c是表示这是个配置文件（configuration）。最后是文件名，娜美验证内容中的8个信息的具体内容如下：</p>
+<pre><code>- S     文件大小是否改变
+- M     文件的类型或文件的权限（rwx）是否被改变
+- 5      文件MD5校验和是否改变（可以看成文件内容是否改变）
+- D      设备的主从代码是否改变
+- L      文件路径是否改变
+- U      文件的属主（所有者）是否改变
+- G      文件的属组是否改变
+- T      文件的修改时间是否改变
+</code></pre>
+<p>apache配置文件的文件类型是c，那么还有哪些文件类型呢？</p>
+<pre><code>- c     配置文件（config file）
+- d    普通文件（documentation）
+- g    &quot;鬼&quot; 文件（ghost file），很少见，就是该文件不应该被这个RPM包包含
+- l     授权文件（license file）
+- r    描述文件（read file）
+</code></pre>
+<p>3.7 数字证书<br />
+刚刚的校验方法只能对已经安装的RPM包中的文件进行校验，但是如果RPM包本身就被动过手脚，那么校验就不能解决问题了。我们就必须使用数字验证了。<br />
+数字验证的特点：</p>
+<pre><code>- 首先必须找到原厂的公钥文件，然后进行安装
+- 再安装RPM包，是会提取RPM保重的证书信息，然后和本机安装的原厂证书进行验证
+- 如果验证通过，则允许安装；如果验证不通过，则不允许安装并警告
+</code></pre>
+<p>１)数字证书位置<br />
+那么数字证书在哪呢？其实在CentOS 6.3的第一章光盘中，当然也默认会放在系统中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ll  &#x2F;mnt&#x2F;cdrom&#x2F;RPM-GPG-KEY-CentOS-6</span><br><span class="line">-r--r--r--  2  root  root  1706  7月     2  04:21  &#x2F;mnt&#x2F;cdrom&#x2F;RPM-GPG-KEY-CentOS-6</span><br><span class="line">#光盘中的数字证书位置</span><br><span class="line">[root@localhost ~]# ll  &#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-6</span><br><span class="line">-rw-r--r--.  1  root  root  1706  6月    26  17:29  &#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-6</span><br><span class="line">#系统中的数字证书位置</span><br></pre></td></tr></table></figure>
+<p>2)数字证书导入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  --import  &#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-6</span><br><span class="line">选项： --import        导入数字证书</span><br></pre></td></tr></table></figure>
+<p>查询系统中安装好的数字证书，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  -qa  |  grep  gpg-pubkey</span><br><span class="line">gpg-pubkey-c105b9de-4e0fd3a3</span><br></pre></td></tr></table></figure>
+<p>3.8 RPM包中文件的提取<br />
+1）cpio命令 (不建议使用cpio命令来做备份还原）<br />
+cpio命令主要有三种模式：&quot;-o&quot; 模式指的是 copy-out模式，就是把数据被分到文件库中；&quot;-i&quot;模式指的是copy-in 模式，就是把数据从文件库中恢复；&quot;-p&quot; 模式指的是复制模式，就是不把数据备份到cpio库中，而是直接复制为其他文件。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  cpiu  -o[vcB]   &gt;  [文件|设备]</span><br><span class="line">#备份</span><br><span class="line">选项：</span><br><span class="line">-o：copy-out模式，备份</span><br><span class="line">-v：显示备份过程</span><br><span class="line">-c：使用较新的portable format 存储方式</span><br><span class="line">-B：设定输入输出块为5210bytes，而不是模式的521butes</span><br><span class="line">[root@localhost ~]#  cpio  -i[vcdu]  &gt;  [文件|设备]</span><br><span class="line">#还原</span><br><span class="line">选项：</span><br><span class="line">-i：copy-in模式，还原</span><br><span class="line">-v：显示还原过程</span><br><span class="line">-c：使用较新的portable format 存储方式</span><br><span class="line">-d：还原时自动新建目录</span><br><span class="line">-u：自动使用较新的文件覆盖较旧的文件</span><br><span class="line">[root@localhost ~]#  cpio  -p    目标目录</span><br></pre></td></tr></table></figure>
+<p>先来看使用cpio备份数据的方法，命令如下(不建议使用cpio来做备份还原）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">例子：利用find命令找到文件，备份</span><br><span class="line">[root@localhost ~]#  find  &#x2F;etc  -print  |  cpio  -ocvB  &gt;  &#x2F;root&#x2F;etc.cpio</span><br><span class="line">#利用find指定要备份&#x2F;etc&#x2F;目录，使用 &gt; 导出etc.cpio文件</span><br><span class="line">[root@localhost ~]#  ll  -h  etc.cpio</span><br><span class="line">-rw-r--r--.  1  root  root  21M 6月    5  11:40  etc.cpio</span><br><span class="line">#etc.cpio 文件生成</span><br></pre></td></tr></table></figure>
+<p>再来看看如何恢复cpio的备份数据，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  cpio  -idvcu  &lt;  &#x2F;root&#x2F;etc.cpio</span><br><span class="line">#还原而通常备份</span><br><span class="line">#但是如果查看当前目录&#x2F;root,会发现没有生成etc目录。这是因为备份是&#x2F;etc目录使用的是绝对路径，所以恢复的数据直接恢复到了&#x2F;etc 系统目录中，而没有生成在&#x2F;root&#x2F;etc中。</span><br></pre></td></tr></table></figure>
+<p>在CentOS5.x的版本中，是可以利用上边的命令备份与恢复指定的文件。但是到CentOS6.x当中，需要更加严谨。如果备份时使用绝对路径，则恢复的数据会直接到绝对路径指定的路径中，如果需要把数据恢复到当前目录中，则需要使用相对路径，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">备份：</span><br><span class="line">[root@localhost ~]#  cd  &#x2F;etc</span><br><span class="line">#进入&#x2F;etc目录</span><br><span class="line">[root@localhost ~]# find  .  -print  |  cpio  -ocvB  &gt;  &#x2F;root&#x2F;etc.cpio</span><br><span class="line">#利用find指定要备份的&#x2F;而通常&#x2F;目录，使用&gt;导出到etc.cpio 文件</span><br><span class="line"></span><br><span class="line">恢复：</span><br><span class="line">[root@localhost ~]#  cd  &#x2F;root</span><br><span class="line">#回到&#x2F;root目录</span><br><span class="line">[root@localhost ~]#  mkdir  etc_test</span><br><span class="line">#建立恢复测试目录</span><br><span class="line">[root@localhost ~]#  cd  etc_test</span><br><span class="line">#进入测试目录，数据恢复到该目录</span><br><span class="line">[root@localhost etc_test]#  cpio  -idvcu  &lt;  &#x2F;root&#x2F;etc.cpio</span><br><span class="line">#还原&#x2F;etc 目录的数据，因为备份时使用的是相对路径，则会还原到&#x2F;root&#x2F;etc_test&#x2F;目录下</span><br></pre></td></tr></table></figure>
+<p>最后演示一下cpio命令的 &quot; -p &quot; 复制模式，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  cd  &#x2F;tmp&#x2F;</span><br><span class="line">#进入&#x2F;tmp 目录</span><br><span class="line">[root@localhost tmp]# rm -rf  *</span><br><span class="line">#删除&#x2F;tmp 目录中所有数据</span><br><span class="line">[root@localhost tmp]#  mkdir  test</span><br><span class="line">#建立备份目录</span><br><span class="line">[root@localhost tmp]# find  &#x2F;boot&#x2F;  -print  |  cpio  -p  &#x2F;tmp&#x2F;test</span><br><span class="line">#备份&#x2F;boot&#x2F;目录到&#x2F;tmp&#x2F;test目录中</span><br><span class="line">[root@localhost tmp]# ls  test&#x2F;</span><br><span class="line">boot</span><br><span class="line">#在&#x2F;tmp&#x2F;test&#x2F;目录中备份出了boot目录</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>提取RPM包中的文件</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm2cpio  包全名  |  cpio  -idv  .  文件名</span><br><span class="line"></span><br><span class="line">rpm2cpio         将rpm包转换为cpio格式的命令</span><br><span class="line">cpio              是一个标准工具，它用于创建软件档案文件和档案文件中提取文件</span><br></pre></td></tr></table></figure>
+<p>现在假设把系统中的/bin/ls 命令不小心删除了，这时有两种方法能将其修复，要不就是使用–force选项覆盖安装一遍 coreutils-8.4-19.el6.i686 包，或者使用cpio命令提取出/bin/ls 命令文件，再把它拷贝到对应位置就可以了。这时可以用 “-qf” 选项查询/bin/ls命令是否属于coreutils-8.4-19.el6.i686 这个软件包，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  rpm  -qf  &#x2F;bin&#x2F;ls</span><br><span class="line">coreutils-8.4-19.el6.i686</span><br><span class="line">#查看ls文件属于哪个软件包</span><br></pre></td></tr></table></figure>
+<p>因为在讲RPM包中文件提取，所有我们使用第二章方法，使用cpio命令提取出ls命令文件，然后拷贝到对应位置，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  mv  &#x2F;bin&#x2F;ls  &#x2F;root&#x2F;</span><br><span class="line">#把&#x2F;bin&#x2F;ls命令移动到&#x2F;root目录下，造成误删除的假象</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  ls</span><br><span class="line">-bash: ls:command not found</span><br><span class="line">#这时执行 ls 命令，系统会报错“命令没有找到”</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  rpm2cpio  &#x2F;mnt&#x2F;cdrom&#x2F;Packages&#x2F;coreutils-8.4-19.el6.i686.rpm  |  cpio  -idv  .&#x2F;bin&#x2F;ls</span><br><span class="line">.&#x2F;bin&#x2F;ls</span><br><span class="line">24772块</span><br><span class="line">#提取ls命令文件到当前目录下</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  cp  &#x2F;root&#x2F;bin&#x2F;ls  &#x2F;bin&#x2F;</span><br><span class="line">#把提取出来的 ls 命令文件复制到&#x2F;bin目录下</span><br><span class="line"></span><br><span class="line">[root@localhost ~]#  ls</span><br><span class="line">anaconda-ks.cfg   bin   inittab   install.log   install.log.syslog   ls</span><br><span class="line">#ls命令又可以正常使用了</span><br></pre></td></tr></table></figure>
+<p><strong>4.rpm包在线安装（yum安装）</strong><br />
+4.1 yum源文件解析</p>
+<pre><code>yum源配置文件保存在**/etc/yum.repos.d** 目录中，文件的扩展名一定是 ”*.repo“。也就是说，yum源配置文件只要扩展名是“*.repo&quot;就会生效。
+</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ls  &#x2F;etc&#x2F;yum.repos.d&#x2F;</span><br><span class="line">CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Media.repo    CentOS-Vault.repo</span><br><span class="line"> CentOS-fasttrack.repo  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这个目录有7个yum源配置文件，弄人情况下CentOS-Base.repo  文件生效。我们打开这个文件看看，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# vim &#x2F;etc&#x2F;yum.repos.d&#x2F;CentOS-Base.repo </span><br><span class="line"></span><br><span class="line">[base]</span><br><span class="line">name&#x3D;CentOS-$releasever - Base</span><br><span class="line">mirrorlist&#x3D;http:&#x2F;&#x2F;mirrorlist.centos.org&#x2F;?release&#x3D;$releasever&amp;arch&#x3D;$basearch&amp;rep    o&#x3D;os&amp;infra&#x3D;$infra</span><br><span class="line">#baseurl&#x3D;http:&#x2F;&#x2F;mirror.centos.org&#x2F;centos&#x2F;$releasever&#x2F;os&#x2F;$basearch&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-7</span><br><span class="line">....省略部分输出....</span><br></pre></td></tr></table></figure>
+<p>在CentOS-Base.repo 文件中有5个yum源容器，这里只列出了base容器，其他容器和base容器类似。我们解释一下base这个容器。</p>
+<ul>
+<li>[base]：容器名称，一定要放在[ ] 中。</li>
+<li>name：容器说明，可以自己随便写。</li>
+<li>mirrorlist：镜像站点，这个可以注释掉。</li>
+<li>baseurl：我们的yum源服务器的地址。默认是CentOS官方的yum源服务器，是可以使用的。如果你觉得蛮，则可以改成你喜欢的yum源地址。</li>
+<li>enable：此容器是否生效，如果不写或携程enable=1，则表示此容器生效，携程enable=0则不生效。</li>
+<li>gpgcheck：如果为 1 则表示RPM的数字证书生效；如果为 0 则表示RPM的数字证书。</li>
+<li>gpgkey：数字证书的公钥文件保存位置。不用修改。</li>
+</ul>
+<p>4.2搭建本地光盘yum源<br />
+第一步：放入CentOS安装光盘，并挂载到指定位置。命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  mkdir  &#x2F;mnt&#x2F;cdrom</span><br><span class="line">#创建cdrom 目录，作为光盘的挂载点</span><br><span class="line">[root@localhost ~]#  mount  &#x2F;dev&#x2F;cdrom  &#x2F;mnt&#x2F;cdrom&#x2F;</span><br><span class="line">mount：block device  &#x2F;dev&#x2F;sr0 is write-portected，mount read-only</span><br><span class="line">#挂载光盘到&#x2F;mnt&#x2F;cdrom 目录下</span><br></pre></td></tr></table></figure>
+<p>第二步：修改其他几个yum源配置文件的扩展名，让他们失效，因为只有扩展名是&quot;*.repo&quot;的文件才能作为yum源配置文件。当然也可以删除其他几个域名源配置文件，但是如果删除了，当你再次想用网络作为域名源时，就没有了参考文件，所有做好还是修改扩展名。命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd &#x2F;etc&#x2F;yum.repos.d&#x2F;</span><br><span class="line">[root@localhost yum.repos.d]# mv  CentOS-Base.repo  CentOS-Base.repo.bak</span><br><span class="line">[root@localhost yum.repos.d]# mv  CentOS-Debuginfo.repo  CentOS-Debuginfo.repo.bak</span><br><span class="line">[root@localhost yum.repos.d]# mv  CentOS-Vault.repo  CentOS-Vault.repo.bak</span><br></pre></td></tr></table></figure>
+<p>第三步：修改光盘yum源配置文件CentOS-Media.repo,参照一下方法修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[c7-media]</span><br><span class="line">name&#x3D;CentOS-$releasever - Media</span><br><span class="line">baseurl&#x3D;file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrom</span><br><span class="line">#地址为你自己的光盘挂载地址</span><br><span class="line">#         file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrom&#x2F;</span><br><span class="line">#         file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrecorder&#x2F;</span><br><span class="line">#注释掉这两个不存在的地址</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">#把enable&#x3D;0 改为enable&#x3D;1，让这个yum源配置文件生效</span><br><span class="line">gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-7</span><br></pre></td></tr></table></figure>
+<p>配置完成，现在可以感受一下yum的便捷了。</p>
+<p>4.3yum命令<br />
+1）查询</p>
+<ul>
+<li>查询yum 源服务器上所有可安装的软件包列表。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]#  yum  list</span><br><span class="line">#查询所有可用软件包列表</span><br><span class="line">Installed Packages</span><br><span class="line">#已经安装的软件包</span><br><span class="line">ConsoleKit.i686  0.4.1-3.el6  @anaconda-CentOS-201207051201.i386&#x2F;6.3</span><br><span class="line">ConsoleKit-Libs.i686  0.4.1-3.el6  @anaconda-CentOS-201207051201.i386&#x2F;6.3</span><br><span class="line">...省略部分输出...</span><br><span class="line">Available Packages</span><br><span class="line">#还可以安装的软件包</span><br><span class="line">389-ds-base.i686                           1.2.10.2-15.el6                c6-media</span><br><span class="line">389-ds-base-devel.i686                    1.2.10.2-15.el6                 c6-media</span><br><span class="line">#软件名                                               版本                                  所在位置（光盘）</span><br><span class="line">...省略部分输出...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询yum源服务器中是否包含某个软件包。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum  list  包名</span><br><span class="line">#查询单个软件包</span><br><span class="line">例如：</span><br><span class="line">[root@localhost yum.repos.d]# yum  list  samba</span><br><span class="line">Available  Packages</span><br><span class="line">samba.i686                          3.5.10-125.el6                      c6-media</span><br></pre></td></tr></table></figure>
+<ul>
+<li>搜索yum源服务器上所有和关键字相关的软件包</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum search  关键字</span><br><span class="line">#搜索服务器上所有和关键字相关的软件包</span><br><span class="line">例如：</span><br><span class="line">[root@192 ~]# yum search ifconfig</span><br><span class="line">已加载插件：fastestmirror, langpacks</span><br><span class="line">Repodata is over 2 weeks old. Install yum-cron? Or run: yum makecache fast</span><br><span class="line">Loading mirror speeds from cached hostfile</span><br><span class="line"> * base: mirrors.aliyun.com</span><br><span class="line"> * extras: mirrors.aliyun.com</span><br><span class="line"> * updates: mirrors.aliyun.com</span><br><span class="line">&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D; 匹配：ifconfig &#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">net-tools.x86_64 : Basic networking tools</span><br></pre></td></tr></table></figure>
+<p>yum search 搜索可以用于确定某个软件在哪个相关包中。此例可以确定”ifconfig“命令需要安装”net-tools“包。</p>
+<ul>
+<li>查询指定软件包的信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum  info  samba</span><br><span class="line">#查询samba软件包信息</span><br><span class="line">Available  Packages                      ←还没有安装</span><br><span class="line">Name                   ：samba           ←包名</span><br><span class="line">Arch                      ：i686              ←适合的硬件平台</span><br><span class="line">Version                 ：3.5.10            ←版本</span><br><span class="line">Release                 ：125.el6          ←发布版本</span><br><span class="line">Size                       ：4.9M             ←大小</span><br><span class="line">Repo                     ：c6-media      ←在光盘上</span><br><span class="line">....省略部分输出....</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum  -y  install  包名</span><br><span class="line">选项：</span><br><span class="line">install：   安装</span><br><span class="line">-y：        自动回答yes。如果不加-y，那么每个安装的软件都需要手工回答yes</span><br><span class="line">例如：</span><br><span class="line">[root@localhost yum.repos.d]# yum  -y  install  gcc</span><br><span class="line">#使用yum自动安装gcc</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>升级</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum  -y  update  包名</span><br><span class="line">#升级指定的软件包</span><br><span class="line">选项：</span><br><span class="line">update：           升级</span><br><span class="line">-y ：             自动回答yes</span><br></pre></td></tr></table></figure>
+<p><strong>注意:</strong> 在进行升级操作时，yum源服务器中软件包的版本要比本机安装的软件包的版本高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]#  yum  -y  update</span><br><span class="line">#升级本机所有软件包</span><br></pre></td></tr></table></figure>
+<p>这条命令会升级系统中所有的软件包。不过我们生产服务器是稳定优先的，所以这种全系统升级的情况并不多见。</p>
+<p>4）卸载<br />
+再次强调一下，除非确定卸载的软件的依赖包不会对系统产生影响，否则不要执行yum卸载，因为很有可能在卸载软件包的同时卸载的依赖包也是重要的系统文件，这就有可能导致系统崩溃。卸载命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost yum.repos.d]# yum  remove  包名</span><br><span class="line">#卸载指定的软件包</span><br><span class="line">例如：</span><br><span class="line">[root@localhost yum.repos.d]# yum  remove  samba</span><br><span class="line">#卸载samba软件包</span><br></pre></td></tr></table></figure>
+<p>4.4 yum组管理命令</p>
+<ul>
+<li>查询可以安装的软件组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum  grouplist</span><br><span class="line">#列出所有可用的软件组列表</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询软件组包含的软件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum  groupinfo  软件组名</span><br><span class="line">#列出软件组中包含的软件</span><br><span class="line">列出：</span><br><span class="line">[root@localhost ~]# yum  groupinfo  &quot;Web Server&quot;</span><br><span class="line">#查询软件组&quot;Web Server&quot; 中包含的软件</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装软件组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum  groupinstall  软件组名</span><br><span class="line">#安装指定软件组，组名可以有grouplist 查询出来</span><br><span class="line">例如：</span><br><span class="line">[root@localhost ~]# yum groupinstall  &quot;Web Server&quot;</span><br><span class="line">#安装网页服务软件组</span><br></pre></td></tr></table></figure>
+<ul>
+<li>卸载软件组</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum  groupremove  软件组名</span><br><span class="line">#卸载指定软件组</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">The Kun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.wanchelai.com/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/">http://www.wanchelai.com/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.wanchelai.com" target="_blank">菜の寻鲲</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="/img/cover_picture/lux9.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/"><img class="prev-cover" data-lazy-src="/img/cover_picture/lux10.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux系统管理--软件包管理(2)</div></div></a></div><div class="next-post pull-right"><a href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/"><img class="next-cover" data-lazy-src="/img/cover_picture/lux8.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux系统管理--vim编辑器</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/10/09/Linux系统管理--软件包管理(2)/" title="Linux系统管理--软件包管理(2)"><img class="cover" data-lazy-src="/img/cover_picture/lux10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-10-09</div><div class="title">Linux系统管理--软件包管理(2)</div></div></a></div><div><a href="/2020/09/20/Linux系统管理--vim编辑器/" title="Linux系统管理--vim编辑器"><img class="cover" data-lazy-src="/img/cover_picture/lux8.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-20</div><div class="title">Linux系统管理--vim编辑器</div></div></a></div><div><a href="/2020/09/16/Linux系统管理--常用命令（4）/" title="Linux系统管理--常用命令（4）"><img class="cover" data-lazy-src="/img/cover_picture/lux7.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-16</div><div class="title">Linux系统管理--常用命令（4）</div></div></a></div><div><a href="/2020/07/23/Linux系统管理--常用命令（3）/" title="Linux系统管理--常用命令（3）"><img class="cover" data-lazy-src="/img/cover_picture/lux6.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-23</div><div class="title">Linux系统管理--常用命令（3）</div></div></a></div><div><a href="/2020/07/15/Linux系统管理--常用命令（2）/" title="Linux系统管理--常用命令（2）"><img class="cover" data-lazy-src="/img/cover_picture/lux5.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-15</div><div class="title">Linux系统管理--常用命令（2）</div></div></a></div><div><a href="/2020/07/13/Linux系统管理--常用命令  (1)/" title="Linux系统管理--常用命令（1）"><img class="cover" data-lazy-src="/img/cover_picture/lux4.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-13</div><div class="title">Linux系统管理--常用命令（1）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">The Kun</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com/285208049" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> 软件包管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%88%86%E7%B1%BB"><span class="toc-number">1.1.</span> <span class="toc-text"> 软件包分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rpm%E5%AE%89%E8%A3%85"><span class="toc-number">1.2.</span> <span class="toc-text"> rpm安装</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)"><img data-lazy-src="/img/cover_picture/lux10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(2)"/></a><div class="content"><a class="title" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)">Linux系统管理--软件包管理(2)</a><time datetime="2020-10-08T16:00:00.000Z" title="发表于 2020-10-09 00:00:00">2020-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)"><img data-lazy-src="/img/cover_picture/lux9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(1)"/></a><div class="content"><a class="title" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)">Linux系统管理--软件包管理(1)</a><time datetime="2020-09-21T16:00:00.000Z" title="发表于 2020-09-22 00:00:00">2020-09-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器"><img data-lazy-src="/img/cover_picture/lux8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--vim编辑器"/></a><div class="content"><a class="title" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器">Linux系统管理--vim编辑器</a><time datetime="2020-09-19T16:00:00.000Z" title="发表于 2020-09-20 00:00:00">2020-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）"><img data-lazy-src="/img/cover_picture/lux7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（4）"/></a><div class="content"><a class="title" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）">Linux系统管理--常用命令（4）</a><time datetime="2020-09-15T16:00:00.000Z" title="发表于 2020-09-16 00:00:00">2020-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）"><img data-lazy-src="/img/cover_picture/lux6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（3）"/></a><div class="content"><a class="title" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）">Linux系统管理--常用命令（3）</a><time datetime="2020-07-22T16:00:00.000Z" title="发表于 2020-07-23 00:00:00">2020-07-23</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/cover_picture/lux9.png)"><div id="footer-wrap"><div class="copyright">&copy;2020  <i id="heartbeat" class="fa fas fa-heartbeat"></i> The Kun</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="http://www.wanchelai.com/">blog</a>!</div></div><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></head></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '5eiehMYVOOVcnKMxA6g97OTI-MdYXbMMI',
+      appKey: 'LJvS2AG393gyE7RhK1c5LKiK',
+      placeholder: '有什么问题请在这里留言。',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '//i0.hdslb.com/bfs/emote/',
+      emojiMaps: {"2020":"dc709fac0d361370bcf0d36d32adb97df7c95824.png","tv_白眼":"c1d59f439e379ee50eef488bcb5e5378e5044ea4.png","tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_难过":"87f46748d3f142ebc6586ff58860d0e2fc8263ba.png","tv_生气":"26702dcafdab5e8225b43ffd23c94ac1ff932654.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_斜眼笑":"911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_疑问":"0793d949b18d7be716078349c202c15ff166f314.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_鼓掌":"1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png","tv_抠鼻":"c666f55e88d471e51bbd9fab9bb308110824a6eb.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_调皮":"b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png","tv_笑哭":"1abc628f6d4f4caf9d0e7800878f4697abbc8273.png","tv_晕":"5443c22b4d07fb1907ccc610c8e6db254f2461b7.png","tv_点赞":"f85c354995bd99e28fc76c869bfe42ba6438eff4.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_睡着":"8b196675b53af58264f383c50ad0945048290b33.png","tv_色":"61822c7e9aae5da76475e7892534545336b23a6f.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_无奈":"ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_流汗":"cead1c351ab8d79e9f369605beb90148db0fbed3.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_抓狂":"fe31c08edad661d63762b04e17b8d5ae3c71a757.png","tv_黑人问号":"45821a01f51bc867da9edbaa2e070410819a95b2.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_打脸":"56ab10b624063e966bfcb76ea5dc4794d87dfd47.png","tv_闭嘴":"c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png","tv_鄙视":"6e72339f346a692a495b123174b49e4e8e781303.png","tv_腼腆":"89712c0d4af73e67f89e35cbc518420380a7f6f4.png","tv_馋":"fc7e829b845c43c623c8b490ee3602b7f0e76a31.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_生病":"8b0ec90e6b86771092a498c54f09fc94621c1900.png","tv_流鼻血":"c32d39db2737f89b904ca32700d140a9241b0767.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_流泪":"7e71cde7858f0cd50d74b0264aa26db612a8a167.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_皱眉":"72ccad6679fea0d14cce648b4d818e09b8ffea2d.png","tv_鬼脸":"0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png","tv_调侃":"4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png","tv_目瞪口呆":"0b8cb81a68de5d5365212c99375e7ace3e7891b7.png","2233娘_大笑":"16b8794be990cefa6caeba4d901b934a227ee3b8.png","2233娘_疑问":"0b41f509351958dbb63d472fec0132d1bd03bd14.png","2233娘_吃惊":"d1628c43d35b1530c0504a643ff80b6189fa0a43.png","2233娘_汗":"247cd9df8cdf84b18368c21e3b2dd374e84c0927.png","2233娘_大哭":"476a2a60f6e337b8c0697a592e0aa82781f6b33b.png","2233娘_困惑":"714eeb4eae0d0933b4ff08b7df788b1982f6b940.png","2233娘_耶":"d7178e258a0efc969b65ccc2b1322fb235f5dff4.png","2233娘_怒":"f31953119c51b9748016440ac0b632f779929b37.png","2233娘_卖萌":"ea893aa25355de95ab4f03c2dad3f0c58d0c159e.png","2233娘_委屈":"d9d0bf9d358af8d5761093ec66d4e3f60d963a63.png","2233娘_郁闷":"485203fe7100f2c8fc40b2800a18fe20b35f2f1a.png","2233娘_第一":"3754ee6e5985bd0bd7dfb668981f2a8733398ebd.png","2233娘_喝水":"695bf5429472049b52c1e0de586f8a2511195a23.png","2233娘_吐魂":"e999af499edf38a91ca68b1a9d2f97042c1d6734.png","2233娘_无言":"fdb5870f32cfaf7949e0f88a13f6feba4a48b719.png","热词系列_增加":"142409b595982b8210b2958f3d340f3b47942645.png","热词系列_泪目":"bba3703ab90b7d16fe9dbcb85ed949db687f8331.png","热词系列_保护":"55f8f6445ca7c3170cdfc5b16036abf639ce9b57.png","热词系列_害怕":"d77e2de26da143249f0c0ad7a608c27152c985bf.png","热词系列_爱了爱了":"2a165b555ba20391316366c664ed7891883dc5aa.png","热词系列_问号":"c1d1e76c12180adc8558f47006fe0e7ded4154bb.png","热词系列_吹爆":"b528220f9c37256ed6a37f05bf118e44b08b81e5.png","热词系列_三连":"21f15fe11b7a84d2f2121c16dec50a4e4556f865.png","热词系列_可以":"e08543c71202b36c590094417fcfbb80c3506cd8.png","热词系列_打卡":"a9cf77c78e1b9b40aa3ed4862402fba008ee2f51.png","热词系列_妙啊":"0e98299d7decf5eaffad854977946075c3e91cb8.png","热词系列_这次一定":"a01ca28923daa7cc896c42f27deb4914e20dd572.png","热词系列_AWSL":"c37f88cf799f9badf9d84b7671dc3dd98c0fc0c2.png","热词系列_递话筒":"98e6950e39fbb4dd1c576042063ca632074070ba.png","热词系列_你细品":"535e00658e7e47966f154d3a167fa2365ebc4321.png","热词系列_咕咕":"d8065c2e7ce48c929317a94553499a46fecc262a.png","热词系列_标准结局":"3de98174b510cf7dc5fd1bd08c5d881065e79137.png","热词系列_危":"5cc6c3357c4df544dd8de9d5c5c0cec97c7c9a56.png","热词系列_张三":"255a938f39cea625032b6650036b31aa26c50a3c.png","热词系列_害":"cbe798a194612958537c5282fcca7c3bcd2aa15c.png","热词系列_我裂开了":"29bd57ec4e8952880fea6c9e47aee924e91f10c4.png","热词系列_有内味了":"7ca61680a905b5b6e2e335c630e725b648b03b4d.png","热词系列_猛男必看":"c97064450528a0e45c7e7c365a15fbb13fd61d8c.png","热词系列_奥力给":"c9b8683827ec6c00fea5327c9bec14f581cef2aa.png","热词系列_我哭了":"9e0b3877d649aaf6538fbdd3f937e240a9d808e4.png","热词系列_高产":"9db817cba4a7f4a42398f3b2ec7c0a8e0c247c42.png","热词系列_我酸了":"a8cbf3f6b8cd9377eeb15b9172f3cd683b2e4650.png","热词系列_真香":"e68497c775feaac1c3b1a6cd63a50cfb11b767c4.png","热词系列_我全都要":"d424d1ad8d14c1c9b8367842bc68c658b9229bc1.png","热词系列_神仙UP":"a49e0d0db1e7d35a0f7411be13208951ab448f03.png","热词系列_你币有了":"84820c2b147a8ca02f3c4006b63f76c6313cbfa0.png","热词系列_不愧是你":"9ff2e356797c57ee3b1675ade0883d2d2247be9b.png","热词系列_锤":"35668cc12ae25b9545420e4a85bf21a0bfc03e5d.png","热词系列_秀":"50782fbf5d9b7f48f9467b5c53932981e321eedc.png","热词系列_爷关更":"faad40c56447f1f8abcb4045c17ce159d113d1fd.png","热词系列_有生之年":"f41fdafe2d0fbb8e8bc1598d2cf37e355560103a.png","热词系列_镇站之宝":"24e7a6a6e6383c987215fb905e3ee070aca259b5.png","热词系列_我太男了":"a523f3e4c63e4db1232365765d0ec452f83be97e.png","热词系列_完结撒花":"ea9db62ff5bca8e069cd70c4233353a802835422.png","热词系列_大师球":"f30089248dd137c568edabcb07cf67e0f6e98cf3.png","热词系列_知识盲区":"ccc94600b321a28116081e49ecedaa4ee8728312.png","热词系列_“狼火”":"33ccd3617bfa89e9d1498b13b7542b63f163e5de.png","加油武汉":"eb966aaa5b690d3f9308a9f936f5b5a72a7f956b.png","口罩":"3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png","鸡腿":"c7860392815d345fa69c4f00ef18d67dccfbd574.png","微笑":"685612eadc33f6bc233776c6241813385844f182.png","笑":"81edf17314cea3b48674312b4364df44d5c01f17.png","呲牙":"b5a5898491944a4268360f2e7a84623149672eb6.png","OK":"4683fd9ffc925fa6423110979d7dcac5eda297f4.png","星星眼":"63c9d1a31c0da745b61cdb35e0ecb28635675db2.png","哦呼":"362bded07ea5434886271d23fa25f5d85d8af06c.png","嫌弃":"de4c0783aaa60ec03de0a2b90858927bfad7154b.png","喜欢":"8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png","酸了":"92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png","大哭":"2caafee2e5db4db72104650d87810cc2c123fc86.png","害羞":"9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png","无语":"44667b7d9349957e903b1b62cb91fb9b13720f04.png","疑惑":"b7840db4b1f9f4726b7cb23c0972720c1698d661.png","调皮":"8290b7308325e3179d2154327c85640af1528617.png","喜极而泣":"485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png","奸笑":"bb84906573472f0a84cebad1e9000eb6164a6f5a.png","偷笑":"6c49d226e76c42cd8002abc47b3112bc5a92f66a.png","大笑":"ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png","阴险":"ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png","捂脸":"6921bb43f0c634870b92f4a8ad41dada94a5296d.png","囧":"12e41d357a9807cc80ef1e1ed258127fcc791424.png","呆":"33ad6000d9f9f168a0976bc60937786f239e5d8c.png","抠鼻":"cb89184c97e3f6d50acfd7961c313ce50360d70f.png","惊喜":"0afecaf3a3499479af946f29749e1a6c285b6f65.png","惊讶":"f8e9a59cad52ae1a19622805696a35f0a0d853f3.png","笑哭":"c3043ba94babf824dea03ce500d0e73763bf4f40.png","妙啊":"b4cb77159d58614a9b787b91b1cd22a81f383535.png","doge":"bba7c12aa51fed0199c241465560dfc2714c593e.png","滑稽":"d15121545a99ac46774f1f4465b895fe2d1411c3.png","吃瓜":"4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png","打call":"431432c43da3ee5aab5b0e4f8931953e649e9975.png","点赞":"1a67265993913f4c35d15a6028a30724e83e7d35.png","鼓掌":"895d1fc616b4b6c830cf96012880818c0e1de00d.png","尴尬":"cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png","冷":"cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png","灵魂出窍":"43d3db7d97343c01b47e22cfabeca84b4251f35a.png","委屈":"d2f26cbdd6c96960320af03f5514c5b524990840.png","傲娇":"010540d0f61220a0db4922e4a679a1d8eca94f4e.png","疼":"905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png","吓":"9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png","生病":"0f25ce04ae1d7baf98650986454c634f6612cb76.png","吐":"06946bfe71ac48a6078a0b662181bb5cad09decc.png","嘘声":"e64af664d20716e090f10411496998095f62f844.png","捂眼":"c5c6d6982e1e53e478daae554b239f2b227b172b.png","思考":"cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png","再见":"fc510306bae26c9aec7e287cdf201ded27b065b9.png","翻白眼":"eba54707c7168925b18f6f8b1f48d532fe08c2b1.png","哈欠":"888d877729cbec444ddbd1cf4c9af155a7a06086.png","奋斗":"bb2060c15dba7d3fd731c35079d1617f1afe3376.png","墨镜":"3a03aebfc06339d86a68c2d893303b46f4b85771.png","撇嘴":"531863568e5668c5ac181d395508a0eeb1f0cda4.png","难过":"a651db36701610aa70a781fa98c07c9789b11543.png","抓狂":"4c87afff88c22439c45b79e9d2035d21d5622eba.png","生气":"3195714219c4b582a4fb02033dd1519913d0246d.png","干杯":"8da12d5f55a2c7e9778dcc05b40571979fe208e6.png","爱心":"ed04066ea7124106d17ffcaf75600700e5442f5c.png","锦鲤":"643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png","胜利":"b49fa9f4b1e7c3477918153b82c60b114d87347c.png","加油":"c7aaeacb21e107292d3bb053e5abde4a4459ed30.png","保佑":"fafe8d3de0dc139ebe995491d2dac458a865fb30.png","抱拳":"89516218158dbea18ab78e8873060bf95d33bbbe.png","响指":"1b5c53cf14336903e1d2ae3527ca380a1256a077.png","支持":"3c210366a5585706c09d4c686a9d942b39feeb50.png","拥抱":"41780a4254750cdaaccb20735730a36044e98ef3.png","怪我咯":"07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png","跪了":"f2b3aee7e521de7799d4e3aa379b01be032698ac.png","黑洞":"e90ec4c799010f25391179118ccd9f66b3b279ba.png","老鼠":"8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png","福到了":"5de5373d354c373cf1617b6b836f3a8d53c5a655.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/calendar.js"></script><script src="/js/languages.js"></script><div class="app-refresh" id="app-refresh"> <div class="app-refresh-wrap"> <label>✨ 網站已更新最新版本 👉</label> <a href="javascript:void(0)" onclick="location.reload()">點擊刷新</a> </div></div><script>function showNotification(){if(GLOBAL_CONFIG.Snackbar){var t="light"===document.documentElement.getAttribute("data-theme")?GLOBAL_CONFIG.Snackbar.bgLight:GLOBAL_CONFIG.Snackbar.bgDark,e=GLOBAL_CONFIG.Snackbar.position;Snackbar.show({text:"已更新最新版本",backgroundColor:t,duration:5e5,pos:e,actionText:"點擊刷新",actionTextColor:"#fff",onActionClick:function(t){location.reload()}})}else{var o=`top: 0; background: ${"light"===document.documentElement.getAttribute("data-theme")?"#49b1f5":"#1f1f1f"};`;document.getElementById("app-refresh").style.cssText=o}}"serviceWorker"in navigator&&(navigator.serviceWorker.controller&&navigator.serviceWorker.addEventListener("controllerchange",function(){showNotification()}),window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js")}));</script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>

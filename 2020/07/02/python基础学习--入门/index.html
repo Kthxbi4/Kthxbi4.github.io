@@ -1,0 +1,622 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>python基础学习--python入门 | 菜の寻鲲</title><meta name="keywords" content="python"><meta name="author" content="The Kun"><meta name="copyright" content="The Kun"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="什么是计算机语言 计算机就是一个用来计算的机器，人让计算机干什么计算机就干什么。 需要计算机语言来控制计算机。（编程语言） 计算机语言和人类语言没有本质区别，不同点就是交流的主体不同。 计算机语法发展经历了三个阶段： 机器语言 -机器语言通过二进制编码来编写程序 -执行效率好，编写起来麻烦 汇编语言 -使用符号来代替机器码 -编写程序时，不需要使用二进制，而是直接编写符号 -编写完成后，需要将符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python基础学习--python入门">
+<meta property="og:url" content="http://www.wanchelai.com/2020/07/02/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="菜の寻鲲">
+<meta property="og:description" content="什么是计算机语言 计算机就是一个用来计算的机器，人让计算机干什么计算机就干什么。 需要计算机语言来控制计算机。（编程语言） 计算机语言和人类语言没有本质区别，不同点就是交流的主体不同。 计算机语法发展经历了三个阶段： 机器语言 -机器语言通过二进制编码来编写程序 -执行效率好，编写起来麻烦 汇编语言 -使用符号来代替机器码 -编写程序时，不需要使用二进制，而是直接编写符号 -编写完成后，需要将符">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://www.wanchelai.com/img/cover_picture/py2.png">
+<meta property="article:published_time" content="2020-07-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-09-29T06:29:44.038Z">
+<meta property="article:author" content="The Kun">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.wanchelai.com/img/cover_picture/py2.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.wanchelai.com/2020/07/02/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E5%85%A5%E9%97%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/image/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/image/pwa/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/image/pwa/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/image/pwa/16.png"/><link rel="mask-icon" href="/image/pwa/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-09-29 14:29:44'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont.css"><style type="text/css">.app-refresh{position:fixed;top:-2.2rem;left:0;right:0;z-index:99999;padding:0 1rem;font-size:15px;height:2.2rem;transition:all .3s ease}.app-refresh-wrap{display:flex;color:#fff;height:100%;align-items:center;justify-content:center}.app-refresh-wrap a{color:#fff;text-decoration:underline;cursor:pointer}</style><meta name="generator" content="Hexo 5.2.0"></head><body><div id="web_bg"></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/cover_picture/py2.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">菜の寻鲲</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">python基础学习--python入门</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-07-01T16:00:00.000Z" title="发表于 2020-07-02 00:00:00">2020-07-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-09-29T06:29:44.038Z" title="更新于 2020-09-29 14:29:44">2020-09-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">python基础知识</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">6.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>20分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="什么是计算机语言"><a class="markdownIt-Anchor" href="#什么是计算机语言"></a> 什么是计算机语言</h2>
+<p>计算机就是一个用来计算的机器，人让计算机干什么计算机就干什么。<br />
+需要计算机语言来控制计算机。（编程语言）<br />
+计算机语言和人类语言没有本质区别，不同点就是交流的主体不同。<br />
+计算机语法发展经历了三个阶段：<br />
+机器语言<br />
+-机器语言通过二进制编码来编写程序<br />
+-执行效率好，编写起来麻烦<br />
+汇编语言<br />
+-使用符号来代替机器码<br />
+-编写程序时，不需要使用二进制，而是直接编写符号<br />
+-编写完成后，需要将符号转换为机器码，然后再由计算机执行<br />
+符号转换为机器码的过程称为汇编<br />
+-将机器码转换为符号的过程为反汇编<br />
+-汇编语言一般只适用于某些硬件，兼容性较差<br />
+高级语言<br />
+-高级语言的语法基本和现在英语语法类似，并且和硬件的关系没那么紧密了<br />
+-也就是说我们通过高级语言开发程序可以在不同的硬件系统中执行<br />
+-并且高级语言学习起来页更加容易,现在我们指定的语法基本都是高级语言<br />
+-C++ 、C# 、Java 、JAvaScript 、Python。。。。。</p>
+<h2 id="编译型语言和解释型语言"><a class="markdownIt-Anchor" href="#编译型语言和解释型语言"></a> 编译型语言和解释型语言</h2>
+<p>计算机 只能识别二进制编码（机器码），所以任何的语言在交由计算机执行时必须要先转换为机器码，<br />
+也就是像 print(‘hello’) 必须要转换为类似的10101010机器码</p>
+<p>根据转换时机的不同，语言分为两大类：<br />
+编译型语言：<br />
+-C语言<br />
+-编译型语言，会在代码执行千将代码编译为机器猫，然后将机器猫交由计算机执行<br />
+-a（源码）----编译----&gt;b(编译后的机器码)<br />
+-特点：<br />
+执行速度特别快<br />
+跨平台性比较差<br />
+解释型语言<br />
+-python   JS  Java<br />
+-解释型语言，不会在执行前对代码进行编译，而是在执行的同时一边执行一遍编译<br />
+-a(源码) --解释器–&gt; 解释执行<br />
+-特点：<br />
+执行速度比较慢<br />
+跨平台性比较好</p>
+<h2 id="python的介绍"><a class="markdownIt-Anchor" href="#python的介绍"></a> python的介绍</h2>
+<pre><code>python是解释型语言
+      结构清晰明了
+
+ python用途：
+    web应用
+          Facebook  豆瓣 。。。。
+    爬虫程序
+    科学计算
+    自动化运维
+    大数据（数据清洗）
+    云计算
+    桌面软件/游戏           
+    人工智能
+</code></pre>
+<h2 id="python开发环境搭建"><a class="markdownIt-Anchor" href="#python开发环境搭建"></a> python开发环境搭建</h2>
+<pre><code>开发环境搭建就是安装python的解释器
+python的解释器分类：
+   CPython（官方）：
+       用C语言编写的python解释器
+    PyPy：
+        用python语言编写的python解释器
+    Ironpython
+         用.net编写的python解释器
+    Jython：
+         用Java编写的Python解释器
+
+
+ 步骤：
+      1.下载安装包   看好版本
+      2.安装
+      3.打开命令行窗口，输入Python，出现如下则安装成功
+         # C:\Users\Bana&gt;python
+          Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (Intel)] on win32
+          Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+          &gt;&gt;&gt;
+</code></pre>
+<h2 id="python的交互界面"><a class="markdownIt-Anchor" href="#python的交互界面"></a> python的交互界面</h2>
+<p>当我们通过命令行输入python，所进入到的界面就是python的交互界面<br />
+结构：<br />
+Python 3.8.2 (tags/v3.8.2:7b3ab59, Feb 25 2020, 22:45:29) [MSC v.1916 32 bit (Intel)] on win32<br />
+Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<pre><code>    命令提示符
+    &gt;&gt;&gt;
+    在命令行提示符后可以直接输入python的指令 输入完的指令将会被python的解释器立即执行。
+    安装python的同时，会自动安装一个python的开发工具IDLE，通过IDEL也可以进入到交互模式
+    但不同的是，在IDLE中可以通过tab键来查看语句的提示。
+    IDLE实际上就是一个交互界面，但是他也可以有一些简单的提示，并且也可以将代吗保存
+</code></pre>
+<p>交互模式只能你输入一行代码，他就是写一行执行一行，所以并不适用我们日常开发。<br />
+仅仅可以用来做日常简单的测试。</p>
+<p>我们一般会将python代码编写到py文件中，然后通过python指令来执行文件中的代码</p>
+<h2 id="python和sublime的整合"><a class="markdownIt-Anchor" href="#python和sublime的整合"></a> python和Sublime的整合</h2>
+<pre><code>1.在Sublime中执行python代吗，ctrl+b自动在Sublime内置的控制台中执行
+   这种执行方式，在某些版本的Sublime中对中文支持不友好，并且不能使用 input()函数
+2.使用 SublimeREPL来运行python代码
+     安装完成，设置快捷键，设置称F5来自动执行python代码
+</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">        [</span><br><span class="line">&#123; &quot;keys&quot;: [&quot;f5&quot;], &quot;caption&quot;: &quot;SublimeREPL:Python&quot;,&quot;command&quot;: </span><br><span class="line">&quot;run_existing_window_command&quot;, &quot;args&quot;:&#123;&quot;id&quot;: &quot;repl_python_run&quot;,&quot;file&quot;: &quot;config&#x2F;Python&#x2F;Main.sublime-menu&quot;&#125;&#125;,</span><br><span class="line">        ]</span><br></pre></td></tr></table></figure>
+<h2 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> 基本概念</h2>
+<p><strong>1.表达式</strong><br />
+表达式就是类似于数学公式的东西<br />
+比如：1+2   ，2+3 。。。。。<br />
+表达式一般仅仅用了计算结果，不会对程序产生实质性的影响<br />
+如果在交互模式中输入一个表达式，解释器会对表达式的结果输出<br />
+<strong>2.语句</strong><br />
+在程序中语句一般需要完成某种功能，比如打印信息、获取信息、为变量赋值。。。。<br />
+比如：<br />
+a=10<br />
+print(a)<br />
+语句的执行一般会对程序产生影响<br />
+在交互模式中不一定会输出语句的执行结果<br />
+<strong>3.程序（program）</strong><br />
+程序就是有一条一条的语句和一条一条的表达式构成的。<br />
+<strong>4.函数（function）</strong><br />
+函数就是一种语句，函数专门用来完成特定功能<br />
+函数形如：xxx（）<br />
+函数分类：<br />
+内置函数：<br />
+由python解释器提供的函数，可以在python中直接使用<br />
+自定义函数：<br />
+由程序员自主的创建的函数<br />
+当我们需要完成某个功能时就可以去调用内置函数，或者自定义函数<br />
+函数的两个要素：<br />
+参数：<br />
+-（）中的内容就是函数的参数<br />
+函数中可以没有参数，可以有多个参数，多个参数之间使用逗号隔开返回值<br />
+返回值<br />
+返回值是函数的返回结果 ，不是所有的函数都有返回值</p>
+<h2 id="基本语法"><a class="markdownIt-Anchor" href="#基本语法"></a> 基本语法</h2>
+<p>1.在python中严格区分大小写<br />
+2.python中的每一行就是一条语句，每条语句以换行符结束（一个回车一条语句）<br />
+3.python中每一行语句不要过长（规范中建议每行不要超过80个字符）<br />
+“rulers”:[80],放到首选项的设置里<br />
+4.一条语句可以分多行编写，多行编写时语句后边以反斜杠结尾 <br />
+5.python是缩进严格的语言，所以在python中不要随便写缩进<br />
+6.在python中使用#来表示注释，#后的内容都是注释，注释内容会被解释器忽略<br />
+我们可以通过注释来对程序进行解释说明，一定要养成良好的编写注释的习惯<br />
+注释要求简单明了，习惯上#后边会跟上一个空格</p>
+<h2 id="字面量和变量"><a class="markdownIt-Anchor" href="#字面量和变量"></a> 字面量和变量</h2>
+<p>字面量就是一个一个的值，比如：1，2，3，4，5，‘hello’<br />
+字面量所表示的意思就是它的字面的值，在程序中可以直接使用字面量<br />
+变量（variable）变量可以用来保存字面量，并且变量中保存的字面量是不定的<br />
+变量本身没有任何意思，他会根据不同的字面量表示不同的意思<br />
+一般我们开发时，很少直接使用字面量，都是将字面量保存到变量中，通过变量来引用字面量</p>
+<h2 id="变量和标识符"><a class="markdownIt-Anchor" href="#变量和标识符"></a> 变量和标识符</h2>
+<p>变量：<br />
+python中使用变量，不需要声明，直接为变量赋值即可<br />
+a=10  print(a)    输出 10<br />
+不能使用没有赋值过的变量<br />
+如果使用没有赋值的变量，会报错<br />
+print(10)   输出 报错  是没有意义的<br />
+python是一个动态类型的语言，可以为变量赋任意类型的值，也可以任意修改变量的值<br />
+标识符：<br />
+在python中所有可以自主命名的内容都属于标识符<br />
+比如：变量名、函数名、类名<br />
+标识符必须遵循标识符规范：<br />
+<strong>1.标识符中可以含有字母、数字、下划线，但是不能以数字开头</strong><br />
+例如：a_1   _a1   _a1<br />
+<strong>2.标识符不能是python中的关键字和保留字</strong><br />
+也不建议使用python中的函数名作为标识符，因为这样会导致函数被覆盖<br />
+如果使用不符合标识符会报错<br />
+<strong>3.命名规范：</strong><br />
+在python中主要遵循两种命名规范：<br />
+下划线命名法:<br />
+所有字母小写，单词之间使用__分割<br />
+max_lenght   xxx_zzz_vvv<br />
+帕斯卡命名法（大驼峰命名法）<br />
+首字母大写，每个单词开通字母大写，其余字母小写<br />
+MaxLenght    Xxx_Zzz_Vvv</p>
+<h2 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型</h2>
+<p>数据类型指的就是变量的值的类型，也就是可以为变量赋哪些值<br />
+在python中数值分成了三种：整数、浮点数（小数）、复数<br />
+在python中所有的整数都是int类型<br />
+a=10   b=20<br />
+在python中整数的大小没有限制，可以是一个无限大的整数<br />
+d=999999999999999999999999999999999999999999 ** 100<br />
+如果数字的长度过大，可以使用下划线作为分隔符，下划线不影响值的大小，下划线会被解释器忽略</p>
+<p>其他进制的整数，十进制的数字不能以0开头，只要是数字打印时一定是以十进制的形式显示的<br />
+二进制  0b开头    a=0b10   二进制的10<br />
+八进制  0o开头    a=0o10   八进制的10<br />
+十六进制 0x开头  a=0x10    十六进制的10</p>
+<p>也可以通过运算符来对数字进行运算，表达式不会对程序产生任何影响<br />
+c=2                                          c=2<br />
+c+1    ，不产生影响                  c=c+1<br />
+print©  输出还是2                   print©  输出是3<br />
+浮点数（小数），在python中所有的小数都是float类型<br />
+c=1.23<br />
+对浮点数进行运算时，可能会得到一个不精确的结果<br />
+c=0.1+0.2    #0.300000000000004</p>
+<h2 id="字符串str"><a class="markdownIt-Anchor" href="#字符串str"></a> 字符串(str)</h2>
+<p>字符串用来表示一段文本信息，字符串是程序中使用最多的数据类型<br />
+python中字符串需要使用引号引起来<br />
+引号可以是双引号也可以是单引号，但是注意不要混着用<br />
+a=‘hello’       a=“hello”<br />
+相同的引号之间不能嵌套，长字符串中单引号和双引号不能跨行使用</p>
+<pre><code>   s=&quot;锄禾日当午，\
+   汗滴禾下土。\
+   谁知盘中餐，\
+   粒粒皆辛苦。&quot;   # 打印结果是这个不带换行
+</code></pre>
+<p>使用三重引号来表示一个长字符串’’'或&quot;&quot;&quot;<br />
+三重引号可以换行，并且会保留字符串中的格式</p>
+<pre><code>   s='''锄禾日当午，
+   汗滴禾下土。
+   谁知盘中餐，
+   粒粒皆辛苦。'''
+</code></pre>
+<h2 id="转义字符"><a class="markdownIt-Anchor" href="#转义字符"></a> 转义字符</h2>
+<p>可以使用\作为转义字符，通过转义符可以在字符串中使用一些特殊的内容<br />
+s=“子曰：“学而时习之，不亦乐乎。””<br />
+s=“子曰：“学而时习之，不亦乐乎。””  #上下对比并运行</p>
+<p>例子:<br />
+#   ’             表示  ’  表示单引号<br />
+#   &quot;            表示  &quot;   表示双引号<br />
+#   \t            表示制表符  （相当于按了一下tab）<br />
+#   \n           表示换行符<br />
+#   \            表示反斜杠    （打印出来是一个\，如果要打印出两个反斜杠，需要在程序中写4个\\<br />
+\uxxxx    表示Unicode编码</p>
+<h2 id="格式化字符串"><a class="markdownIt-Anchor" href="#格式化字符串"></a> 格式化字符串</h2>
+<p><strong>1拼串法</strong><br />
+字符串也可以进行加法运算<br />
+如果将两个字符串进行相加，则会自动及那个两个字符串拼接为一个<br />
+a=‘caixunkun’+‘鸡你太美’<br />
+print(a)   输出为  caixunkun鸡你太美<br />
+#字符串不能和其他的类型进行加法运算，如果做了会出现异常报错<br />
+print(“a=”+a)   #这种写法在python中不常见<br />
+a=123</p>
+<p><strong>2传两个参数法  print(‘a=’,a)</strong></p>
+<p><strong>3.占位符法</strong><br />
+在创建字符串时，可以在字符串中指定占位符<br />
+%s   在字符串中表示任意字符<br />
+%f    浮点数的占位符<br />
+%d   整数的占位符<br />
+b=‘练习生 %s’%‘菜寻鲲’<br />
+b=‘练习生 %s 流量明星 %s’%(‘菜寻鲲’,‘鸡你太美’)<br />
+b=‘练习生 %3.5s’%123456   #%3.5表示最少保留三位最多五位数<br />
+b=‘练习生 %.2f’ %123.456 #表示小数点后两位，会四舍五入<br />
+print(‘a=%s’%a)</p>
+<p><strong>4.直接嵌入变量法</strong><br />
+格式化字符串，可以通过在字符串前添加一个f来创建一个格式化字符串<br />
+在格式化字符串中可以直接嵌入变量<br />
+c=f’hello {a} {b}’<br />
+print(f’a={a}’)<br />
+总结上述：<br />
+联系 使用四种方法来输出，练习生  xxx   鸡你太美<br />
+name=菜寻鲲<br />
+<strong>拼串</strong><br />
+print(‘练习生 ‘+name+’ 鸡你太美’)<br />
+<strong>多个参数</strong><br />
+print(‘练习生’,name,‘鸡你太美’)<br />
+<strong>占位符</strong><br />
+print(‘练习生 %s 鸡你太美’%name)<br />
+<strong>格式化字符串</strong><br />
+print(f’练习生 {name} 鸡你太美’)</p>
+<h2 id="字符串的复制将字符串和数字相乘"><a class="markdownIt-Anchor" href="#字符串的复制将字符串和数字相乘"></a> 字符串的复制（将字符串和数字相乘）</h2>
+<p>a=‘abc’<br />
+&quot; * &quot; 在语言中标识乘法<br />
+如果将字符串和数字相乘，则解释器会将字符串重复指定的次数并返回<br />
+a=a*2</p>
+<h2 id="布尔值bool和空值none"><a class="markdownIt-Anchor" href="#布尔值bool和空值none"></a> 布尔值（bool）和空值（None）</h2>
+<p>布尔值主要用来做逻辑判断<br />
+布尔值一共有两个<strong>True</strong>和<strong>False</strong><br />
+True表示真  False表示假<br />
+布尔值实际上也属于整型，True相当于1，False相当于0</p>
+<p>空值（None）<br />
+None专门用来表示不存在</p>
+<h2 id="类型检查"><a class="markdownIt-Anchor" href="#类型检查"></a> 类型检查</h2>
+<p>通过类型检查，可以检查指定值（变量）的类型<br />
+a=123 #数值<br />
+b=‘123’ #字符串<br />
+print(‘a=’,a)<br />
+print(‘b=’,b)</p>
+<p>type( ) 用来检查值的类型<br />
+该函数会将检查的结果作为返回值返回，可以通过变量来接受函数值的返回值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(type(<span class="number">1</span>))           <span class="comment">#&lt;class &#x27;int&#x27;&gt;</span></span><br><span class="line">print(type(<span class="number">1.5</span>))        <span class="comment">#&lt;class &#x27;float&#x27;&gt;</span></span><br><span class="line">print(type(<span class="literal">True</span>))      <span class="comment">#&lt;class &#x27;bool&#x27;&gt;</span></span><br><span class="line">print(type(<span class="string">&#x27;hello&#x27;</span>))   <span class="comment">#&lt;class &#x27;str&#x27;&gt;</span></span><br><span class="line">print(type(<span class="literal">None</span>))    <span class="comment">#&lt;class &#x27;NoneType&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="对象object"><a class="markdownIt-Anchor" href="#对象object"></a> 对象（object）</h2>
+<p>python是一门面向对象的语言<br />
+一切皆对象<br />
+程序运行当中，所有的数据都是储存到内存当中然后在运行。<br />
+对象就是内存中专门来存储指定数据的一块区域<br />
+对象实际就是一个容器，专门来存储数据<br />
+数值、字符串、布尔值、None都是对象</p>
+<h2 id="对象的结构"><a class="markdownIt-Anchor" href="#对象的结构"></a> 对象的结构</h2>
+<p>每一个对象中都要保存三种数据<br />
+id<br />
+id用来标识对象的唯一性，每一个对象都有位于的id<br />
+可以通过id( )函数来查看对象的id<br />
+id是由解析器生成的，在Cpython中，id就是对象的内存地址<br />
+对象一旦创建，他的id永远不能改变<br />
+type（类型）<br />
+类型用来标识当前对象所属的类型比如：int str float bool。。。。<br />
+类型决定了对象有哪些功能<br />
+通过type( )函数来查看对象的类型<br />
+python是一门强类型语言，对象一旦创建便不能修改<br />
+value( 值 )<br />
+值就是对象中存储的具体数据<br />
+对于有些对象值是可以改变的<br />
+对象可以分为两大类，可变对象  不可变对象<br />
+可变对象的字可以改变<br />
+不可变对象的值不能改变，之前血的对象都是不可变对象 int str float bool。。。。</p>
+<h2 id="变量和对象的关系"><a class="markdownIt-Anchor" href="#变量和对象的关系"></a> 变量和对象的关系</h2>
+<p>对象并没有直接存储到变量中，在python中变量更像是给对象起了一个别名<br />
+变量中存储的不是对象的值，而是对象的id（内存地址）<br />
+当我们使用变量时就是通过对象的id来查找对象<br />
+对象中保存的对象id，只有在为变量重新赋值时才会改变<br />
+变量和变量之间是相互独立的，修改一个变量不会影响另一个变量</p>
+<h2 id="类型转换"><a class="markdownIt-Anchor" href="#类型转换"></a> 类型转换</h2>
+<p>所谓的类型转换，将一个类型的对象转换为其他对象<br />
+类型转换不是改变对象本身的类型，而是根据当前对象的值转创建一个新对象<br />
+类型转换四个函数 int( ) float( ) str( ) bool( )<br />
+int( )可以用来将其他的对象转换为整型<br />
+a=True<br />
+调用int( )将啊转换为整型<br />
+int( )函数不会对原来的变量产生影响，他是对象转换为指定的类型并将其作为返回值返回<br />
+如果希望修改原来的变量，则需要对变量进行重新赋值<br />
+int(a)<br />
+print(‘a=’,a)<br />
+print(‘a的类型是’,type(a))</p>
+<p>规则：<br />
+布尔值：True -&gt;1   False -&gt;0<br />
+浮点数：直接取整，省略小数点以后的内容  （不四舍五入）a=11.6   a=int(a)   输出11<br />
+字符串：合法的整数字符串，直接转换为对应数字<br />
+如果不是合法的整数字符串，则报错   a=‘11.5’   a=int(a)    异常<br />
+对于其他不可转换为整型的对象，则直接抛异常ValueError       例如：None<br />
+float( ) 和 int( )基本一致，不同的是它会将对象转换为浮点数<br />
+str( ) 可以将对象转换为字符串<br />
+True  -&gt; ‘True’   123 -&gt; ‘123’   …<br />
+bool( ) 可以将对象转换为布尔值，任何对象都可以转换为布尔值<br />
+规则：对于所有表示空性的对象都会转换为False，其余全部转换True<br />
+那些表示空性：0、None、 &quot; &quot; 、 ’ '、  这四种</p>
+<h2 id="运算符操作符"><a class="markdownIt-Anchor" href="#运算符操作符"></a> 运算符（操作符）</h2>
+<p>运算符可以对一个值或多个值进行运算或各种操作<br />
+比如+、-、=都属于运算符<br />
+运算符分类：<br />
+<strong>1.算术运算符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">+ 加法运算符（如果是两个字符串进行加法运算，则会进行拼串操作）</span><br><span class="line">      a&#x3D;10+5  计算    或       a&#x3D;&#39;hello&#39;+&#39;  &#39;+&#39;world&#39;   拼串    运行 👉print(&#39;a&#x3D;&#39;,a)</span><br><span class="line"> - 减法运算符（字符串和字符串不能相减</span><br><span class="line"> a&#x3D;10-5       a&#x3D;5-Ture     计算  </span><br><span class="line"> a&#x3D;a-2    用变量a的值减去2，然后再给赋值给a</span><br><span class="line"> * 乘法运算符（如果将字符串和数字相乘，则会对字符串进行赋值操作，将字符串乘法指定次数）</span><br><span class="line"> a&#x3D;5*2</span><br><span class="line"> &#x2F; 除法运算符（运算时结构总会返回一个浮点类型，分母不能为零）</span><br><span class="line"> a&#x3D;10&#x2F;2    </span><br><span class="line"> a&#x3D;5&#x2F;0    报错</span><br><span class="line"> &#x2F;&#x2F; 整除，指挥保留计算和的整数位数，总会返回一个整数型</span><br><span class="line"> a&#x3D;10&#x2F;&#x2F;3  输出a&#x3D;3   输出的值不会四舍五入</span><br><span class="line"> ** 幂运算，就一个值的几次幂</span><br><span class="line"> a&#x3D;2&quot;**&quot;3  (2的3次幂)   print(a)   输出8</span><br><span class="line"> a&#x3D;16&quot;**&quot;0.5    #求16的平方根，相当于根号16  16的二分之一次幂</span><br><span class="line"> % 取模，求两个数相除的余数</span><br><span class="line"> a&#x3D;10%5  #0</span><br><span class="line"> a&#x3D;10%4  #2</span><br><span class="line"> a&#x3D;10%3  #1</span><br><span class="line"> a&#x3D;10%2  #0</span><br></pre></td></tr></table></figure>
+<p><strong>2.赋值运算符</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x3D;可以将等号右侧的值赋值给等号左侧的变量</span><br><span class="line">       a&#x3D;10 </span><br><span class="line"> +&#x3D;     a+&#x3D;5 相当于 a&#x3D;a+5     （以下几个全部类似）         </span><br><span class="line"> -&#x3D;     a-&#x3D;5 相当于 a&#x3D;a-5</span><br><span class="line"> *&#x3D;     a*&#x3D;5 相当于 a&#x3D;a*5</span><br><span class="line"> **&#x3D;   a**&#x3D;5 相当于 a&#x3D;a**5   （a的5次方）</span><br><span class="line"> &#x2F;&#x3D;     a&#x2F;&#x3D;5 相当于 a&#x3D;a&#x2F;5    （在对浮点数做算术运算时结果也会返回一个浮点数）</span><br><span class="line"> &#x2F;&#x2F;&#x3D;     a&#x2F;&#x2F;&#x3D;5 相当于 a&#x3D;a&#x2F;&#x2F;5</span><br><span class="line"> %&#x3D;     a%&#x3D;5 相当于 a&#x3D;a%5</span><br></pre></td></tr></table></figure>
+<p><strong>3.比较运算符（关系运算符）</strong><br />
+关系运算符用来比较两个值之间的关系，总会返回一个布尔值，如果关系成立返回True否则返回False<br />
+&gt;     比较左侧之是否大于右侧值    result=5&gt;3    print(‘result =’,result)    #True<br />
+&gt;=   比较左侧值是否大于或等于右侧值       result=5&gt;=5   #True<br />
+&lt;       比较右侧之是否大于左侧值<br />
+&lt;=    比较右侧值是否大于或等于左侧值<br />
+==    比较两个对象的值是否相等    两个值相等返回True<br />
+!=     比较两个对象的值是否不相等，两个值不相等返回True<br />
+相等和不等比较的是对象的值，而不是id<br />
+i s  比较两个对象是否是同一个对象，比较的是对象的id<br />
+i s not  比较两个对象是否不是同一个对象，比较的是对象的id<br />
+在python中可以对两个字符串进行大于 (等于)或小于(等于)的运算<br />
+当对字符串进行比较时，实际上比较的是字符串的Unicode编码<br />
+result=‘a’&gt;‘b’  相当于   0061&gt;0062   False<br />
+比较两个字符串的Unicode编码时，是逐位比较的<br />
+result=‘abc’&gt;‘bcd’    比较规则是逐位比较  左a和右b比较，从第一位比较能比出大小就不再向后比较<br />
+利用该特性可以对字符串按照字母顺序进行排序，但是对于中文来说意义不是特别大<br />
+主要：如果不希望比较两个字符串的Unicode编码，则需要将其转换为数字在比较</p>
+<p><strong>4.逻辑运算符</strong><br />
+逻辑运算符主要用来做一些逻辑判断<br />
+<strong>not 逻辑非</strong><br />
+not可以对符号右侧的值进行非运算<br />
+对于布尔值，非运算会对其进行取反操作，True变False ，False变True<br />
+对于非布尔值，非运算会将其先转换为布尔值，然后在取反<br />
+a=True         a=not a   #对a进行取反<br />
+<strong>and 逻辑与</strong><br />
+and可以对符号两边的值进行与运算<br />
+只有在符号两侧的值都为True时，才会返回True，只要有一个False就返回False<br />
+与运算时找False，有false不会执行<br />
+python中的与运算是短路的与，如果第一个值为false，则不会再看第二个值<br />
+result=True and True    #True<br />
+result=True and  False  #False<br />
+result=False and True   #False<br />
+result=False and False   #False<br />
+True and print(‘你猜我出来吗？’) 第一个值是True，会看第二个值，所以print()会执行<br />
+False and print(‘你猜我出来吗？’)第一个值是False，不会看第二个值，所以print()不会执行<br />
+<strong>or 逻辑或</strong><br />
+or可以对符号两侧的值进行或运算<br />
+或运算是找True的<br />
+Python中的或运算是短路的或，如果第一个值为True，则不再看第二个值<br />
+result=True or True    #True<br />
+result=True or  False  #True<br />
+result=False or True   #True<br />
+result=False or False  #False<br />
+print(result)<br />
+False or print(‘你猜我出来吗？’) 第一个值为False，继续看第二个，所以打印语句执行<br />
+True or print(‘你猜我出来吗？’) 第一个值为True，不看第二个，所以打印语句不执行</p>
+<p><strong>非布尔值的与或运算</strong><br />
+当我们对非布尔值进行与或运算时，python会将其当做布尔值运算，最终会返回原值<br />
+与运算的规则<br />
+与运算是找False的，如果第一个值是False，则不看第二个值<br />
+如果第一个值是False，则直接返回第一个值，否则返回第二个值</p>
+<p>或运算时找True的，如果第一个值是True，则不看第二个值<br />
+如果第一个值是True，则直接返回第一个值，否则返回第二个值<br />
+逻辑运算符（补充）<br />
+逻辑运算符可以连着使用<br />
+result = 1 &lt; 2 &lt; 3 # 相当于 1 &lt; 2 and 2 &lt; 3<br />
+result = 10 &lt; 20 &gt; 15  #相当于 10&lt;20  and  15&lt;20<br />
+print(result)</p>
+<p><strong>5.条件运算符（三元运算符）</strong><br />
+语法：语句1  if  条件表达式  else  语句2<br />
+执行流程：<br />
+条件运算符在执行时，会先对条件表达式进行求值判断<br />
+如果判断结果为True，则执行语句1，并返回执行结果<br />
+如果判断结果为False，则执行语句2，并返回执行结果</p>
+<pre class="highlight"><code class="python">a=<span class="hljs-number">40</span>   
+b=<span class="hljs-number">20</span>
+c=<span class="hljs-number">30</span>
+max=a <span class="hljs-keyword">if</span> a&gt;b <span class="hljs-keyword">else</span> b
+max=max <span class="hljs-keyword">if</span>  max&gt;c <span class="hljs-keyword">else</span> c
+print(max)
+</code></pre>
+<h2 id="运算符的优先级"><a class="markdownIt-Anchor" href="#运算符的优先级"></a> 运算符的优先级</h2>
+<p>和数学中一样，在python运算也有优先级，比如先乘除后加减<br />
+运算符的优先级可以根据优先级的表格来查询<br />
+在表格中位置越靠下的运算符优先等级越高，优先级越高就越优先计算<br />
+如果优先级一样则自左向右计算<br />
+关于优先级的表格只知道有就行不用特意全背下来<br />
+在开发中如果遇到优先级不清楚的，可以通过小括号来改变运算顺序</p>
+<p><strong>and</strong>的优先级高，则应该先计算与运算<br />
+则运算结果是1<br />
+a = 1 or 2 and 3</p>
+<p>print(a)</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">The Kun</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.wanchelai.com/2020/07/02/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E5%85%A5%E9%97%A8/">http://www.wanchelai.com/2020/07/02/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E5%85%A5%E9%97%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.wanchelai.com" target="_blank">菜の寻鲲</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/python/">python</a></div><div class="post_share"><div class="social-share" data-image="/img/cover_picture/py2.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/07/03/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/"><img class="prev-cover" data-lazy-src="/img/cover_picture/py3.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">python基础学习--流程控制语句</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/01/python%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0--%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"><img class="next-cover" data-lazy-src="/img/cover_picture/py1.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">python基础学习--计算机基础知识</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2020/07/10/python基础学习--异常和文件（1）/" title="python基础学习--异常和文件（1）"><img class="cover" data-lazy-src="/img/cover_picture/py12.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-10</div><div class="title">python基础学习--异常和文件（1）</div></div></a></div><div><a href="/2020/07/10/python基础学习--异常和文件（2）/" title="python基础学习--异常和文件（2）"><img class="cover" data-lazy-src="/img/cover_picture/py13.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-10</div><div class="title">python基础学习--异常和文件（2）</div></div></a></div><div><a href="/2020/07/09/python基础学习--对象（2）/" title="python基础学习--对象（2）"><img class="cover" data-lazy-src="/img/cover_picture/py10.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-09</div><div class="title">python基础学习--对象（2）</div></div></a></div><div><a href="/2020/07/09/python基础学习--对象（3）/" title="python基础学习--对象（3）"><img class="cover" data-lazy-src="/img/cover_picture/py11.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-09</div><div class="title">python基础学习--对象（3）</div></div></a></div><div><a href="/2020/07/08/python基础学习--对象(1)/" title="python基础学习--对象（1）"><img class="cover" data-lazy-src="/img/cover_picture/py9.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-08</div><div class="title">python基础学习--对象（1）</div></div></a></div><div><a href="/2020/07/07/python基础学习--函数(2)/" title="python基础学习--函数（2）"><img class="cover" data-lazy-src="/img/cover_picture/py8.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-07-07</div><div class="title">python基础学习--函数（2）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="/img/hy.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">The Kun</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">28</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com/285208049" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AF%AD%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text"> 什么是计算机语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%9E%8B%E8%AF%AD%E8%A8%80%E5%92%8C%E8%A7%A3%E9%87%8A%E5%9E%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">2.</span> <span class="toc-text"> 编译型语言和解释型语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.</span> <span class="toc-text"> python的介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text"> python开发环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E7%9A%84%E4%BA%A4%E4%BA%92%E7%95%8C%E9%9D%A2"><span class="toc-number">5.</span> <span class="toc-text"> python的交互界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E5%92%8Csublime%E7%9A%84%E6%95%B4%E5%90%88"><span class="toc-number">6.</span> <span class="toc-text"> python和Sublime的整合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">7.</span> <span class="toc-text"> 基本概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">8.</span> <span class="toc-text"> 基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F%E5%92%8C%E5%8F%98%E9%87%8F"><span class="toc-number">9.</span> <span class="toc-text"> 字面量和变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">10.</span> <span class="toc-text"> 变量和标识符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">11.</span> <span class="toc-text"> 数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2str"><span class="toc-number">12.</span> <span class="toc-text"> 字符串(str)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E4%B9%89%E5%AD%97%E7%AC%A6"><span class="toc-number">13.</span> <span class="toc-text"> 转义字符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">14.</span> <span class="toc-text"> 格式化字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%A4%8D%E5%88%B6%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E6%95%B0%E5%AD%97%E7%9B%B8%E4%B9%98"><span class="toc-number">15.</span> <span class="toc-text"> 字符串的复制（将字符串和数字相乘）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E5%80%BCbool%E5%92%8C%E7%A9%BA%E5%80%BCnone"><span class="toc-number">16.</span> <span class="toc-text"> 布尔值（bool）和空值（None）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%A3%80%E6%9F%A5"><span class="toc-number">17.</span> <span class="toc-text"> 类型检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1object"><span class="toc-number">18.</span> <span class="toc-text"> 对象（object）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">19.</span> <span class="toc-text"> 对象的结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">20.</span> <span class="toc-text"> 变量和对象的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">21.</span> <span class="toc-text"> 类型转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">22.</span> <span class="toc-text"> 运算符（操作符）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">23.</span> <span class="toc-text"> 运算符的优先级</span></a></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)"><img data-lazy-src="/img/cover_picture/lux10.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(2)"/></a><div class="content"><a class="title" href="/2020/10/09/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(2)/" title="Linux系统管理--软件包管理(2)">Linux系统管理--软件包管理(2)</a><time datetime="2020-10-08T16:00:00.000Z" title="发表于 2020-10-09 00:00:00">2020-10-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)"><img data-lazy-src="/img/cover_picture/lux9.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--软件包管理(1)"/></a><div class="content"><a class="title" href="/2020/09/22/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86(1)/" title="Linux系统管理--软件包管理(1)">Linux系统管理--软件包管理(1)</a><time datetime="2020-09-21T16:00:00.000Z" title="发表于 2020-09-22 00:00:00">2020-09-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器"><img data-lazy-src="/img/cover_picture/lux8.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--vim编辑器"/></a><div class="content"><a class="title" href="/2020/09/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--vim%E7%BC%96%E8%BE%91%E5%99%A8/" title="Linux系统管理--vim编辑器">Linux系统管理--vim编辑器</a><time datetime="2020-09-19T16:00:00.000Z" title="发表于 2020-09-20 00:00:00">2020-09-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）"><img data-lazy-src="/img/cover_picture/lux7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（4）"/></a><div class="content"><a class="title" href="/2020/09/16/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%884%EF%BC%89/" title="Linux系统管理--常用命令（4）">Linux系统管理--常用命令（4）</a><time datetime="2020-09-15T16:00:00.000Z" title="发表于 2020-09-16 00:00:00">2020-09-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）"><img data-lazy-src="/img/cover_picture/lux6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--常用命令（3）"/></a><div class="content"><a class="title" href="/2020/07/23/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%EF%BC%883%EF%BC%89/" title="Linux系统管理--常用命令（3）">Linux系统管理--常用命令（3）</a><time datetime="2020-07-22T16:00:00.000Z" title="发表于 2020-07-23 00:00:00">2020-07-23</time></div></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/img/cover_picture/py2.png)"><div id="footer-wrap"><div class="copyright">&copy;2020  <i id="heartbeat" class="fa fas fa-heartbeat"></i> The Kun</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi, welcome to my <a href="http://www.wanchelai.com/">blog</a>!</div></div><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></head></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '5eiehMYVOOVcnKMxA6g97OTI-MdYXbMMI',
+      appKey: 'LJvS2AG393gyE7RhK1c5LKiK',
+      placeholder: '有什么问题请在这里留言。',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '//i0.hdslb.com/bfs/emote/',
+      emojiMaps: {"2020":"dc709fac0d361370bcf0d36d32adb97df7c95824.png","tv_白眼":"c1d59f439e379ee50eef488bcb5e5378e5044ea4.png","tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_难过":"87f46748d3f142ebc6586ff58860d0e2fc8263ba.png","tv_生气":"26702dcafdab5e8225b43ffd23c94ac1ff932654.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_斜眼笑":"911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_疑问":"0793d949b18d7be716078349c202c15ff166f314.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_鼓掌":"1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png","tv_抠鼻":"c666f55e88d471e51bbd9fab9bb308110824a6eb.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_调皮":"b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png","tv_笑哭":"1abc628f6d4f4caf9d0e7800878f4697abbc8273.png","tv_晕":"5443c22b4d07fb1907ccc610c8e6db254f2461b7.png","tv_点赞":"f85c354995bd99e28fc76c869bfe42ba6438eff4.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_睡着":"8b196675b53af58264f383c50ad0945048290b33.png","tv_色":"61822c7e9aae5da76475e7892534545336b23a6f.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_无奈":"ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_流汗":"cead1c351ab8d79e9f369605beb90148db0fbed3.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_抓狂":"fe31c08edad661d63762b04e17b8d5ae3c71a757.png","tv_黑人问号":"45821a01f51bc867da9edbaa2e070410819a95b2.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_打脸":"56ab10b624063e966bfcb76ea5dc4794d87dfd47.png","tv_闭嘴":"c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png","tv_鄙视":"6e72339f346a692a495b123174b49e4e8e781303.png","tv_腼腆":"89712c0d4af73e67f89e35cbc518420380a7f6f4.png","tv_馋":"fc7e829b845c43c623c8b490ee3602b7f0e76a31.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_生病":"8b0ec90e6b86771092a498c54f09fc94621c1900.png","tv_流鼻血":"c32d39db2737f89b904ca32700d140a9241b0767.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_流泪":"7e71cde7858f0cd50d74b0264aa26db612a8a167.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_皱眉":"72ccad6679fea0d14cce648b4d818e09b8ffea2d.png","tv_鬼脸":"0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png","tv_调侃":"4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png","tv_目瞪口呆":"0b8cb81a68de5d5365212c99375e7ace3e7891b7.png","2233娘_大笑":"16b8794be990cefa6caeba4d901b934a227ee3b8.png","2233娘_疑问":"0b41f509351958dbb63d472fec0132d1bd03bd14.png","2233娘_吃惊":"d1628c43d35b1530c0504a643ff80b6189fa0a43.png","2233娘_汗":"247cd9df8cdf84b18368c21e3b2dd374e84c0927.png","2233娘_大哭":"476a2a60f6e337b8c0697a592e0aa82781f6b33b.png","2233娘_困惑":"714eeb4eae0d0933b4ff08b7df788b1982f6b940.png","2233娘_耶":"d7178e258a0efc969b65ccc2b1322fb235f5dff4.png","2233娘_怒":"f31953119c51b9748016440ac0b632f779929b37.png","2233娘_卖萌":"ea893aa25355de95ab4f03c2dad3f0c58d0c159e.png","2233娘_委屈":"d9d0bf9d358af8d5761093ec66d4e3f60d963a63.png","2233娘_郁闷":"485203fe7100f2c8fc40b2800a18fe20b35f2f1a.png","2233娘_第一":"3754ee6e5985bd0bd7dfb668981f2a8733398ebd.png","2233娘_喝水":"695bf5429472049b52c1e0de586f8a2511195a23.png","2233娘_吐魂":"e999af499edf38a91ca68b1a9d2f97042c1d6734.png","2233娘_无言":"fdb5870f32cfaf7949e0f88a13f6feba4a48b719.png","热词系列_增加":"142409b595982b8210b2958f3d340f3b47942645.png","热词系列_泪目":"bba3703ab90b7d16fe9dbcb85ed949db687f8331.png","热词系列_保护":"55f8f6445ca7c3170cdfc5b16036abf639ce9b57.png","热词系列_害怕":"d77e2de26da143249f0c0ad7a608c27152c985bf.png","热词系列_爱了爱了":"2a165b555ba20391316366c664ed7891883dc5aa.png","热词系列_问号":"c1d1e76c12180adc8558f47006fe0e7ded4154bb.png","热词系列_吹爆":"b528220f9c37256ed6a37f05bf118e44b08b81e5.png","热词系列_三连":"21f15fe11b7a84d2f2121c16dec50a4e4556f865.png","热词系列_可以":"e08543c71202b36c590094417fcfbb80c3506cd8.png","热词系列_打卡":"a9cf77c78e1b9b40aa3ed4862402fba008ee2f51.png","热词系列_妙啊":"0e98299d7decf5eaffad854977946075c3e91cb8.png","热词系列_这次一定":"a01ca28923daa7cc896c42f27deb4914e20dd572.png","热词系列_AWSL":"c37f88cf799f9badf9d84b7671dc3dd98c0fc0c2.png","热词系列_递话筒":"98e6950e39fbb4dd1c576042063ca632074070ba.png","热词系列_你细品":"535e00658e7e47966f154d3a167fa2365ebc4321.png","热词系列_咕咕":"d8065c2e7ce48c929317a94553499a46fecc262a.png","热词系列_标准结局":"3de98174b510cf7dc5fd1bd08c5d881065e79137.png","热词系列_危":"5cc6c3357c4df544dd8de9d5c5c0cec97c7c9a56.png","热词系列_张三":"255a938f39cea625032b6650036b31aa26c50a3c.png","热词系列_害":"cbe798a194612958537c5282fcca7c3bcd2aa15c.png","热词系列_我裂开了":"29bd57ec4e8952880fea6c9e47aee924e91f10c4.png","热词系列_有内味了":"7ca61680a905b5b6e2e335c630e725b648b03b4d.png","热词系列_猛男必看":"c97064450528a0e45c7e7c365a15fbb13fd61d8c.png","热词系列_奥力给":"c9b8683827ec6c00fea5327c9bec14f581cef2aa.png","热词系列_我哭了":"9e0b3877d649aaf6538fbdd3f937e240a9d808e4.png","热词系列_高产":"9db817cba4a7f4a42398f3b2ec7c0a8e0c247c42.png","热词系列_我酸了":"a8cbf3f6b8cd9377eeb15b9172f3cd683b2e4650.png","热词系列_真香":"e68497c775feaac1c3b1a6cd63a50cfb11b767c4.png","热词系列_我全都要":"d424d1ad8d14c1c9b8367842bc68c658b9229bc1.png","热词系列_神仙UP":"a49e0d0db1e7d35a0f7411be13208951ab448f03.png","热词系列_你币有了":"84820c2b147a8ca02f3c4006b63f76c6313cbfa0.png","热词系列_不愧是你":"9ff2e356797c57ee3b1675ade0883d2d2247be9b.png","热词系列_锤":"35668cc12ae25b9545420e4a85bf21a0bfc03e5d.png","热词系列_秀":"50782fbf5d9b7f48f9467b5c53932981e321eedc.png","热词系列_爷关更":"faad40c56447f1f8abcb4045c17ce159d113d1fd.png","热词系列_有生之年":"f41fdafe2d0fbb8e8bc1598d2cf37e355560103a.png","热词系列_镇站之宝":"24e7a6a6e6383c987215fb905e3ee070aca259b5.png","热词系列_我太男了":"a523f3e4c63e4db1232365765d0ec452f83be97e.png","热词系列_完结撒花":"ea9db62ff5bca8e069cd70c4233353a802835422.png","热词系列_大师球":"f30089248dd137c568edabcb07cf67e0f6e98cf3.png","热词系列_知识盲区":"ccc94600b321a28116081e49ecedaa4ee8728312.png","热词系列_“狼火”":"33ccd3617bfa89e9d1498b13b7542b63f163e5de.png","加油武汉":"eb966aaa5b690d3f9308a9f936f5b5a72a7f956b.png","口罩":"3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png","鸡腿":"c7860392815d345fa69c4f00ef18d67dccfbd574.png","微笑":"685612eadc33f6bc233776c6241813385844f182.png","笑":"81edf17314cea3b48674312b4364df44d5c01f17.png","呲牙":"b5a5898491944a4268360f2e7a84623149672eb6.png","OK":"4683fd9ffc925fa6423110979d7dcac5eda297f4.png","星星眼":"63c9d1a31c0da745b61cdb35e0ecb28635675db2.png","哦呼":"362bded07ea5434886271d23fa25f5d85d8af06c.png","嫌弃":"de4c0783aaa60ec03de0a2b90858927bfad7154b.png","喜欢":"8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png","酸了":"92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png","大哭":"2caafee2e5db4db72104650d87810cc2c123fc86.png","害羞":"9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png","无语":"44667b7d9349957e903b1b62cb91fb9b13720f04.png","疑惑":"b7840db4b1f9f4726b7cb23c0972720c1698d661.png","调皮":"8290b7308325e3179d2154327c85640af1528617.png","喜极而泣":"485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png","奸笑":"bb84906573472f0a84cebad1e9000eb6164a6f5a.png","偷笑":"6c49d226e76c42cd8002abc47b3112bc5a92f66a.png","大笑":"ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png","阴险":"ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png","捂脸":"6921bb43f0c634870b92f4a8ad41dada94a5296d.png","囧":"12e41d357a9807cc80ef1e1ed258127fcc791424.png","呆":"33ad6000d9f9f168a0976bc60937786f239e5d8c.png","抠鼻":"cb89184c97e3f6d50acfd7961c313ce50360d70f.png","惊喜":"0afecaf3a3499479af946f29749e1a6c285b6f65.png","惊讶":"f8e9a59cad52ae1a19622805696a35f0a0d853f3.png","笑哭":"c3043ba94babf824dea03ce500d0e73763bf4f40.png","妙啊":"b4cb77159d58614a9b787b91b1cd22a81f383535.png","doge":"bba7c12aa51fed0199c241465560dfc2714c593e.png","滑稽":"d15121545a99ac46774f1f4465b895fe2d1411c3.png","吃瓜":"4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png","打call":"431432c43da3ee5aab5b0e4f8931953e649e9975.png","点赞":"1a67265993913f4c35d15a6028a30724e83e7d35.png","鼓掌":"895d1fc616b4b6c830cf96012880818c0e1de00d.png","尴尬":"cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png","冷":"cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png","灵魂出窍":"43d3db7d97343c01b47e22cfabeca84b4251f35a.png","委屈":"d2f26cbdd6c96960320af03f5514c5b524990840.png","傲娇":"010540d0f61220a0db4922e4a679a1d8eca94f4e.png","疼":"905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png","吓":"9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png","生病":"0f25ce04ae1d7baf98650986454c634f6612cb76.png","吐":"06946bfe71ac48a6078a0b662181bb5cad09decc.png","嘘声":"e64af664d20716e090f10411496998095f62f844.png","捂眼":"c5c6d6982e1e53e478daae554b239f2b227b172b.png","思考":"cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png","再见":"fc510306bae26c9aec7e287cdf201ded27b065b9.png","翻白眼":"eba54707c7168925b18f6f8b1f48d532fe08c2b1.png","哈欠":"888d877729cbec444ddbd1cf4c9af155a7a06086.png","奋斗":"bb2060c15dba7d3fd731c35079d1617f1afe3376.png","墨镜":"3a03aebfc06339d86a68c2d893303b46f4b85771.png","撇嘴":"531863568e5668c5ac181d395508a0eeb1f0cda4.png","难过":"a651db36701610aa70a781fa98c07c9789b11543.png","抓狂":"4c87afff88c22439c45b79e9d2035d21d5622eba.png","生气":"3195714219c4b582a4fb02033dd1519913d0246d.png","干杯":"8da12d5f55a2c7e9778dcc05b40571979fe208e6.png","爱心":"ed04066ea7124106d17ffcaf75600700e5442f5c.png","锦鲤":"643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png","胜利":"b49fa9f4b1e7c3477918153b82c60b114d87347c.png","加油":"c7aaeacb21e107292d3bb053e5abde4a4459ed30.png","保佑":"fafe8d3de0dc139ebe995491d2dac458a865fb30.png","抱拳":"89516218158dbea18ab78e8873060bf95d33bbbe.png","响指":"1b5c53cf14336903e1d2ae3527ca380a1256a077.png","支持":"3c210366a5585706c09d4c686a9d942b39feeb50.png","拥抱":"41780a4254750cdaaccb20735730a36044e98ef3.png","怪我咯":"07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png","跪了":"f2b3aee7e521de7799d4e3aa379b01be032698ac.png","黑洞":"e90ec4c799010f25391179118ccd9f66b3b279ba.png","老鼠":"8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png","福到了":"5de5373d354c373cf1617b6b836f3a8d53c5a655.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/calendar.js"></script><script src="/js/languages.js"></script><div class="app-refresh" id="app-refresh"> <div class="app-refresh-wrap"> <label>✨ 網站已更新最新版本 👉</label> <a href="javascript:void(0)" onclick="location.reload()">點擊刷新</a> </div></div><script>function showNotification(){if(GLOBAL_CONFIG.Snackbar){var t="light"===document.documentElement.getAttribute("data-theme")?GLOBAL_CONFIG.Snackbar.bgLight:GLOBAL_CONFIG.Snackbar.bgDark,e=GLOBAL_CONFIG.Snackbar.position;Snackbar.show({text:"已更新最新版本",backgroundColor:t,duration:5e5,pos:e,actionText:"點擊刷新",actionTextColor:"#fff",onActionClick:function(t){location.reload()}})}else{var o=`top: 0; background: ${"light"===document.documentElement.getAttribute("data-theme")?"#49b1f5":"#1f1f1f"};`;document.getElementById("app-refresh").style.cssText=o}}"serviceWorker"in navigator&&(navigator.serviceWorker.controller&&navigator.serviceWorker.addEventListener("controllerchange",function(){showNotification()}),window.addEventListener("load",function(){navigator.serviceWorker.register("/sw.js")}));</script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>
