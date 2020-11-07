@@ -60,23 +60,23 @@ $(function () {
     })
   }
 
-  // 隐藏首页banner图
-  var full_page = document.getElementsByClassName("full_page");
-  if (full_page.length != 0) {
-    full_page[0].style.background = "transparent";
-  }
+  // // 隐藏首页banner图
+  // var full_page = document.getElementsByClassName("full_page");
+  // if (full_page.length != 0) {
+  //   full_page[0].style.background = "transparent";
+  // }
 
-  //隐藏index顶部图
-  var notiz = document.getElementsByClassName("not-index-bg");
-  if (notiz.length != 0) {
-   notiz[0].style.background = "transparent";
-  }
+  // //隐藏index顶部图
+  // var notiz = document.getElementsByClassName("not-index-bg");
+  // if (notiz.length != 0) {
+  //  notiz[0].style.background = "transparent";
+  // }
 
-  //page-img
-  var postbg = document.getElementsByClassName("post-bg");
-  if (postbg.length != 0) {
-    postbg[0].style.background = "#fff0";
-  }
+  // //page-img
+  // var postbg = document.getElementsByClassName("post-bg");
+  // if (postbg.length != 0) {
+  //   postbg[0].style.background = "#fff0";
+  // }
 
 
   /**
