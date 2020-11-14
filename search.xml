@@ -5,6 +5,31 @@
     
     <entry>
       <title>Linux系统管理--文件系统管理</title>
+      <link href="2020/11/13/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E9%AB%98%E7%BA%A7%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/"/>
+      <url>2020/11/13/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E9%AB%98%E7%BA%A7%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
+      
+        <content type="html"><![CDATA[<h2 id="磁盘配额"><a class="markdownIt-Anchor" href="#磁盘配额"></a> 磁盘配额</h2><h3 id="磁盘配额概念"><a class="markdownIt-Anchor" href="#磁盘配额概念"></a> 磁盘配额概念</h3><blockquote><p>磁盘配额是计算机中指定磁盘的储存限制，就是管理员可以为用户所能使用的磁盘空间进行配额限制，每一用户只能使用最大配额范围内的磁盘空间。</p></blockquote><h3 id="磁盘配额条件"><a class="markdownIt-Anchor" href="#磁盘配额条件"></a> 磁盘配额条件</h3><ul><li>内核必须支持磁盘配额</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep CONFIG_QUOTA &#x2F;boot&#x2F;config-2.6.32-279.el6.i686 CONFIG_QUOTA&#x3D;y</span><br><span class="line">CONFIG_QUOTA_NETLINK_INTERFACE&#x3D;y</span><br><span class="line"># CONFIG_QUOTA_DEBUG is not set</span><br><span class="line">CONFIG_QUOTA_TREE&#x3D;y</span><br><span class="line">CONFIG_QUOTACTL&#x3D;y</span><br></pre></td></tr></table></figure><ul><li>系统中必须安装了 quota 工具，我们的Linux默认是安装了 quota 工具的，查看命令如下：</li></ul><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm  -qa  |  grep  quota</span><br><span class="line">quota-3.17-16.el6.i686</span><br></pre></td></tr></table></figure><p>要支持磁盘配额的分区必须开启磁盘配额功能，这个功能需要手工开启，不再是默认开启。</p><h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3><p>1）用户配额和组配额<br />2）磁盘容量限制和文件个数限制<br />3）软限制和硬限制<br />4）宽限时间</p><blockquote><p>如果用户的空间占用数处于软限制和硬限制之间，系统会在用户登陆时警告用户磁盘将满，这个时间就是宽限时间，默认是7天。如果达到了宽限时间，用户的磁盘占用量还超过软限制，那么软限制就会升级成为硬限制。</p></blockquote><h3 id="磁盘配额规划"><a class="markdownIt-Anchor" href="#磁盘配额规划"></a> 磁盘配额规划</h3>]]></content>
+      
+      
+      <categories>
+          
+          <category> linux系统管理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux系统管理--文件系统管理</title>
       <link href="2020/11/01/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/"/>
       <url>2020/11/01/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</url>
       
