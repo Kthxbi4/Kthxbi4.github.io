@@ -1,0 +1,6 @@
+// 设置随机背景的图片
+Secular.imgList = [
+  "https://cdn.jsdelivr.net/gh/Kthxbi4/images@master/pictures/-min.png"
+];
+// 调用随机背景
+Secular.randomBg();
