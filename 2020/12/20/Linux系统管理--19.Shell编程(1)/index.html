@@ -1,0 +1,519 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux系统管理--Shell编程(1) | Secular</title><meta name="keywords" content="linux"><meta name="author" content="Secular"><meta name="copyright" content="Secular"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="正则表达式  概述 正则表达式用来匹配符合条件的字符串，是包含匹配。在文件中搜索字符串的命令，如grep、awk、aed(文本三剑客) 等命令可以支持正则表达式。 通配符是用来匹配符合条件的文件名，是完全匹配。用ls、find、cp 这些命令进行匹配。  基础正则表达式  	 	    元字符 	    作 用 	 	 	     *  	    前一个字符匹配0次或任意多次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统管理--Shell编程(1)">
+<meta property="og:url" content="http://www.wanchelai.com/2020/12/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--19.Shell%E7%BC%96%E7%A8%8B(1)/index.html">
+<meta property="og:site_name" content="Secular">
+<meta property="og:description" content="正则表达式  概述 正则表达式用来匹配符合条件的字符串，是包含匹配。在文件中搜索字符串的命令，如grep、awk、aed(文本三剑客) 等命令可以支持正则表达式。 通配符是用来匹配符合条件的文件名，是完全匹配。用ls、find、cp 这些命令进行匹配。  基础正则表达式  	 	    元字符 	    作 用 	 	 	     *  	    前一个字符匹配0次或任意多次">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux19.png">
+<meta property="article:published_time" content="2020-12-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-26T06:48:56.003Z">
+<meta property="article:author" content="Secular">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux19.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.wanchelai.com/2020/12/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--19.Shell%E7%BC%96%E7%A8%8B(1)/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/image/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/image/pwa/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/image/pwa/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/image/pwa/16.png"/><link rel="mask-icon" href="/image/pwa/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-26 14:48:56'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/other.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahzoa/hexo@latest/css/all.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div id="web_bg"></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/hy.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-paper-plane"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux19.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Secular</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-paper-plane"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Linux系统管理--Shell编程(1)</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-12-19T16:00:00.000Z" title="发表于 2020-12-20 00:00:00">2020-12-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-26T06:48:56.003Z" title="更新于 2021-04-26 14:48:56">2021-04-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="正则表达式"><a class="markdownIt-Anchor" href="#正则表达式"></a> 正则表达式</h2>
+<h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>正则表达式用来匹配符合条件的字符串，是包含匹配。在文件中搜索字符串的命令，如grep、awk、aed(文本三剑客) 等命令可以支持正则表达式。<br />
+通配符是用来匹配符合条件的文件名，是完全匹配。用ls、find、cp 这些命令进行匹配。</p>
+<h3 id="基础正则表达式"><a class="markdownIt-Anchor" href="#基础正则表达式"></a> 基础正则表达式</h3>
+<table>
+	<tr>
+	    <th>元字符</th>
+	    <th>作 用</th>
+	</tr >
+	<tr >
+	    <td> * </td>
+	    <td>前一个字符匹配0次或任意多次</td>
+	</tr>
+	<tr >
+	    <td> . </td>
+	    <td>匹配除了换行符外任意一个字符</td>
+	</tr>
+	<tr >
+	    <td> ^ </td>
+	    <td>匹配行首。例如：^hello会匹配以hello开头的行</td>
+	</tr>
+	<tr >
+	    <td>$</td>
+	    <td>匹配行尾。例如：hello$会匹配以hello结尾的行</td>
+	</tr>
+	<tr >
+	    <td>[ ]</td>
+	    <td>匹配中括号中指定的任意一个字符，只匹配一个字符。例如：[aeiou]匹配任意一个原因字母。</td>
+	</tr>
+	    <td>[^]</td>
+	    <td>匹配除中括号内字符以外的任意一个字符。例如：[^0-9]匹配任意一位非数字字符。</td>
+	</tr>
+	<tr >
+	    <td> \ </td>
+	    <td>转义符。用于取消讲特殊符号的含有取消。</td>
+	</tr>
+	<tr >
+	    <td>\{n\}</td>
+	    <td>表示其前面的字符恰好出现n次。例如：[0-9]\{4\} 匹配4为数字，[1][3-8][0-9]\{9\}  匹配手机号</td>
+	</tr>
+	<tr >
+	    <td>\{n,\}</td>
+	    <td>表示其前面的字符出现次数不小于n次。例如:[0-9]\{2,\} 表示两位及以上的数字。</td>
+	</tr>
+	<tr >
+	    <td> \{n,m\} </td>
+	    <td>表示前面的字符至少出现n次，最多出现m次。例如：[a-z]\{6,8\} 匹配6到8的小写字母。</td>
+	</tr>
+</table>
+<p>在~/.bashrc 文件中建立这个别名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi  &#x2F;root&#x2F;.bashrc</span><br><span class="line">alias grep&#x3D;&#39;grep --color&#x3D;auto&#39;</span><br></pre></td></tr></table></figure>
+<h4 id="练习文件建立"><a class="markdownIt-Anchor" href="#练习文件建立"></a> 练习文件建立</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi  test_rule.txt</span><br><span class="line">Mr. Li Ming said:</span><br><span class="line">he was the most honest man.</span><br><span class="line">123despise him.</span><br><span class="line"></span><br><span class="line">But since Mr. shen Chao came,</span><br><span class="line">he never saaaid those words.</span><br><span class="line">555nice!</span><br><span class="line"></span><br><span class="line">because,actuaaaally,</span><br><span class="line">Mr. Shen Chao is the most honest man</span><br><span class="line"></span><br><span class="line">Later,Mr. Li ming soid his hot body</span><br></pre></td></tr></table></figure>
+<h4 id="前一个字符匹配0次或者任意多次"><a class="markdownIt-Anchor" href="#前一个字符匹配0次或者任意多次"></a> &quot; * &quot;前一个字符匹配0次，或者任意多次</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;a*&quot;  test_rule.txt</span><br><span class="line">Mr. Li Ming said:</span><br><span class="line">he was the most honest man.</span><br><span class="line">123despise him.</span><br><span class="line"></span><br><span class="line">But since Mr. shen Chao came,</span><br><span class="line">he never saaaid those words.</span><br><span class="line">5555nice!</span><br><span class="line"></span><br><span class="line">because,actuaaaally,</span><br><span class="line">Mr. Shen Chao is the most honest man</span><br><span class="line"></span><br><span class="line">Later,Mr. Li ming soid his hot body.</span><br></pre></td></tr></table></figure>
+<p>如果这样写正则表达式&quot;aa*&quot;代表这行字符串一定要有一个a，但是后面有没有a都可以。也就是说会匹配至少一个含有a的行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;aa*&quot;  test_rule.txt</span><br><span class="line">Mr. Li Ming said: </span><br><span class="line">he was the most honest man. </span><br><span class="line">But since Mr. shen Chao came, </span><br><span class="line">he never saaaid those words.</span><br><span class="line">because,actuaaaally  , </span><br><span class="line">Mr. Shen Chao is the most honest man </span><br><span class="line">Later,Mr. Li ming soid his hot body</span><br></pre></td></tr></table></figure>
+<p>如果是正则表达式是&quot;aaa*&quot;,则会匹配最少包含两个连续a的字符串，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;aaa*&quot;  test_rule.txt</span><br><span class="line">he never saaaid those words.</span><br><span class="line">because,actuaaaally,</span><br></pre></td></tr></table></figure>
+<h4 id="匹配除了换行符外任意字符"><a class="markdownIt-Anchor" href="#匹配除了换行符外任意字符"></a> &quot; . &quot;匹配除了换行符外任意字符</h4>
+<p>正则表达式&quot; . &quot;只能匹配一个字符，这个字符可以是任意字符，举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;s..d&quot;  test_rule.txt</span><br><span class="line">Mr. Li Mingsaid: </span><br><span class="line">Later,Mr. Li ming soid his hot body.</span><br><span class="line">#&quot;s..d&quot; 会匹配在s和d这两个字母之间一定有两个字符的单词</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# grep  &quot;s.*d&quot;  test_rule.txt</span><br><span class="line">Mr. Li Ming said: </span><br><span class="line">he never saaaid those words.</span><br><span class="line">Later,Mr. Li ming soid his hot body.</span><br><span class="line">#最后一句加粗部分为&quot;soid his hot bod&quot;</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# grep  &quot;.*&quot;  test_rule.txt</span><br></pre></td></tr></table></figure>
+<h4 id="匹配行首匹配行尾"><a class="markdownIt-Anchor" href="#匹配行首匹配行尾"></a> &quot;^“匹配行首，”$&quot;匹配行尾</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep &quot;^M&quot;  test_rule.txt</span><br><span class="line">#匹配行首以&quot;M&quot;开头的行</span><br><span class="line">Mr. Li Ming said:</span><br><span class="line">Mr. S hen Chao is the most honest man</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep &quot;n$&quot; test_rule.txt</span><br><span class="line">Mr. Shen Chao is the most honest man</span><br><span class="line">#匹配行尾以&quot;n&quot;的结尾的行</span><br></pre></td></tr></table></figure>
+<p>而&quot;^$&quot;则会匹配空白行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;^$&quot;  test_rule.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="匹配中括号中指定的任意一个字符只匹配一个字符"><a class="markdownIt-Anchor" href="#匹配中括号中指定的任意一个字符只匹配一个字符"></a> &quot;[ ]&quot;匹配中括号中指定的任意一个字符，只匹配一个字符</h4>
+<p>例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;s[ao]id&quot;  test_rule.txt</span><br><span class="line">#只能匹配中括号中的一个字符,结果只能是 &quot;s[a]id&quot;或&quot;s[o]id&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果正则是 &quot;^[A-Z]&quot; ,代表匹配用大写字母开头的行：</span><br><span class="line">[root@localhost ~]# grep  &quot;^[A-Z]&quot;  test_rule.txt</span><br><span class="line">#只能匹配以大写字母开头的行</span><br></pre></td></tr></table></figure>
+<h4 id="匹配除括号中的字符以外的任意一个字符"><a class="markdownIt-Anchor" href="#匹配除括号中的字符以外的任意一个字符"></a> “[^]” 匹配除括号中的字符以外的任意一个字符</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep &quot;[^a-z]&quot;  test_rule.txt</span><br><span class="line">#匹配不是以小写字母开头的行</span><br></pre></td></tr></table></figure>
+<h4 id="转义符"><a class="markdownIt-Anchor" href="#转义符"></a> “” 转义符</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;\.$&quot;  test_rule.txt</span><br><span class="line">#匹配以&quot; . &quot;结尾的行</span><br></pre></td></tr></table></figure>
+<h4 id="n表示其前面的字符恰好出现n次"><a class="markdownIt-Anchor" href="#n表示其前面的字符恰好出现n次"></a> &quot;{n}&quot;表示其前面的字符恰好出现n次</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;a\&#123;3\&#125;&quot;  test_rule.txt</span><br><span class="line">#匹配三个连续的&quot;a&quot;</span><br></pre></td></tr></table></figure>
+<p>如果先要只显示三个连续的&quot; a &quot;,可以这样写:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;[su]a\&#123;3\&#125;[il]&quot;  test_rule.txt</span><br></pre></td></tr></table></figure>
+<p>如果正则是&quot;[0-9]{3}&quot; 则会匹配包含连续三个数字的字符串：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;[0-9]\&#123;3\&#125;&quot; test_rule.txt</span><br></pre></td></tr></table></figure>
+<p>虽然&quot;5555&quot;有四个连续数字，但是包含三个连续数字，所有也是可以列出来的。这样就不能体现出来&quot;[0-9]{3}&quot; 只能匹配三个连续数字，而不能匹配四个连续数字。那么正则应该这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;^[0-9]\&#123;3\&#125;[a-z]&quot;  test_rule.txt</span><br><span class="line">123despise him.</span><br><span class="line">#只能匹配连续三个数字开头的行</span><br></pre></td></tr></table></figure>
+<h4 id="n表示其前面的字符出现不小于n次"><a class="markdownIt-Anchor" href="#n表示其前面的字符出现不小于n次"></a> &quot;{n,}&quot;表示其前面的字符出现不小于n次</h4>
+<p>例:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;zo\&#123;3,\&#125;m&quot;  test_rule.txt</span><br><span class="line">#表示匹配&quot; z &quot;开头，&quot; m &quot;结尾，中间至少有三个&quot; o &quot;的字符串</span><br></pre></td></tr></table></figure>
+<h4 id="nm-匹配其前面的字符至少出现n次最多出现m次"><a class="markdownIt-Anchor" href="#nm-匹配其前面的字符至少出现n次最多出现m次"></a> “{n,m}” 匹配其前面的字符至少出现n次，最多出现m次</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# grep  &quot;sa\&#123;1,3\&#125;i&quot;  test_rule.txt</span><br><span class="line">#匹配在字母s和字母i之间最少有一个a，最多有三个a</span><br></pre></td></tr></table></figure>
+<h3 id="扩展正则表达式"><a class="markdownIt-Anchor" href="#扩展正则表达式"></a> 扩展正则表达式</h3>
+<p>正则表达式中还可以支持一些元字符，比如&quot;+&quot; “?” “|” “( )”。Linux是支持这些元字符的，只是grep命令默认不支持，要想要支持这些字符，必须使用egrep命令或grep -E选项，所以我们又把这些元字符称作扩展元字符。<br />
+如果查询grep的帮助，对egrep的说明就是grep -E 选项一样的命令，所以我们可以把两个命令当中别名来区别对待。Shell中支持的扩展元字符：</p>
+<table>
+	<tr>
+	    <th>扩展元字符</th>
+	    <th>作 用</th>
+	</tr >
+	<tr >
+	    <td> + </td>
+	    <td>前一个字符匹配1次或任意多次。如果 "go+gle" 会匹配 "gogle" 、"google" 或"gooogle",当然如果"o"有多个，也能匹配。</td>
+	</tr>
+	<tr >
+	    <td> ? </td>
+	    <td>前一个字符匹配0次或1次。如"colou?r" 可以匹配"colour"或"color"。</td>
+	</tr>
+	<tr>
+		<td>I</td>
+		<td>匹配两个或多个分支选择。如"was|his"会匹配既包含"was"的行，也可以匹配"his"的行</td>
+	</tr>
+	<tr>
+		<td>( )</td>
+		<td>匹配其整体为一个字符，即模式单元。可以理解为由多个单个字符组成的大字符。如"(dog)+"会匹配成"dog"、"dogdog"、"dogdogdog"等，因为被（）包含的字符会当成一个整体。但"helllo(world|earth)"会匹配"hello world"及"hello earth"。</td>
+	</tr>
+</table>
+<h2 id="字符截取和替换命令"><a class="markdownIt-Anchor" href="#字符截取和替换命令"></a> 字符截取和替换命令</h2>
+<h3 id="cut-列提取命令"><a class="markdownIt-Anchor" href="#cut-列提取命令"></a> cut 列提取命令</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cut  [选项]  文件名</span><br><span class="line">&#96;选项：</span><br><span class="line">-f 列号：提取第几列</span><br><span class="line">-d 分隔符： 按照指定分隔符分割</span><br><span class="line">-c 字符范围： 不依赖分隔符来区分列，而是通过字符范围（行首为0）来进行字段提取.&quot;n-&quot;表示从第n个字符到行尾；&quot;n-m&quot;从第n个字符到第m个字符；&quot;-m&quot;比骚hi从第1个字符到第m个字符。</span><br></pre></td></tr></table></figure>
+<p>cut命令的默认分隔符是制表符，也就是&quot;tab&quot;键，不过对空格符的支持不怎么好。我么先建立一个测试文件，然后看看cut命令的作用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi  student.txt</span><br><span class="line">ID      Name    gender  Mark</span><br><span class="line">1       Lm       M       86</span><br><span class="line">2       Sc      M       90</span><br><span class="line">3       Tg     M       83 </span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cut  -f  2  student.txt</span><br><span class="line">#提取第二列内容</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# cut  -f  2,3  student.txt</span><br><span class="line">#提取多列，只要列号直接用&quot;,&quot;分开。</span><br></pre></td></tr></table></figure>
+<p>cut可以按照字符进行提取，需要注意&quot;8-“代表的是提取所有行的第十个字符到行尾，而&quot;10-20&quot;代表提取所有行的第十个字符到第二十个字符，而”-8&quot;代表提取所有行从行首到第八个字符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cut  -c  8-  student.txt</span><br><span class="line">#提取第八个字符开始到行尾</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cut  -d  &quot;:&quot;  -f  1,3  &#x2F;etc&#x2F;passwd</span><br><span class="line">#以&quot; : &quot; 作为分隔符，提取&#x2F;etc&#x2F;passwd文件的第一列和第三列</span><br></pre></td></tr></table></figure>
+<h3 id="awk编程"><a class="markdownIt-Anchor" href="#awk编程"></a> awk编程</h3>
+<h4 id="概述-2"><a class="markdownIt-Anchor" href="#概述-2"></a> 概述</h4>
+<h4 id="printf格式化输出"><a class="markdownIt-Anchor" href="#printf格式化输出"></a> printf格式化输出</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# printf  &#39;输出类型输出格式&#39;  输出内容</span><br><span class="line">输出类型：</span><br><span class="line">%ns：输出字符串。n是数字指代输出几个字符</span><br><span class="line">%ni：输出整数。n是数字指代输出几个数字</span><br><span class="line">%m.nf：输出浮点数。n和m是数字，指代输出的整数位数和小数位数。如%8.2f代表共输出8位数，其中2位是小数，6位是整数。</span><br><span class="line"></span><br><span class="line">输出格式：</span><br><span class="line">\a：输出警告声音</span><br><span class="line">\b：输出退格键，也就是Backspace键</span><br><span class="line">\f：清除屏幕</span><br><span class="line">\n：换行</span><br><span class="line">\r：回车，就是Enter键</span><br><span class="line">\t：水平输出退格键，就是Tab键</span><br><span class="line">\v：垂直输出退格键，就是Tab键</span><br></pre></td></tr></table></figure>
+<p>创建一个student.txt文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi  student.txt</span><br><span class="line">ID      Name      PHP     Linux      MySQL      Average</span><br><span class="line">1       lm        82        95        86        87.66</span><br><span class="line">2       Sc        74        96        87        85.66 </span><br><span class="line">3       Tg        99        83        93        91.66</span><br></pre></td></tr></table></figure>
+<p>使用printf命令输出这个文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# printf  &#39;%s&#39;  $(cat  student.txt)</span><br><span class="line">IDNamegenderPHPLinuxMySQLAverage1LimingM82958687.662ScM74968785.663TgM99839391.66[root@localhost ~]#</span><br></pre></td></tr></table></figure>
+<p>我们可以看到上面输出内容完全没有按格式输出。这就是printf命令，如果不指定输出格式，就会把输出内容连在一起输出。因为cat命令已经设定了输出格式，所以这里应该合理使用printf的输出格式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# printf  &#39;%s\t %s\t %s\t %s\t %s\t %s\t \n&#39;  $(cat  student.txt)</span><br><span class="line">#注意在printf命令的单引号中，只能识别格式输出符号，而手工输入的空格是无效的。</span><br><span class="line">ID      Name      PHP     Linux      MySQL      Average</span><br><span class="line">1       lm        82        95        86        87.66</span><br><span class="line">2       Sc        74        96        87        85.66 </span><br><span class="line">3       Tg        99        83        93        91.66</span><br></pre></td></tr></table></figure>
+<p>如果不把成绩当成字符串输出，而是按照整型和浮点输出，要这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# printf  &#39;%i\t %s\t %i\t %i\t %i\t %8.2f\t \n&#39; \</span><br><span class="line">$(cat student.txt | grep -v Name)</span><br></pre></td></tr></table></figure>
+<h4 id="awk基本使用"><a class="markdownIt-Anchor" href="#awk基本使用"></a> awk基本使用</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk  &#39;条件1&#123;动作1&#125;  条件2&#123;动作2&#125; ...&#39;  文件名</span><br><span class="line">条件(Pattern)：</span><br><span class="line">一般使用关系表达式作为条件，这些关系表达式非常多，例如：</span><br><span class="line">x &gt; 10  判断变量 x 是否大于10</span><br><span class="line">x &#x3D;&#x3D; y  判断变量 x 是否等于变量 y</span><br><span class="line">A ~ B   判断字符串 A 中是否包含能匹配B 表达式的子字符串</span><br><span class="line">A !~ B   判断字符串 A 中是否不包含能匹配 B 表达式的子字符串  </span><br><span class="line">动作：</span><br><span class="line"> 格式化输出</span><br><span class="line"> 流程控制语句</span><br></pre></td></tr></table></figure>
+<p>awk基本用法举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk  &#39;&#123;printf  $2  &quot;\t&quot;  $6  &quot;\n&quot;&#125;&#39;  student.txt</span><br><span class="line">#输出第二列和第六列</span><br></pre></td></tr></table></figure>
+<h4 id="awk-的条件"><a class="markdownIt-Anchor" href="#awk-的条件"></a> awk 的条件</h4>
+<table>
+	<tr>
+	    <th>条件的类型</th>
+	    <th>条件</th>
+	    <th>说明</th>  
+	</tr >
+	<tr >
+	    <td rowspan="2">awk保留字</td>
+	    <td>BEGIN</td>
+	    <td>在awk程序一开始时，尚未读取任何数据之前执行。BEGIN后的动作只在程序开始时执行一次。</td>
+	</tr>
+	<tr>
+	    <td>END</td>
+	    <td>在awk程序处理完所有数据，即将结束时执行。END后的动作只在程序结束时执行一次。</td>
+	</tr>
+	<tr >
+	    <td rowspan="8">关系运算符</td>
+	    <td> > </td>
+	    <td>大于</td>
+	</tr>
+	<tr>
+	    <td> < </td>
+	    <td> 小于 </td>
+	</tr>
+	<tr>
+	    <td> >= </td>
+	    <td> 大于等于 </td>
+	</tr>
+	<tr>
+	    <td> <= </td>
+	    <td> 小于等于 </td>
+	</tr>
+	<tr>
+	    <td> == </td>
+	    <td> 等于。用于判断两个值是否相等，如果是给变量赋值，请使用" = "号。 </td>
+	</tr>
+	<tr>
+	    <td> != </td>
+	    <td> 不等于 </td>
+	</tr>
+	<tr>
+	    <td> A~B </td>
+	    <td> 判断字符串A中是否包含能匹配B表达式的子字符串 </td>
+	</tr>
+	<tr>
+	    <td> A!~B </td>
+	    <td> 判断字符串A中是否不包含能匹配B表达式的子字符串</td>
+	</tr>
+	<tr >
+	    <td rowspan="1"> 正则表达式</td>
+	    <td>/正则/</td>
+	    <td>如果在"//"中可以写入字符，也可以支持正则表达式</td>
+	</tr>
+</table>
+<ul>
+<li>BEGIN<br />
+BEGIN式awk的保留字，是一种特殊的条件类型。BEGIN的执行时机式&quot;在awk程序一开始时，尚未读取任何数据之前执行&quot;。一旦BEGIN后的动作执行一次，当awk开始从文件中读取数据，BEGIN的条件就不再成立，所以BEGIN定义的动作只能被执行一次。例如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  awk &#39;BEGIN&#123;print&quot;This is a transcript&quot;&#125; &#123;printf $2 &quot;\t&quot; $6 &quot;\n&quot;&#125;&#39; student.txt</span><br><span class="line">#awk命令只要检测不到完整的单引号不会执行，所以这个命令的换行不用加入&quot;\&quot;，就是一行命令</span><br><span class="line">#这里定义了两个动作，第一个动作用BEGIN条件，所以会在读取文件数据前打印&quot;这是一张成绩单&quot;(只执行一次)。第二个动作会打印文件的第二段和第六段</span><br></pre></td></tr></table></figure>
+<ul>
+<li>END<br />
+END 也是awk’保留字，不过刚好和BEGIN相反。END是在awk程序处理完所有数据，即将结束时执行。END后的动作只在程序结束时执行一次。例如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;END&#123;printf &quot;The END \n&quot;&#125; &#123;print $2 &quot;\t&quot; $6 &quot;\n&quot;&#125;&#39; student.txt</span><br><span class="line">#在输出结尾输入&quot;The END&quot;,这并不是文档本身的内容，而且只会执行一次</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关系运算符<br />
+举例1：查询平均成绩大于等于87分的学员是谁：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;$6 &gt;&#x3D; 87 &#123;printf $2 &quot;\n&quot;&#125;&#39; student.txt | grep -v Name</span><br><span class="line">[root@localhost ~]# grep -v &quot;Name&quot; student.txt | awk &#39;$6 &gt;&#x3D; 87 &#123;print $2&#125;&#39;</span><br><span class="line">[root@localhost ~]# cat student.txt | grep -v Name | awk &#39;$6 &gt;&#x3D; 87 &#123;printf $2 &quot;\n&quot; &#125;&#39;</span><br><span class="line">Lm</span><br><span class="line">Tg</span><br><span class="line">#以上三种都可以</span><br><span class="line">#判断第六字段（平均成绩）大于等于87分的行，如果判断式成立，则打第六列（学员名）</span><br></pre></td></tr></table></figure>
+<p>加入条件后，只有条件成立才会执行，如果条件不满足，则动作不运行。通过这个实验可以发现，虽然awk是列提取命令，但是也要按行来读取的。这个命令的执行过程是这样的：<br />
+①如果有BEGIN条件，则先则先BEGIN定义的动作。<br />
+②如果没有BEGIN条件，则读入第一行，把第一行的数据一次赋予$0、$1、$2等变量，其中$0代表此行的整体数据，$1代表第一字段，$2代表第二字段。<br />
+③依据条件类型判断动作是否执行。如果条件符合，则执行动作，否则读入下一行数据。如果没有条件，则每行都指向动作。<br />
+④读入下一行数据，重复执行以上步骤。<br />
+举例2：查询Sc用户的平均成绩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;$2 ~ &#x2F;Sc&#x2F; &#123;print $6&#125;&#39; student.txt</span><br><span class="line">#如果第二字段中输入包含&quot;Sc&quot;字符，则打印第六字段数据</span><br><span class="line">85.66</span><br></pre></td></tr></table></figure>
+<p>这里要注意在awk中，使用&quot;//“包含的字符串，awk命令才会查找。也就是说字符串必须用”//&quot;包含，awk命令才能正确识别。</p>
+<ul>
+<li>正则表达式<br />
+如果想让awk识别字符串，必须使用&quot;//&quot;包含，例如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">例1：</span><br><span class="line">[root@localhost ~]# awk &#39;&#x2F;Lm&#x2F; &#123;print&#125;&#39; student.txt</span><br><span class="line">#打印Lm的成绩</span><br></pre></td></tr></table></figure>
+<p>当使用 df 命令查看分区使用情况时，如果我们只想查看真正的系统分区的使用情况，而不想查看光盘和临时分区的使用情况，则可以：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# df -h | awk &#39;&#x2F;sda[0-9]&#x2F; &#123;print $1 &quot;\t&quot; $5&#125;&#39;</span><br><span class="line">#查询包含有sda数字的行，并打印第一字段和第五字段</span><br></pre></td></tr></table></figure>
+<h4 id="awk内置变量"><a class="markdownIt-Anchor" href="#awk内置变量"></a> awk内置变量</h4>
+<p>awk 内置变量 | 作 用<br />
+$0 | 代表目前awk所读入的整行数据。我们已知awk时一行一行读入数据的，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn><mi mathvariant="normal">就</mi><mi mathvariant="normal">代</mi><mi mathvariant="normal">表</mi><mi mathvariant="normal">当</mi><mi mathvariant="normal">前</mi><mi mathvariant="normal">读</mi><mi mathvariant="normal">入</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">整</mi><mi mathvariant="normal">行</mi><mi mathvariant="normal">数</mi><mi mathvariant="normal">据</mi><mi mathvariant="normal">。</mi></mrow><annotation encoding="application/x-tex">0就代表当前读入行的整行数据。
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord cjk_fallback">就</span><span class="mord cjk_fallback">代</span><span class="mord cjk_fallback">表</span><span class="mord cjk_fallback">当</span><span class="mord cjk_fallback">前</span><span class="mord cjk_fallback">读</span><span class="mord cjk_fallback">入</span><span class="mord cjk_fallback">行</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">整</span><span class="mord cjk_fallback">行</span><span class="mord cjk_fallback">数</span><span class="mord cjk_fallback">据</span><span class="mord cjk_fallback">。</span></span></span></span>n | 代表目前读入行的第n个字段。<br />
+NF(常用) | 当前行拥有的字段(列)总数。<br />
+NR(常用) | 当前awk所处理的行，是总数据的第几行。<br />
+FS(常用) | 用户定义分隔符。awk的默认分隔符是任何空格，如果想要使用其他分隔符(如&quot; : &quot;)，就需要FS变量定义。<br />
+ARGC | 命令行参数个数。<br />
+ARGV | 命令行参数数组。<br />
+FNR | 当前文件中的当前记录数(对输入文件起始为1)。<br />
+OFMT | 数值的输出格式(默认为%.6g)。<br />
+OFS | 输出字段的分隔符(默认为空格)。<br />
+ORS | 输出记录分隔符(默认为换行符)。<br />
+RS | 输入记录分隔符 (默认为换行符)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat &#x2F;etc&#x2F;passwd | grep &quot;&#x2F;bin&#x2F;bash&quot; | awk &#39;&#123;FS&#x3D;&quot;:&quot;&#125; &#123;printf $1 &quot;\t&quot; $3 &quot;\n&quot;&#125;&#39;</span><br><span class="line">#查询可以登录的用户的用户名和UID</span><br></pre></td></tr></table></figure>
+<p>这里会发现分隔符&quot; : “生效了，但是第一行没起作用，加上&quot;BEGIN” 再试试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat &#x2F;etc&#x2F;passwd | grep &quot;&#x2F;bin&#x2F;bash&quot; | awk &#39;BEGIN&#123;FS&#x3D;&quot;:&quot;&#125; &#123;printf $1 &quot;\t&quot; $3 &quot;\n&quot;&#125;&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat &#x2F;etc&#x2F;passwd | grep &quot;&#x2F;bin&#x2F;bash&quot; | awk &#39;BEGIN &#123;FS&#x3D;&quot;:&quot;&#125; &#123;printf $1 &quot;\t&quot; $3 &quot;\t 行号：&quot; NR &quot;\t 字段数：&quot; NF &quot;\n&quot;&#125;&#39;</span><br><span class="line">#开始执行&#123;分隔符是&quot; : &quot;&#125; &#123;输出第一字段和第三字段 输出行号(NR值) 字段数(NF值)&#125;</span><br><span class="line">root	0	 行号：1	 字段数：7</span><br><span class="line">cxk	1000	 行号：2	 字段数：7</span><br></pre></td></tr></table></figure>
+<h4 id="awk流程控制"><a class="markdownIt-Anchor" href="#awk流程控制"></a> awk流程控制</h4>
+<p>举例：在awk中定义变量与调用变量的值来统计PHP成绩的总分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;NR&#x3D;&#x3D;2&#123;php1&#x3D;$3&#125; NR&#x3D;&#x3D;3&#123;php2&#x3D;$3&#125; NR&#x3D;&#x3D;4&#123;php3&#x3D;$3;totle&#x3D;php1+php2+php3;print &quot;totle php is &quot; totle&#125;&#39; student.txt</span><br><span class="line">#统计PHP成绩的总分</span><br></pre></td></tr></table></figure>
+<p>我们解释下这个命令。“NR<mark>2{php1=$3}”（条件是NR</mark>2，动作是php1=$3）这句话是指如果输入数据是第二行（第一行是标题行），就把第二行的第三字段的值赋予变量“php1”。“NR<mark>3{php2=$3}”这句话是指如果输入数据是第三行，就把第三行的第三字段的值赋予变量“php2”。“NR</mark>4{php3=$3;totle=php1+php2+php3;print &quot;totle php is &quot; totle}”（“NR==4”是条件，后面{}中的都是动作）这句话是指如果输入数据是第四行，就把第四行的第三字段的值赋予变量“php3”；然后定义变量totle的值是“php1+php2+php3”；然后输出“totle php is”关键字，后面加变量totle的值。<br />
+在awk编程中，因为命令语句非常长，在输入格式时需要注意以下内容：</p>
+<ul>
+<li>多个条件{动作} 可以用空格分隔，也可以用回车分隔。</li>
+<li>在一个动作中，如果需要执行多个命令，需要用&quot; : &quot;分隔，或者用回车分隔。</li>
+<li>在awk中，变量的赋值与调用都不需要加 $  符。</li>
+<li>条件中判断两个值是否相同，请使用&quot;==&quot; ,以便于区分。</li>
+</ul>
+<p>在看看该如何实现流程控制，假设如果Linux成绩大于90，就是一个好男人（学PHP的表示压力很大！）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;&#123;if (NR&gt;&#x3D;2)&#123;if ($4&gt;90) print $2 &quot;is a good man!&quot;&#125;&#125;&#39; student.txt</span><br><span class="line">#程序组有两个if判断，第一个判断行号大于等于2，第二个判断Linux成绩大于90分。</span><br><span class="line">Lm is a good man!</span><br><span class="line">Sc is a good man!</span><br></pre></td></tr></table></figure>
+<p>其实在awk中if判断语句，完全可以直接利用awk自带的条件来取代，刚刚的脚本可以改写成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39; NR&gt;&#x3D;2 &#123;test&#x3D;$4&#125; test&gt;90 &#123;printf $2 &quot;is a good man!\n&quot;&#125;&#39;student.txt</span><br><span class="line">#先判断行号如果大于2，就把第四字段赋予变量test</span><br><span class="line">#再判断如果test的值大于90分，就打印输出</span><br></pre></td></tr></table></figure>
+<h4 id="awk-函数"><a class="markdownIt-Anchor" href="#awk-函数"></a> awk 函数</h4>
+<p>awk编程也允许在编程时使用函数，这里讲解awk的自定义函数。awk函数的定义方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function 函数名(参数列表)&#123;</span><br><span class="line">	函数体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们定义一个函数，使用函数来打印student.txt的学员姓名和平均成绩，应该这样写函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk &#39;function test(a,b) &#123; printf a &quot;\t&quot; b &quot;\n&quot;&#125; &#123; test($2,$6) &#125;&#39; student.txt</span><br><span class="line">#使用函数test，包含两个参数，函数体的内容是输出这两个参数的值。</span><br><span class="line">Name	Averag</span><br><span class="line">Lm	87.66</span><br><span class="line">Sc	85.66</span><br><span class="line">Tg	91.66</span><br></pre></td></tr></table></figure>
+<h4 id="awk中调用脚本"><a class="markdownIt-Anchor" href="#awk中调用脚本"></a> awk中调用脚本</h4>
+<p>对于小弟单行程序来说，将脚本作为命令行自变量传递给awk是非常简单的，而对于多行程序就比较难处理。当程序是多行的时候，使用外部脚本是很适合的。首先在外部文件中写好脚本，然后可以使用awk的 -f 选项，使其读入脚本并执行。<br />
+例如,我们先编写一个awk脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi pass.awk</span><br><span class="line">BEGIN &#123;FS&#x3D;&quot;:&quot;&#125;</span><br><span class="line">&#123; print $1 &quot;\t&quot; $3&#125;</span><br></pre></td></tr></table></figure>
+<p>然后使用&quot; -f &quot;选项来调用这个脚本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# awk  -f  pass.awk  &#x2F;etc&#x2F;passwd</span><br><span class="line">root    0</span><br><span class="line">bin     1</span><br><span class="line">daemon  2</span><br><span class="line">...省略部分输出...</span><br></pre></td></tr></table></figure>
+<h3 id="sed-命令"><a class="markdownIt-Anchor" href="#sed-命令"></a> sed 命令</h3>
+<h4 id="sed命令介绍"><a class="markdownIt-Anchor" href="#sed命令介绍"></a> sed命令介绍</h4>
+<p>sed 主要是用来将数据进行选取、替换、删除、新增的命令，语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  [选项]  &#39;[动作]&#39;  文件名</span><br><span class="line">选项：</span><br><span class="line">-n ：一般sed命令会把所有数据都输出到屏幕，如果加入此选择，则只会把经过sed命令处理的行输出到屏幕。</span><br><span class="line">-e ：允许对输出数据应用多条sed命令编辑。</span><br><span class="line">-f  脚本文件名 ：从sed脚本中读入sed操作。和awk命令的-f 非常类似。</span><br><span class="line">-r ： 在sed 中支持扩展正则表达式。</span><br><span class="line">-i ： 用sed的修改结果直接修改读取数据的文件，而不是由屏幕输出。</span><br><span class="line">动作：</span><br><span class="line">a \ ：追加，在当前行后添加一行或多行，添加多行时，除最后一行外，每行末尾需要用&quot;\&quot;代表数据未完结。</span><br><span class="line">c \ ：行替换，用 c 后面的字符串替换原数据行，替换多行时，除最后一行外，每行末尾需用&quot;\&quot;代表数据未完结。</span><br><span class="line">i \ ：插入，在当前行前插入一行或多行。插入多行时，除最后一行外，每行末尾需要用&quot;\&quot;代表数据未完结。</span><br><span class="line">d ： 删除，删除指定行。</span><br><span class="line">p : 打印，输出指定的行。</span><br><span class="line">s ： 字符串替换，用一个字符串替换另外一个字符串。格式为&quot;行范围s&#x2F;旧字符串&#x2F;新字符串&#x2F;g&quot; (和vim中的替换格式类似)。</span><br></pre></td></tr></table></figure>
+<p>注意：sed所做的修改不会直接改变文件的内容，而是把修改的结果显示到屏幕上，除非使用&quot; -i &quot;选项才会修改文件。</p>
+<h4 id="行数据操作"><a class="markdownIt-Anchor" href="#行数据操作"></a> 行数据操作</h4>
+<p>查看student.txt的第二行用&quot; p &quot;动作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed &#39;2p&#39; student.txt</span><br><span class="line">ID      Name    PHP   Linux   MySQL   Averag</span><br><span class="line">1       Lm        82      95      86      87.66</span><br><span class="line">1       Lm        82      95      86      87.66</span><br><span class="line">2       Sc        74      96      87      85.66</span><br><span class="line">3       Tg        99      83      93      91.66</span><br><span class="line">#sed把所有数据输出了一遍并把第二行打印了两遍，效果未达到。</span><br><span class="line">#这时需要使用&quot; -n &quot;选项指定输出某行数据</span><br><span class="line">[root@localhost ~]# sed -n &#39;2p&#39; student.txt</span><br><span class="line">1       Lm        82      95      86      87.66</span><br></pre></td></tr></table></figure>
+<p>删除文件数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  &#39;2,4d&#39;  student.txt</span><br><span class="line">#删除第二行到第四行的数据</span><br><span class="line">ID      Name      PHP     Linux   MySQL   Averag</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# cat student.txt</span><br><span class="line">#查看原文件发现数据并没有被修改</span><br><span class="line">ID      Name      PHP     Linux   MySQL   Averag</span><br><span class="line">1       Lm        82      95      86      87.66</span><br><span class="line">1       Lm        82      95      86      87.66</span><br><span class="line">2       Sc        74      96      87      85.66</span><br><span class="line">3       Tg        99      83      93      91.66</span><br></pre></td></tr></table></figure>
+<p>追加和插入行数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  &#39;2a hello&#39;  student.txt</span><br><span class="line">#在第二行后加入hello</span><br></pre></td></tr></table></figure>
+<p>&quot; a “会在指定行后面加入数据，如果想要在指定的行前面加入数据，则需要使用” i &quot;动作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed &#39;2i hello \</span><br><span class="line">&gt;world&#39;  student.txt</span><br><span class="line">#在第二行前插入两行数据</span><br></pre></td></tr></table></figure>
+<p>如果是想追加多行数据，除最后一行外，每行的末尾都要加入&quot;“代表数据未完结。再来看看”-n&quot;选项的作用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  -n  &#39;2i hello  \</span><br><span class="line">#只查看sed命令操作的数据</span><br><span class="line">&gt; world&#39;  student.txt</span><br></pre></td></tr></table></figure>
+<p>&quot; -n &quot; 只查看 sed 命令操作的数据，而不是查看所有的数据。<br />
+行数据替换，替换第二行数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat student.txt | sed &#39;2c No such person&#39;</span><br></pre></td></tr></table></figure>
+<p>sed 命令默认是不会修改文件内容的，如果确定要让sed命令直接处理文件的内容，可以使用&quot; -i &quot;选项（谨慎操作）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  -i  &#39;2c No such person&#39;  student.txt</span><br></pre></td></tr></table></figure>
+<h4 id="字符串替换"><a class="markdownIt-Anchor" href="#字符串替换"></a> 字符串替换</h4>
+<p>&quot; c “动作是进行整行替换的，如果仅想替换行中的部分数据，就要使用” -s &quot;动作。s动作的格式是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  &#39;s&#x2F;旧字符串&#x2F;新字符串&#x2F;g&#39;  文件名</span><br></pre></td></tr></table></figure>
+<p>替换格式和vim类似，假设想把Sc的PHP成绩改成99就可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed &#39;3s&#x2F;74&#x2F;99&#x2F;g&#39;  student.txt</span><br><span class="line">#在第三行中，把74换成99</span><br></pre></td></tr></table></figure>
+<p>如果想把第四行注释掉可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  &#39;4s&#x2F;^&#x2F;#&#x2F;g&#39;  student.txt</span><br><span class="line">#这里使用正则表达式，&quot; ^ &quot; 表示行首</span><br></pre></td></tr></table></figure>
+<p>在sed中只能指定行范围，但是Sc在Lm和Tg中间，不能把他们两个注释掉，可以这样做：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  -e  &#39;s&#x2F;Lm&#x2F;&#x2F;g  ;  s&#x2F;Tg&#x2F;&#x2F;g&#39;  student.txt</span><br><span class="line">#同时把&quot;Lm&quot; 和 &quot;Tg&quot; 替换为空</span><br></pre></td></tr></table></figure>
+<p>“-e”选项可以同时执行多个sed动作，当然如果只是执行一个动作也可以使用“-e”选项，但是这时没有什么意义。还要注意，多个动作之间要用“；”号或回车分割，例如上一个命令也可以这样写:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sed  -e  &#39;s&#x2F;Lm&#x2F;&#x2F;g</span><br><span class="line">&gt; s&#x2F;Tg&#x2F;&#x2F;g&#39;  student.txt</span><br><span class="line">#这两种写法都可以</span><br></pre></td></tr></table></figure>
+<h2 id="字符处理命令"><a class="markdownIt-Anchor" href="#字符处理命令"></a> 字符处理命令</h2>
+<h3 id="排序命令-sort"><a class="markdownIt-Anchor" href="#排序命令-sort"></a> 排序命令 sort</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sort  [选项]  文件名</span><br><span class="line">选项：</span><br><span class="line">-f ：忽略大小写</span><br><span class="line">-b：忽略每行前面的空白部分</span><br><span class="line">-n：以数值型进行排序，默认使用字符串排序</span><br><span class="line">-r：反向排序</span><br><span class="line">-u：删除重复行。就是uniq命令</span><br><span class="line">-t：指定分隔符，默认是分隔符是制表符</span><br><span class="line">-k n[,m]：按照指定到字段范围排序。从第n字段开始，m字段结束(默认到行尾)</span><br></pre></td></tr></table></figure>
+<p>sort 命令默认是用每行开头第一个字符来进行排序的，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sort  &#x2F;etc&#x2F;passwd</span><br><span class="line">#排序用户信息文件</span><br></pre></td></tr></table></figure>
+<p>如果想要反向排序，请使用&quot; -r &quot;选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sort  -r  &#x2F;etc&#x2F;passwd</span><br><span class="line">#反向排序</span><br></pre></td></tr></table></figure>
+<p>如果想要指定排序的字段，需要使用&quot; -t “选项指定分隔符，并使用” -k &quot;选项指定字段号。假如我想要按照UID字段排序/etc/passwd文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sort  -t  &quot;:&quot;  -k  3,3  &#x2F;etc&#x2F;passwd</span><br><span class="line">#指定分隔符&quot; : &quot;,用第三字段开头，第三字段结尾排序，就是用第三字段排序。</span><br></pre></td></tr></table></figure>
+<p>注意sort默认是按照字符排序，如果想要按照数字排序要使用&quot; -n &quot;选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# sort  -n  -t  &quot;:&quot;  -k  3,3  &#x2F;etc&#x2F;passwd</span><br></pre></td></tr></table></figure>
+<p>当然&quot; -k “选项可以直接使用”-k 3&quot;,代表从第三字段到行尾都排序(第一个字符优先排序，如果一致，第二个字符再排序，直到行尾)。</p>
+<h3 id="uniq"><a class="markdownIt-Anchor" href="#uniq"></a> uniq</h3>
+<p>uniq命令是用来取消重复行的命令，起始和&quot; sort  -u &quot; 选项是一样的。命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# uniq  [选项]  文件名</span><br><span class="line">选项： -i ：忽略大小写</span><br></pre></td></tr></table></figure>
+<h3 id="统计命令-wc"><a class="markdownIt-Anchor" href="#统计命令-wc"></a> 统计命令 wc</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# wc  [选项]  文件名</span><br><span class="line">选项：</span><br><span class="line">-l ：只统计行数</span><br><span class="line">-w ：只统计单词数</span><br><span class="line">-m ：只统计字符数</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Secular</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.wanchelai.com/2020/12/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--19.Shell%E7%BC%96%E7%A8%8B(1)/">http://www.wanchelai.com/2020/12/20/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--19.Shell%E7%BC%96%E7%A8%8B(1)/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.wanchelai.com" target="_blank">Secular</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux19.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/27/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--21.%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC%E4%B8%8E%E4%BF%AE%E5%A4%8D/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux20.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux系统管理--启动引导与修复</div></div></a></div><div class="next-post pull-right"><a href="/2020/12/15/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--18.Shell%E5%9F%BA%E7%A1%80(2)/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images@master/cover_picture/lux18.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux系统管理--Shell基础(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/02/02/Linux系统管理--24.日志管理/" title="Linux系统管理--日志管理"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux24.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-02</div><div class="title">Linux系统管理--日志管理</div></div></a></div><div><a href="/2021/01/18/Linux系统管理--23.系统管理/" title="Linux系统管理--系统管理"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-18</div><div class="title">Linux系统管理--系统管理</div></div></a></div><div><a href="/2021/01/08/Linux系统管理--20.Shell编程(2)/" title="Linux系统管理--Shell编程(2)"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux14.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-08</div><div class="title">Linux系统管理--Shell编程(2)</div></div></a></div><div><a href="/2020/12/29/Linux系统管理--22.服务管理/" title="Linux系统管理--服务管理"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux21.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-29</div><div class="title">Linux系统管理--服务管理</div></div></a></div><div><a href="/2020/12/27/Linux系统管理--21.启动引导与修复/" title="Linux系统管理--启动引导与修复"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux20.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-27</div><div class="title">Linux系统管理--启动引导与修复</div></div></a></div><div><a href="/2020/12/15/Linux系统管理--18.Shell基础(2)/" title="Linux系统管理--Shell基础(2)"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images@master/cover_picture/lux18.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">Linux系统管理--Shell基础(2)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/hy.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Secular</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text"> 正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text"> 基础正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0%E6%96%87%E4%BB%B6%E5%BB%BA%E7%AB%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text"> 练习文件建立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%89%8D%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E5%8C%B9%E9%85%8D0%E6%AC%A1%E6%88%96%E8%80%85%E4%BB%BB%E6%84%8F%E5%A4%9A%E6%AC%A1"><span class="toc-number">1.2.2.</span> <span class="toc-text"> &quot; * &quot;前一个字符匹配0次，或者任意多次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E9%99%A4%E4%BA%86%E6%8D%A2%E8%A1%8C%E7%AC%A6%E5%A4%96%E4%BB%BB%E6%84%8F%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.3.</span> <span class="toc-text"> &quot; . &quot;匹配除了换行符外任意字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E8%A1%8C%E9%A6%96%E5%8C%B9%E9%85%8D%E8%A1%8C%E5%B0%BE"><span class="toc-number">1.2.4.</span> <span class="toc-text"> &quot;^“匹配行首，”$&quot;匹配行尾</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E4%B8%AD%E6%8B%AC%E5%8F%B7%E4%B8%AD%E6%8C%87%E5%AE%9A%E7%9A%84%E4%BB%BB%E6%84%8F%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6%E5%8F%AA%E5%8C%B9%E9%85%8D%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.5.</span> <span class="toc-text"> &quot;[ ]&quot;匹配中括号中指定的任意一个字符，只匹配一个字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8C%B9%E9%85%8D%E9%99%A4%E6%8B%AC%E5%8F%B7%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%BB%A5%E5%A4%96%E7%9A%84%E4%BB%BB%E6%84%8F%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6"><span class="toc-number">1.2.6.</span> <span class="toc-text"> “[^]” 匹配除括号中的字符以外的任意一个字符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AC%E4%B9%89%E7%AC%A6"><span class="toc-number">1.2.7.</span> <span class="toc-text"> “” 转义符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#n%E8%A1%A8%E7%A4%BA%E5%85%B6%E5%89%8D%E9%9D%A2%E7%9A%84%E5%AD%97%E7%AC%A6%E6%81%B0%E5%A5%BD%E5%87%BA%E7%8E%B0n%E6%AC%A1"><span class="toc-number">1.2.8.</span> <span class="toc-text"> &quot;{n}&quot;表示其前面的字符恰好出现n次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#n%E8%A1%A8%E7%A4%BA%E5%85%B6%E5%89%8D%E9%9D%A2%E7%9A%84%E5%AD%97%E7%AC%A6%E5%87%BA%E7%8E%B0%E4%B8%8D%E5%B0%8F%E4%BA%8En%E6%AC%A1"><span class="toc-number">1.2.9.</span> <span class="toc-text"> &quot;{n,}&quot;表示其前面的字符出现不小于n次</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#nm-%E5%8C%B9%E9%85%8D%E5%85%B6%E5%89%8D%E9%9D%A2%E7%9A%84%E5%AD%97%E7%AC%A6%E8%87%B3%E5%B0%91%E5%87%BA%E7%8E%B0n%E6%AC%A1%E6%9C%80%E5%A4%9A%E5%87%BA%E7%8E%B0m%E6%AC%A1"><span class="toc-number">1.2.10.</span> <span class="toc-text"> “{n,m}” 匹配其前面的字符至少出现n次，最多出现m次</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A9%E5%B1%95%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text"> 扩展正则表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E6%88%AA%E5%8F%96%E5%92%8C%E6%9B%BF%E6%8D%A2%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text"> 字符截取和替换命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cut-%E5%88%97%E6%8F%90%E5%8F%96%E5%91%BD%E4%BB%A4"><span class="toc-number">2.1.</span> <span class="toc-text"> cut 列提取命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#awk%E7%BC%96%E7%A8%8B"><span class="toc-number">2.2.</span> <span class="toc-text"> awk编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0-2"><span class="toc-number">2.2.1.</span> <span class="toc-text"> 概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#printf%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA"><span class="toc-number">2.2.2.</span> <span class="toc-text"> printf格式化输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-number">2.2.3.</span> <span class="toc-text"> awk基本使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk-%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.2.4.</span> <span class="toc-text"> awk 的条件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="toc-number">2.2.5.</span> <span class="toc-text"> awk内置变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="toc-number">2.2.6.</span> <span class="toc-text"> awk流程控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk-%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.7.</span> <span class="toc-text"> awk 函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#awk%E4%B8%AD%E8%B0%83%E7%94%A8%E8%84%9A%E6%9C%AC"><span class="toc-number">2.2.8.</span> <span class="toc-text"> awk中调用脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sed-%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.</span> <span class="toc-text"> sed 命令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sed%E5%91%BD%E4%BB%A4%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.3.1.</span> <span class="toc-text"> sed命令介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.3.2.</span> <span class="toc-text"> 行数据操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9B%BF%E6%8D%A2"><span class="toc-number">2.3.3.</span> <span class="toc-text"> 字符串替换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4"><span class="toc-number">3.</span> <span class="toc-text"> 字符处理命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F%E5%91%BD%E4%BB%A4-sort"><span class="toc-number">3.1.</span> <span class="toc-text"> 排序命令 sort</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uniq"><span class="toc-number">3.2.</span> <span class="toc-text"> uniq</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%9F%E8%AE%A1%E5%91%BD%E4%BB%A4-wc"><span class="toc-number">3.3.</span> <span class="toc-text"> 统计命令 wc</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/02/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--24.%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/" title="Linux系统管理--日志管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--日志管理"/></a><div class="content"><a class="title" href="/2021/02/02/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--24.%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/" title="Linux系统管理--日志管理">Linux系统管理--日志管理</a><time datetime="2021-02-01T16:00:00.000Z" title="发表于 2021-02-02 00:00:00">2021-02-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理--系统管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--系统管理"/></a><div class="content"><a class="title" href="/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理--系统管理">Linux系统管理--系统管理</a><time datetime="2021-01-17T16:00:00.000Z" title="发表于 2021-01-18 00:00:00">2021-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/08/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--20.Shell%E7%BC%96%E7%A8%8B(2)/" title="Linux系统管理--Shell编程(2)"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--Shell编程(2)"/></a><div class="content"><a class="title" href="/2021/01/08/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--20.Shell%E7%BC%96%E7%A8%8B(2)/" title="Linux系统管理--Shell编程(2)">Linux系统管理--Shell编程(2)</a><time datetime="2021-01-07T16:00:00.000Z" title="发表于 2021-01-08 00:00:00">2021-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/29/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--22.%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/" title="Linux系统管理--服务管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--服务管理"/></a><div class="content"><a class="title" href="/2020/12/29/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--22.%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/" title="Linux系统管理--服务管理">Linux系统管理--服务管理</a><time datetime="2020-12-28T16:00:00.000Z" title="发表于 2020-12-29 00:00:00">2020-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/27/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--21.%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC%E4%B8%8E%E4%BF%AE%E5%A4%8D/" title="Linux系统管理--启动引导与修复"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--启动引导与修复"/></a><div class="content"><a class="title" href="/2020/12/27/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--21.%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC%E4%B8%8E%E4%BF%AE%E5%A4%8D/" title="Linux系统管理--启动引导与修复">Linux系统管理--启动引导与修复</a><time datetime="2020-12-26T16:00:00.000Z" title="发表于 2020-12-27 00:00:00">2020-12-27</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Secular</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px" target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a><a style="margin-inline:5px" target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a><a style="margin-inline:5px" target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px" target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a><a style="margin-inline:5px" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。"></a></p></div></div><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></head></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '5eiehMYVOOVcnKMxA6g97OTI-MdYXbMMI',
+      appKey: 'LJvS2AG393gyE7RhK1c5LKiK',
+      placeholder: '有什么问题请在这里留言。',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '//i0.hdslb.com/bfs/emote/',
+      emojiMaps: {"2020":"dc709fac0d361370bcf0d36d32adb97df7c95824.png","tv_白眼":"c1d59f439e379ee50eef488bcb5e5378e5044ea4.png","tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_难过":"87f46748d3f142ebc6586ff58860d0e2fc8263ba.png","tv_生气":"26702dcafdab5e8225b43ffd23c94ac1ff932654.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_斜眼笑":"911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_疑问":"0793d949b18d7be716078349c202c15ff166f314.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_鼓掌":"1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png","tv_抠鼻":"c666f55e88d471e51bbd9fab9bb308110824a6eb.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_调皮":"b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png","tv_笑哭":"1abc628f6d4f4caf9d0e7800878f4697abbc8273.png","tv_晕":"5443c22b4d07fb1907ccc610c8e6db254f2461b7.png","tv_点赞":"f85c354995bd99e28fc76c869bfe42ba6438eff4.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_睡着":"8b196675b53af58264f383c50ad0945048290b33.png","tv_色":"61822c7e9aae5da76475e7892534545336b23a6f.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_无奈":"ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_流汗":"cead1c351ab8d79e9f369605beb90148db0fbed3.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_抓狂":"fe31c08edad661d63762b04e17b8d5ae3c71a757.png","tv_黑人问号":"45821a01f51bc867da9edbaa2e070410819a95b2.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_打脸":"56ab10b624063e966bfcb76ea5dc4794d87dfd47.png","tv_闭嘴":"c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png","tv_鄙视":"6e72339f346a692a495b123174b49e4e8e781303.png","tv_腼腆":"89712c0d4af73e67f89e35cbc518420380a7f6f4.png","tv_馋":"fc7e829b845c43c623c8b490ee3602b7f0e76a31.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_生病":"8b0ec90e6b86771092a498c54f09fc94621c1900.png","tv_流鼻血":"c32d39db2737f89b904ca32700d140a9241b0767.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_流泪":"7e71cde7858f0cd50d74b0264aa26db612a8a167.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_皱眉":"72ccad6679fea0d14cce648b4d818e09b8ffea2d.png","tv_鬼脸":"0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png","tv_调侃":"4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png","tv_目瞪口呆":"0b8cb81a68de5d5365212c99375e7ace3e7891b7.png","2233娘_大笑":"16b8794be990cefa6caeba4d901b934a227ee3b8.png","2233娘_疑问":"0b41f509351958dbb63d472fec0132d1bd03bd14.png","2233娘_吃惊":"d1628c43d35b1530c0504a643ff80b6189fa0a43.png","2233娘_汗":"247cd9df8cdf84b18368c21e3b2dd374e84c0927.png","2233娘_大哭":"476a2a60f6e337b8c0697a592e0aa82781f6b33b.png","2233娘_困惑":"714eeb4eae0d0933b4ff08b7df788b1982f6b940.png","2233娘_耶":"d7178e258a0efc969b65ccc2b1322fb235f5dff4.png","2233娘_怒":"f31953119c51b9748016440ac0b632f779929b37.png","2233娘_卖萌":"ea893aa25355de95ab4f03c2dad3f0c58d0c159e.png","2233娘_委屈":"d9d0bf9d358af8d5761093ec66d4e3f60d963a63.png","2233娘_郁闷":"485203fe7100f2c8fc40b2800a18fe20b35f2f1a.png","2233娘_第一":"3754ee6e5985bd0bd7dfb668981f2a8733398ebd.png","2233娘_喝水":"695bf5429472049b52c1e0de586f8a2511195a23.png","2233娘_吐魂":"e999af499edf38a91ca68b1a9d2f97042c1d6734.png","2233娘_无言":"fdb5870f32cfaf7949e0f88a13f6feba4a48b719.png","热词系列_增加":"142409b595982b8210b2958f3d340f3b47942645.png","热词系列_泪目":"bba3703ab90b7d16fe9dbcb85ed949db687f8331.png","热词系列_保护":"55f8f6445ca7c3170cdfc5b16036abf639ce9b57.png","热词系列_害怕":"d77e2de26da143249f0c0ad7a608c27152c985bf.png","热词系列_爱了爱了":"2a165b555ba20391316366c664ed7891883dc5aa.png","热词系列_问号":"c1d1e76c12180adc8558f47006fe0e7ded4154bb.png","热词系列_吹爆":"b528220f9c37256ed6a37f05bf118e44b08b81e5.png","热词系列_三连":"21f15fe11b7a84d2f2121c16dec50a4e4556f865.png","热词系列_可以":"e08543c71202b36c590094417fcfbb80c3506cd8.png","热词系列_打卡":"a9cf77c78e1b9b40aa3ed4862402fba008ee2f51.png","热词系列_妙啊":"0e98299d7decf5eaffad854977946075c3e91cb8.png","热词系列_这次一定":"a01ca28923daa7cc896c42f27deb4914e20dd572.png","热词系列_AWSL":"c37f88cf799f9badf9d84b7671dc3dd98c0fc0c2.png","热词系列_递话筒":"98e6950e39fbb4dd1c576042063ca632074070ba.png","热词系列_你细品":"535e00658e7e47966f154d3a167fa2365ebc4321.png","热词系列_咕咕":"d8065c2e7ce48c929317a94553499a46fecc262a.png","热词系列_标准结局":"3de98174b510cf7dc5fd1bd08c5d881065e79137.png","热词系列_危":"5cc6c3357c4df544dd8de9d5c5c0cec97c7c9a56.png","热词系列_张三":"255a938f39cea625032b6650036b31aa26c50a3c.png","热词系列_害":"cbe798a194612958537c5282fcca7c3bcd2aa15c.png","热词系列_我裂开了":"29bd57ec4e8952880fea6c9e47aee924e91f10c4.png","热词系列_有内味了":"7ca61680a905b5b6e2e335c630e725b648b03b4d.png","热词系列_猛男必看":"c97064450528a0e45c7e7c365a15fbb13fd61d8c.png","热词系列_奥力给":"c9b8683827ec6c00fea5327c9bec14f581cef2aa.png","热词系列_我哭了":"9e0b3877d649aaf6538fbdd3f937e240a9d808e4.png","热词系列_高产":"9db817cba4a7f4a42398f3b2ec7c0a8e0c247c42.png","热词系列_我酸了":"a8cbf3f6b8cd9377eeb15b9172f3cd683b2e4650.png","热词系列_真香":"e68497c775feaac1c3b1a6cd63a50cfb11b767c4.png","热词系列_我全都要":"d424d1ad8d14c1c9b8367842bc68c658b9229bc1.png","热词系列_神仙UP":"a49e0d0db1e7d35a0f7411be13208951ab448f03.png","热词系列_你币有了":"84820c2b147a8ca02f3c4006b63f76c6313cbfa0.png","热词系列_不愧是你":"9ff2e356797c57ee3b1675ade0883d2d2247be9b.png","热词系列_锤":"35668cc12ae25b9545420e4a85bf21a0bfc03e5d.png","热词系列_秀":"50782fbf5d9b7f48f9467b5c53932981e321eedc.png","热词系列_爷关更":"faad40c56447f1f8abcb4045c17ce159d113d1fd.png","热词系列_有生之年":"f41fdafe2d0fbb8e8bc1598d2cf37e355560103a.png","热词系列_镇站之宝":"24e7a6a6e6383c987215fb905e3ee070aca259b5.png","热词系列_我太男了":"a523f3e4c63e4db1232365765d0ec452f83be97e.png","热词系列_完结撒花":"ea9db62ff5bca8e069cd70c4233353a802835422.png","热词系列_大师球":"f30089248dd137c568edabcb07cf67e0f6e98cf3.png","热词系列_知识盲区":"ccc94600b321a28116081e49ecedaa4ee8728312.png","热词系列_“狼火”":"33ccd3617bfa89e9d1498b13b7542b63f163e5de.png","加油武汉":"eb966aaa5b690d3f9308a9f936f5b5a72a7f956b.png","口罩":"3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png","鸡腿":"c7860392815d345fa69c4f00ef18d67dccfbd574.png","微笑":"685612eadc33f6bc233776c6241813385844f182.png","笑":"81edf17314cea3b48674312b4364df44d5c01f17.png","呲牙":"b5a5898491944a4268360f2e7a84623149672eb6.png","OK":"4683fd9ffc925fa6423110979d7dcac5eda297f4.png","星星眼":"63c9d1a31c0da745b61cdb35e0ecb28635675db2.png","哦呼":"362bded07ea5434886271d23fa25f5d85d8af06c.png","嫌弃":"de4c0783aaa60ec03de0a2b90858927bfad7154b.png","喜欢":"8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png","酸了":"92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png","大哭":"2caafee2e5db4db72104650d87810cc2c123fc86.png","害羞":"9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png","无语":"44667b7d9349957e903b1b62cb91fb9b13720f04.png","疑惑":"b7840db4b1f9f4726b7cb23c0972720c1698d661.png","调皮":"8290b7308325e3179d2154327c85640af1528617.png","喜极而泣":"485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png","奸笑":"bb84906573472f0a84cebad1e9000eb6164a6f5a.png","偷笑":"6c49d226e76c42cd8002abc47b3112bc5a92f66a.png","大笑":"ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png","阴险":"ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png","捂脸":"6921bb43f0c634870b92f4a8ad41dada94a5296d.png","囧":"12e41d357a9807cc80ef1e1ed258127fcc791424.png","呆":"33ad6000d9f9f168a0976bc60937786f239e5d8c.png","抠鼻":"cb89184c97e3f6d50acfd7961c313ce50360d70f.png","惊喜":"0afecaf3a3499479af946f29749e1a6c285b6f65.png","惊讶":"f8e9a59cad52ae1a19622805696a35f0a0d853f3.png","笑哭":"c3043ba94babf824dea03ce500d0e73763bf4f40.png","妙啊":"b4cb77159d58614a9b787b91b1cd22a81f383535.png","doge":"bba7c12aa51fed0199c241465560dfc2714c593e.png","滑稽":"d15121545a99ac46774f1f4465b895fe2d1411c3.png","吃瓜":"4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png","打call":"431432c43da3ee5aab5b0e4f8931953e649e9975.png","点赞":"1a67265993913f4c35d15a6028a30724e83e7d35.png","鼓掌":"895d1fc616b4b6c830cf96012880818c0e1de00d.png","尴尬":"cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png","冷":"cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png","灵魂出窍":"43d3db7d97343c01b47e22cfabeca84b4251f35a.png","委屈":"d2f26cbdd6c96960320af03f5514c5b524990840.png","傲娇":"010540d0f61220a0db4922e4a679a1d8eca94f4e.png","疼":"905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png","吓":"9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png","生病":"0f25ce04ae1d7baf98650986454c634f6612cb76.png","吐":"06946bfe71ac48a6078a0b662181bb5cad09decc.png","嘘声":"e64af664d20716e090f10411496998095f62f844.png","捂眼":"c5c6d6982e1e53e478daae554b239f2b227b172b.png","思考":"cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png","再见":"fc510306bae26c9aec7e287cdf201ded27b065b9.png","翻白眼":"eba54707c7168925b18f6f8b1f48d532fe08c2b1.png","哈欠":"888d877729cbec444ddbd1cf4c9af155a7a06086.png","奋斗":"bb2060c15dba7d3fd731c35079d1617f1afe3376.png","墨镜":"3a03aebfc06339d86a68c2d893303b46f4b85771.png","撇嘴":"531863568e5668c5ac181d395508a0eeb1f0cda4.png","难过":"a651db36701610aa70a781fa98c07c9789b11543.png","抓狂":"4c87afff88c22439c45b79e9d2035d21d5622eba.png","生气":"3195714219c4b582a4fb02033dd1519913d0246d.png","干杯":"8da12d5f55a2c7e9778dcc05b40571979fe208e6.png","爱心":"ed04066ea7124106d17ffcaf75600700e5442f5c.png","锦鲤":"643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png","胜利":"b49fa9f4b1e7c3477918153b82c60b114d87347c.png","加油":"c7aaeacb21e107292d3bb053e5abde4a4459ed30.png","保佑":"fafe8d3de0dc139ebe995491d2dac458a865fb30.png","抱拳":"89516218158dbea18ab78e8873060bf95d33bbbe.png","响指":"1b5c53cf14336903e1d2ae3527ca380a1256a077.png","支持":"3c210366a5585706c09d4c686a9d942b39feeb50.png","拥抱":"41780a4254750cdaaccb20735730a36044e98ef3.png","怪我咯":"07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png","跪了":"f2b3aee7e521de7799d4e3aa379b01be032698ac.png","黑洞":"e90ec4c799010f25391179118ccd9f66b3b279ba.png","老鼠":"8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png","福到了":"5de5373d354c373cf1617b6b836f3a8d53c5a655.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/calendar.js"></script><script src="/js/languages.js"></script><script src="/js/other.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>

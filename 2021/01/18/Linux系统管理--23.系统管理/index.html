@@ -1,0 +1,712 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux系统管理--系统管理 | Secular</title><meta name="keywords" content="linux"><meta name="author" content="Secular"><meta name="copyright" content="Secular"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="进程管理  进程简介 1、什么是进程管理 进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的资源。程序是人使用计算机编写的可以实现特定的目标和解决特定问题的代码集合。换一种说法： - 程序是人使用计算机编写的，可以实现一定功能，并且可以执行的代码集合。 - 进程是正在执行当中的程序。这个程序被执行时，执行人的权限和属性、以及程序的代码都会被加载如内存，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统管理--系统管理">
+<meta property="og:url" content="http://www.wanchelai.com/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="Secular">
+<meta property="og:description" content="进程管理  进程简介 1、什么是进程管理 进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的资源。程序是人使用计算机编写的可以实现特定的目标和解决特定问题的代码集合。换一种说法： - 程序是人使用计算机编写的，可以实现一定功能，并且可以执行的代码集合。 - 进程是正在执行当中的程序。这个程序被执行时，执行人的权限和属性、以及程序的代码都会被加载如内存，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png">
+<meta property="article:published_time" content="2021-01-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-04-22T08:42:25.608Z">
+<meta property="article:author" content="Secular">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://www.wanchelai.com/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="manifest" href="/image/pwa/manifest.json"/><link rel="apple-touch-icon" sizes="180x180" href="/image/pwa/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/image/pwa/32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/image/pwa/16.png"/><link rel="mask-icon" href="/image/pwa/safari-pinned-tab.svg" color="#5bbad5"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-22 16:42:25'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><link rel="stylesheet" href="/css/iconfont.css"><link rel="stylesheet" href="/css/other.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ahzoa/hexo@latest/css/all.css"><meta name="generator" content="Hexo 5.2.0"></head><body><div id="web_bg"></div><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/hy.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-paper-plane"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div></div></div><div id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Secular</a></span><span id="menus"><div id="search_button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-paper-plane"></i><span> 导航</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li><li><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page" href="/categories/"><i class="fa-fw far fa-folder-open"></i><span> 分类</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 媒体</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/gallery/"><i class="fa-fw fas fa-images"></i><span> 图库</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 阅读</span></a></li><li><a class="site-page" href="/bangumis/"><i class="fa-fw fas fa-tv"></i><span> 番剧</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/link/"><i class="fa-fw far fa-heart"></i><span> 友情链接</span></a></li><li><a class="site-page" href="/box/"><i class="fa-fw fas fa-star"></i><span> 网址收藏</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/artitalk/"><i class="fa-fw fas fa-cloud"></i><span> 说说</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Linux系统管理--系统管理</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-17T16:00:00.000Z" title="发表于 2021-01-18 00:00:00">2021-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-04-22T08:42:25.608Z" title="更新于 2021-04-22 16:42:25">2021-04-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">linux系统管理</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">11.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>41分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="进程管理"><a class="markdownIt-Anchor" href="#进程管理"></a> 进程管理</h2>
+<h3 id="进程简介"><a class="markdownIt-Anchor" href="#进程简介"></a> 进程简介</h3>
+<p>1、什么是进程管理<br />
+进程是正在执行的一个程序或命令，每一个进程都是一个运行的实体，都有自己的地址空间，并占用一定的资源。程序是人使用计算机编写的可以实现特定的目标和解决特定问题的代码集合。换一种说法：<br />
+- 程序是人使用计算机编写的，可以实现一定功能，并且可以执行的代码集合。<br />
+- 进程是正在执行当中的程序。这个程序被执行时，执行人的权限和属性、以及程序的代码都会被加载如内存，操作系统给这个进程分配一个ID号，我们称为PID(进程PID)<br />
+2、进程管理的作用</p>
+<ul>
+<li>判断服务器健康状态：运维工程师最主要的工作就是保证服务器安全稳定运行。理想状态是，在服务器出现问题但是没有造成服务器宕机或停止服务时，就人为干预解决了问题。进程管理最主要的工作就是判断服务器当前运行是否健康，是否需要人为干预。如果服务器的CPU占用率、内存占用率过高，就需要人为介入解决问题了。</li>
+<li>查看系统中所有的进程：我们需要查看系统中所有正在运行的进程，通过这些进程可以判断系统中运行了哪些服务，是否有非法服务运行。</li>
+<li>杀死进程： 这是进程管理中最不常用的手段，当我需要停止服务时，会通过正确关闭命令来停止服务 (如 apache服务可以通过 service httpd stop 来关闭)。只有当正确终止进程的手段失效时，才考虑使用 kill 命令来杀死进程(不推荐所有进程都用 kill 来终止，非常容易使服务器崩溃)</li>
+</ul>
+<h3 id="进程查看"><a class="markdownIt-Anchor" href="#进程查看"></a> 进程查看</h3>
+<h4 id="ps-命令"><a class="markdownIt-Anchor" href="#ps-命令"></a> ps 命令</h4>
+<p>ps 命令是用来<strong>静态显示</strong>系统中进程的命令。这个命令有些特殊，选项不能加 &quot; - “，比如 “ps  aux” ，其中&quot;aux” 是选项，但是选项不能加&quot; - &quot;，这是因为 ps 命令的部分选项需要遵守BSD操作系统的格式。所以ps命令的常用选项的组合是固定的。命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ps  aux</span><br><span class="line">#查看系统中的所有进程，使用BSD操作系统格式</span><br><span class="line">[root@localhost ~]# ps  -le</span><br><span class="line">#查看系统中所有进程，使用Linux标准命令格式</span><br><span class="line">选项：</span><br><span class="line">a：显示一个终端的所有进程，除了会话引线</span><br><span class="line">u：显示进程的归属用户及内存的使用情况</span><br><span class="line">x：显示没有控制终端的进程</span><br><span class="line">-l：长格式显示。显示更加详细的信息</span><br><span class="line">-e：显示所有进程，和-A作用一致</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ps aux</span><br><span class="line">USER  PID   %CPU  %MEM    VSZ   RSS  TTY   STAT   START   TIME COMMAND</span><br><span class="line">root   1     0.0  0.2    2872   1416  ?      Ss   Jun04   0:02 &#x2F;sbin&#x2F;init</span><br><span class="line">root   2     0.0  0.0      0      0   ?       S   Jun04   0:00 [kthreadd]</span><br></pre></td></tr></table></figure>
+<p>解释下这个命令的输出：<br />
+√ USER：该进程是由那个用户产生的；<br />
+√ PID：进程的ID号<br />
+√ %CPU：该进程占用CPU资源的百分比，占用越高，进程越消耗资源；<br />
+√ %MEM：该进程占用物理内存的百分比，占用越高，进程越消耗资源；<br />
+√ VSZ：该进程占用的虚拟内存大小，单位KB；<br />
+√ RSS：该进程占用实际物理内存大小，单位KB；<br />
+√ TTY：该进程是在哪个终端中运行的。其中 tty1-tty7 代表本地控制台终端 (可以通过 alt+F1-F7 键切换不同终端)，一般是远程连接的终端，第一个远程连接占用的是pts/0终端，第二个远程连接占用pts/1，依次增长。<br />
+√ STAT：进程状态。常见的状态有：<br />
+👉 D：不可被唤醒的睡眠状态，通常用于 I/O 情况<br />
+👉 R：该进程正在运行<br />
+👉 S：该进程在睡眠状态，可被唤醒<br />
+👉 T：停止状态，可能是在后台暂停或进程在除错状态<br />
+👉 W：内存交互状态(从2.6内核开始无效)<br />
+👉 X：死掉的进程(应该不会出现)<br />
+👉 Z：僵尸进程，进程已经终止，但是部分程序还在内存中<br />
+👉 &lt;：高优先级(以下状态在BSD格式中出现)<br />
+👉 N：低优先级<br />
+👉 L：被锁入内存<br />
+👉 s (小写)：包含子进程<br />
+👉 l（小写L)：多线程<br />
+👉 + ：位于后台<br />
+√ START ：该进程的启动时间<br />
+√ TIME：该进程占用CPU的运算时间，注意不是系统时间<br />
+√ COMMAND ：产生此进程的命令名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# ps  -le</span><br><span class="line">F S   UID   PID  PPID  C  PRI  NI ADDR SZ WCHAN  TTY     TIME      CMD</span><br><span class="line">4 S    0     1    0    0  80   0   -   718  -     ?      00:00:02  ini</span><br><span class="line">1 S    0     2    0    0  80   0   -    0   -     ?      00:00:00  kthreadd</span><br></pre></td></tr></table></figure>
+<p>解释以下这个命令的输出：<br />
+√ F：进程标志，说明这个进程的权限，常见的标志有：<br />
+👉 1：进程可以复制，但不能执行<br />
+👉 4：进程使用超级用户权限<br />
+√ S(大写)：进程状态。具体的状态和 “ps  aux” 命令中STAT状态一致<br />
+√ UID：进程是哪个UID用户调用运行的<br />
+√ PID：进程的ID号<br />
+√ PPID：父进程的ID号<br />
+√ C：该进程的CPU使用率，单位是百分比<br />
+√ PRI：进程的优先级，数值越小该进程优先级就越高，越快被CPU执行<br />
+√ NI：进程的优先级，也是数值越小越早被执行<br />
+√ ADDR：该进程在内存的哪个位置<br />
+√ SZ：该进程占用多大内存<br />
+√ WCHAN：该进程是否运行。&quot; - &quot; 代表正在运行<br />
+√ TTY：该进程由哪个终端产生<br />
+√ TIME：该进程占用CPU的运算时间，注意不是系统时间<br />
+√ CMD：产生此进程的命令名</p>
+<h4 id="top-命令"><a class="markdownIt-Anchor" href="#top-命令"></a> top 命令</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# top  [选项]</span><br><span class="line">选项：</span><br><span class="line">	-d 秒数：指定top命令每隔几秒更新。默认是3秒</span><br><span class="line">	-b：使用批量处理模式输出。一般和&quot; -n &quot;选项合用，用于把top命令重定向到文件中</span><br><span class="line">	-n 次数：指定top命令执行的次数。一般和&quot; -b &quot;选项合用</span><br><span class="line">	-p：指定PID。只查看某个PID的进程</span><br><span class="line">	-s：使top在安全模式运行，避免在交互模式中出现错误</span><br><span class="line">	-u 用户名：只监听某个用户的进程</span><br><span class="line">在top命令的交互模式当中可以执行的命令：</span><br><span class="line">？或 h：显示交互模式的帮助</span><br><span class="line">P：以CPU使用率排序，默认就是此项</span><br><span class="line">M：以内存的使用率排序</span><br><span class="line">N：以PID排序</span><br><span class="line">T：按照CPU的累计运算时间排序，也就是用TTIME+项排序</span><br><span class="line">k：按照PID号，给予某个进程一个信号。一般用于终止某个进程，信号9使强制终止的信号</span><br><span class="line">r：按照PID号，给某个进程重设优先级(Nice) 值</span><br><span class="line">q：退出top</span><br></pre></td></tr></table></figure>
+<p>我们看看 top 命令的执行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# top</span><br><span class="line">top - 15:11:34 up 35 min,  1 user,  load average: 0.00, 0.01, 0.05</span><br><span class="line">Tasks: 230 total,   1 running, 229 sleeping,   0 stopped,   0 zombie</span><br><span class="line">%Cpu(s):  0.0 us,  0.0 sy,  0.0 ni,100.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st</span><br><span class="line">KiB Mem :  2027968 total,   868824 free,   671912 used,   487232 buff&#x2F;cache</span><br><span class="line">KiB Swap:  2097148 total,  2097148 free,        0 used.  1193048 avail Mem</span><br><span class="line"></span><br><span class="line">   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND              </span><br><span class="line">     1 root      20   0  193912   7008   4196 S   0.0  0.3   0:01.85 systemd              </span><br><span class="line">     2 root      20   0       0      0      0 S   0.0  0.0   0:00.01 kthreadd             </span><br><span class="line">     3 root      20   0       0      0      0 S   0.0  0.0   0:00.04 kworker&#x2F;0:0                  </span><br></pre></td></tr></table></figure>
+<ul>
+<li>第一部分内容的作用：<br />
+√ 第一行信息为任务队列信息<br />
+内容 | 说明<br />
+:----😐:----：<br />
+15:11:34 | 系统当前时间<br />
+up 35 min | 系统的运行时间，本机已经运行了35分钟<br />
+1 user | 当前登录了一个用户<br />
+load average: 0.00, 0.01, 0.05 | 系统在之前1分钟，5分钟，15分钟的平均负载。如果CPU是单核，则这个数超过1，就是高负载。如果CPU是四核，则这个数超过4，就是高负载。（这个平均负载完全是个人经验来进行判断的，一般认为不应该超过服务器CPU的核数。）</li>
+</ul>
+<p>√ 第二行为进程信息</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Tasks: 230 total</td>
+<td style="text-align:center">系统中的进程总数</td>
+</tr>
+<tr>
+<td style="text-align:center">1 running</td>
+<td style="text-align:center">正在运行的进程数</td>
+</tr>
+<tr>
+<td style="text-align:center">229 sleeping</td>
+<td style="text-align:center">书面的进程数</td>
+</tr>
+<tr>
+<td style="text-align:center">0 stopped</td>
+<td style="text-align:center">正在停止的进程数</td>
+</tr>
+<tr>
+<td style="text-align:center">0 zombie</td>
+<td style="text-align:center">僵尸进程。如果不是0，需要手动检查僵尸进程</td>
+</tr>
+</tbody>
+</table>
+<p>√ 第三行为CPU信息</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%Cpu(s):  0.0 us</td>
+<td style="text-align:center">用户模式占用的CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 sy</td>
+<td style="text-align:center">系统模式占用的CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 ni</td>
+<td style="text-align:center">改变过优先级的用户进程占CPU的百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">100.0 id</td>
+<td style="text-align:center">空闲CPU 的CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 wa</td>
+<td style="text-align:center">等待输入/输出的进程的占用CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 hi</td>
+<td style="text-align:center">硬中断请求服务占用的CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 si</td>
+<td style="text-align:center">软中断请求服务占用的CPU百分比</td>
+</tr>
+<tr>
+<td style="text-align:center">0.0 st</td>
+<td style="text-align:center">st (Steal time) 虚拟时间百分比。就是当有虚拟机时，虚拟CPU等待实际CPU的时间百分比</td>
+</tr>
+</tbody>
+</table>
+<p>√ 第四行为物理内存信息</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Mem :  2027968 total</td>
+<td style="text-align:center">物理内存的总量，单位KB</td>
+</tr>
+<tr>
+<td style="text-align:center">868824 free</td>
+<td style="text-align:center">空闲的物理内存数量</td>
+</tr>
+<tr>
+<td style="text-align:center">671912 used</td>
+<td style="text-align:center">已经使用的物理内存数量</td>
+</tr>
+<tr>
+<td style="text-align:center">487232 buff/cache</td>
+<td style="text-align:center">作为缓冲的内存数量</td>
+</tr>
+</tbody>
+</table>
+<p>√ 第五行为交换分区</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Swap:  2097148 total</td>
+<td style="text-align:center">交换分区(虚拟内存)的总大小</td>
+</tr>
+<tr>
+<td style="text-align:center">2097148 free</td>
+<td style="text-align:center">空闲交换分区的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">0 used</td>
+<td style="text-align:center">已经使用的交换分区的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">1193048 avail Mem</td>
+<td style="text-align:center">作为缓存的交互分区的大小</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>第二部分的输出，主要是系统进程信息。这部分和 ps 命令的输出比较类似，如果在终端中执行 top 命令不能看到所有的进程，只能看到占比考前的进程。<br />
+√ PID：进程ID<br />
+√ USER：该进程所属的用户<br />
+√ PR：优先级，数值越小优先级越高<br />
+√ NI：优先级，数值越小优先级越高<br />
+√ VIRT：该进程使用的虚拟内存的大小，单位KB<br />
+√ RES：该进程使用的物理内存的大小，单位KB<br />
+√ SHR：共享内存大小，单位KB<br />
+√ S：进程状态<br />
+√ %CPU：该进程占用CPU的百分比<br />
+√ %MEM：该进程总共占用的CPU时间<br />
+√ COMMAND：进程的命令名</li>
+</ul>
+<p>top命令实例：<br />
+使用 top 命令查看某一个进程可以使用&quot;-p&quot;选项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# top -p 15273</span><br><span class="line">#之查看PID为15273的apache进程</span><br></pre></td></tr></table></figure>
+<p>在top命令的交互界面中按“q”键会退出top命令。也可以按“？”或“h”得到top命令交互界面的帮助信息。也可以按:<br />
+如果在操作终端执行top命令，并不能看到系统中所有的进程，默认看到的只是CPU占比靠前的进程。如果我们想要看到所有的进程可以把top命令的结果重定向到文件当中即可。不过top命令是持续运行的，这时就需要“-b”和“-n”选项了，具体命令如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# top  -b  -n  1  &gt;  &#x2F;root&#x2F;top.log</span><br><span class="line">#让 top 命令只执行一次，然后把结果保存到 top.log文件中。这样就能看到所有的进程了</span><br></pre></td></tr></table></figure>
+<h4 id="pstree-命令"><a class="markdownIt-Anchor" href="#pstree-命令"></a> pstree 命令</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#  pstree [选项]</span><br><span class="line">选项：</span><br><span class="line">-p ：显示进程的PID</span><br><span class="line">-u ：显示进程的所属用户</span><br></pre></td></tr></table></figure>
+<h3 id="进程的管理"><a class="markdownIt-Anchor" href="#进程的管理"></a> 进程的管理</h3>
+<p>系统中可以识别的信号较多，可以使用&quot; kill -l &quot; 或 &quot; man 7 signal &quot; 来查询，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# kill  -l</span><br><span class="line"> 1) SIGHUP	 2) SIGINT	 3) SIGQUIT	 4) SIGILL	 5) SIGTRAP</span><br><span class="line"> 6) SIGABRT	 7) SIGBUS	 8) SIGFPE	 9) SIGKILL	10) SIGUSR1</span><br><span class="line">11) SIGSEGV	12) SIGUSR2	13) SIGPIPE	14) SIGALRM	15) SIGTERM</span><br><span class="line">16) SIGSTKFLT	17) SIGCHLD	18) SIGCONT	19) SIGSTOP	20) SIGTSTP</span><br><span class="line">21) SIGTTIN	22) SIGTTOU	23) SIGURG	24) SIGXCPU	25) SIGXFSZ</span><br><span class="line">26) SIGVTALRM	27) SIGPROF	28) SIGWINCH	29) SIGIO	30) SIGPWR</span><br><span class="line">31) SIGSYS	34) SIGRTMIN	35) SIGRTMIN+1	36) SIGRTMIN+2	37) SIGRTMIN+3</span><br><span class="line">38) SIGRTMIN+4	39) SIGRTMIN+5	40) SIGRTMIN+6	41) SIGRTMIN+7	42) SIGRTMIN+8</span><br><span class="line">43) SIGRTMIN+9	44) SIGRTMIN+10	45) SIGRTMIN+11	46) SIGRTMIN+12	47) SIGRTMIN+13</span><br><span class="line">48) SIGRTMIN+14	49) SIGRTMIN+15	50) SIGRTMAX-14	51) SIGRTMAX-13	52) SIGRTMAX-12</span><br><span class="line">53) SIGRTMAX-11	54) SIGRTMAX-10	55) SIGRTMAX-9	56) SIGRTMAX-8	57) SIGRTMAX-7</span><br><span class="line">58) SIGRTMAX-6	59) SIGRTMAX-5	60) SIGRTMAX-4	61) SIGRTMAX-3	62) SIGRTMAX-2</span><br><span class="line">63) SIGRTMAX-1	64) SIGRTMAX	</span><br></pre></td></tr></table></figure>
+<p>主要的信号说明：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">信号代号</th>
+<th style="text-align:center">信号名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">SIGHUP</td>
+<td style="text-align:center">该信号让进程立即关闭，然后重新读取配置文件之后重启。</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">SIGINT</td>
+<td style="text-align:center">程序终止信号，用于终止前台进程。相当于输出 ctrl+c 快捷键。</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">SIGFPE</td>
+<td style="text-align:center">在发生致命的算术运算错误时发出，不仅包括浮点运算错误，还包括溢出及除数为0等其他所有的算术的错误。</td>
+</tr>
+<tr>
+<td style="text-align:center">9</td>
+<td style="text-align:center">SIGKILL</td>
+<td style="text-align:center">用来立即结束程序的运行，本信号不能被阻塞、处理和忽略。一般用于强制终止进程。</td>
+</tr>
+<tr>
+<td style="text-align:center">14</td>
+<td style="text-align:center">SIGALRM</td>
+<td style="text-align:center">时钟定时信号，计算的时实际的时间或时钟时间.alarm函数使用该信号。</td>
+</tr>
+<tr>
+<td style="text-align:center">15</td>
+<td style="text-align:center">SIGTERM</td>
+<td style="text-align:center">正常结束进程的信号，kill 命令的默认信号。有时如果进程已经发生问题，这个信号是无法正常终止进程的，我们才会尝试SIGKILL信号，也就是信号9。</td>
+</tr>
+<tr>
+<td style="text-align:center">18</td>
+<td style="text-align:center">SIGCONT</td>
+<td style="text-align:center">该信号可以让暂停的进程恢复执行，本信号不能被阻断。</td>
+</tr>
+<tr>
+<td style="text-align:center">19</td>
+<td style="text-align:center">SIGSTOP</td>
+<td style="text-align:center">该信号可以暂停前台进程，相当于输入 ctrl+z 快捷键。本信号不能被阻断。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="kill-命令"><a class="markdownIt-Anchor" href="#kill-命令"></a> kill 命令</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# kill  [信号]  PID</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用&quot; -l &quot;信号，让进程重启</span><br><span class="line">[root@localhost ~]# kill  -1  2246</span><br><span class="line">#使用 &quot;-1(数字一)&quot; 信号，让httpd的主进程重启动</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">使用&quot;-19&quot;信号，让进程暂停。</span><br><span class="line">[root@localhost ~]# vi test.sh</span><br><span class="line">#使用 vi 命令编辑一个文件，不要退出</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# ps aux | grep &quot;vi&quot; | grep -v &quot;grep&quot;</span><br><span class="line">root        2950  0.6  0.2 149988  5716 pts&#x2F;1    S+   17:53   0:00 vim test.sh</span><br><span class="line">#换一个不同的终端，查看下这个进程的状态。进程状态是S (休眠) 和+(位于后台)</span><br><span class="line">#因为是在另一个终端运行的命令</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# kill -19  2950</span><br><span class="line">#使用-19信号，让PID是2950的进程暂停，相当于在vi界面按&quot;ctrl+z&quot;快捷键。</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# ps aux | grep &quot;vi&quot; | grep -v &quot;grep&quot;</span><br><span class="line">root        2950  0.0  0.2 149988  5716 pts&#x2F;1    T    17:53   0:00 vim test.sh</span><br><span class="line">#此时2950进程的状态，变成了T(暂停)状态，这时我们切回vi的终端，发现vi命令已经暂停。又回到了命令提示符。不过2313进程就会卡在后台，如果想要恢复可以使用“kill -9 2313”强制终止进程，也可以利用15.2小节将要学习的工作管理来进行恢复。</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line"></span><br><span class="line">#### killall 命令</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# killall  [选项]  [信号]  进程号<br />
+选项：<br />
+-i ：交互式，询问是否要杀死某个进程<br />
+-I：忽略进程名的大小写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### pkill 命令</span><br><span class="line">pkill 命令和 killall 命令非常类似，也是按照进程名来杀死进程。格式如下：</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# pkill  [选项]  [信号]  进程号<br />
+选项：<br />
+-t 终端号 ：按照终端号踢出用户<br />
+[root@localhost ~]# pkill  -9  -t  pts/1<br />
+#强制杀死从pts/1虚拟终端登录的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 工作管理</span><br><span class="line">#### 工作管理简介</span><br><span class="line">后台管理有几个事项需要注意：</span><br><span class="line">- 前台是指当前可以操控和执行命令的这个操作环境，后台是指工作可以自行运行，但是不能直接ctrl+c来终止，只能使用fg&#x2F;bg 来调用工作；</span><br><span class="line">- 当前的登录终端，只能管理当前终端的工作，而不能管理其他登录终端的工作。如tty1登录的终端是不能管理tyy2终端中的工作的；</span><br><span class="line">- 放入后台的命令必须可以运行一段时间，这样才能捕捉和操作这个工作。如果把 ls 命令放入后台执行，他会和快执行完成，我们很难操作它。</span><br><span class="line">- 放入后台执行的命令不能和前台用户有交互或需要前台输入，否则放入后台只能暂停，而不能执行。比如 vi 命令放入后台只能暂停，而不能执行。因为vi 需要前台输入信息。 top命令也不能放入后台执行，而只能放入后台暂停，因为top命令需要和前台又交互。</span><br><span class="line"></span><br><span class="line">#### 如何把命令放入后台</span><br><span class="line">√ 方法一：&quot;命令  &amp;&quot; 把命令放入后台执行</span><br><span class="line">这种方法是在命令后面加入&quot;空格&amp;&quot;，这种方法放入后台的命令在后台是执行状态。但是注意，放入后台执行的命令不能与前台有交互，否则这个命令就不能在后台执行。举例：</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# tar  -zcf  etc.tar.gz  /etc  &amp;<br />
+[1] 2266<br />
+[root@localhost ~]# tar: 从成员名中删除开头的“/”<br />
+#把压缩整个etc文件的操作放入后台<br />
+[root@localhost ~]# jobs<br />
+[1]+  Running                  tar -zcf etc.tar.gz /etc<br />
+#工作正在运行。[1]标识这个命令的工作号，+号表示这个任务是最近一个被放入后台的工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">√ 方法二：在命令执行过程种按 ctrl+z 快捷键，命令在后台是执行暂停状态。</span><br><span class="line">这种方法放入后台的命令就算是不与前台有交互，能在后台执行的命令，也是暂停状态，ctrl+z快捷键就是暂停的快捷键。举例：</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# tar  -zcf  etc.tar.gz  /etc<br />
+tar: 从成员名中删除开头的“/”<br />
+^Z<br />
+#按ctrl+z<br />
+[1]+  TStopped               tar -zcf etc.tar.gz /etc<br />
+#工作暂停</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 后台命令管理</span><br><span class="line">1、查看后台的工作</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# jobs  -l<br />
+选项：-l：显示工作的PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、将后台暂停的工作恢复到前台执行</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# fg  %工作号<br />
+参数：<br />
+%工作号：  %号可以省略，但是注意公招和PID的区别</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3、把后台暂停的工作恢复到后台执行</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]#  bg  %工作号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">4、后台命令脱离登陆终端运行</span><br><span class="line">把命令放入后台，就只能在当前登录终端执行。如果我们是远程管理的服务器，在远程终端中执行了后台命令，这时我要退出登录，后台命令就会被终止。我们可以用以下方法来解决这个问题：</span><br><span class="line">- 第一种方法是把需要后台执行的命令加入&#x2F;etc&#x2F;rc.local文件。让系统在启动时执行这个后台程序。这种方法的问题是，服务器是不能随便重启的，万一又临时后台任务，就不能执行了。</span><br><span class="line">- 第二种方法是使用系统定时任务，让系统在指定的时间执行某个后台命令。这样放入后台的命令与终端无关，是不依赖登录终端的。</span><br><span class="line">- 最后一种方法是使用 nohub命令。</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# nohub  [命令]  &amp;<br />
+例如<br />
+[root@localhost ~]# nohup find / -print &gt; /root/file.log &amp;<br />
+[3] 2349用find命令，打印/下所有文件。放入后台执行<br />
+[root@localhost ~]# nohup: 忽略输入并把输出追加到&quot;nohup.out&quot;<br />
+#有提示信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 系统资源查看</span><br><span class="line">### vmstat 命令监控系统资源</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# vmstat  [刷新延时 刷新次数]<br />
+例如：<br />
+[root@localhost ~]# vmstat  1  2<br />
+#使用vmstat检测，每一秒刷新1次，共刷新2次<br />
+procs -----------memory---------- —swap-- -----io---- -system-- ------cpu-----<br />
+r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st<br />
+1  0      0 896852  35460 448208    0    0   186    24   83   89  0  1 94  5  0<br />
+0  0      0 896860  35460 448208    0    0     0     0  152  135  0  0 100  0  0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">解释这个命令的输出：</span><br><span class="line">√ procs：进程信息字段：</span><br><span class="line">	r：等待运行的进程数，数量越大，系统越繁忙。</span><br><span class="line">	b：不可被唤醒的进程数量，数量越大，系统越繁忙。</span><br><span class="line">√ memory：内存信息字段：</span><br><span class="line">	swpd：虚拟内存的使用情况，单位KB。</span><br><span class="line">	free：空闲的内存容量，单位KB。</span><br><span class="line">	buff：缓冲的内存容量，单位KB。</span><br><span class="line">	cache：缓存的内存容量，单位KB。</span><br><span class="line">√ swap：交换分区的信息字段：</span><br><span class="line">	si：从磁盘中交换到内存中数据的数量，单位KB。</span><br><span class="line">	so：从内存在交换到磁盘中数据的数量，单位KB。此两个数越大，证明数据需要经常在磁盘和内存之间交换，系统性能越差。</span><br><span class="line">√ io：磁盘读写信息字段：</span><br><span class="line">	bi：从块设备读入数据的总量，单位是块。</span><br><span class="line">	bo：写到块设备的数据的总量，单位是块。此两个数越大，代表系统的I&#x2F;O越繁忙。</span><br><span class="line">√ system：系统信息字段：</span><br><span class="line">	in：每秒被中断的进程次数。</span><br><span class="line">	cs：每秒钟进行的事件切换次数。此两个数越大，代表系统与接口设备的通讯非常繁忙。</span><br><span class="line">√ CPU信息字段：</span><br><span class="line">	us：非内核进程小号CPU运算时间的百分比。</span><br><span class="line">	sy：内核进程消耗CPU运算时间的百分比。</span><br><span class="line">	id：空闲CPU的百分比。</span><br><span class="line">	wa：等待I&#x2F;O所消耗的CPU百分比。</span><br><span class="line">	st：被虚拟机所盗用的CPU占比。</span><br><span class="line"></span><br><span class="line">### dmesg 显示开机时内核检测信息（常用）</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# dmesg  |  grep  CPU<br />
+#查看CPU信息<br />
+[root@localhost ~]# dmesg  |  grep  eth0<br />
+#查看第一块网卡信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### free命令查看内存使用状态</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# free  [选项]<br />
+选项：<br />
+-b：以字节为单位显示<br />
+-k：以KB为单位显示，默认就是以KB为单位。<br />
+-m：以MB为单位显示<br />
+-g：以GB为单位显示</p>
+<p>[root@localhost ~]# free  -m<br />
+#以MB为单位显示内存使用状态。<br />
+total        used        free     shared  buff/cache   available<br />
+Mem:      1980         646       860        10         472          1174<br />
+Swap:      2047           0        2047</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">解释这个命令：</span><br><span class="line">第一行：total 是总内存数，used是已经使用的内存数，free是空闲的内存数，shared是多个进程共享的内存数，buff&#x2F;cache缓冲&#x2F;缓存内存数，available还可以被应用程序使用的物理内存大小。默认单位是KB。</span><br><span class="line">第二行：Mem是内存的使用情况。</span><br><span class="line">第三行：Swap是交换分区的使用情况。</span><br><span class="line"></span><br><span class="line">### 查看CPU信息</span><br><span class="line">CPU的主要信息保存在**&#x2F;proc&#x2F;cpuinfo** 这个文件当中。查看这个文件就可以知道cpu的相关信息。命令如下：</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# cat /proc/cpuinfo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查看本机登录用户信息</span><br><span class="line">我们可以使用 w 和 who 命令来进行查询Linux服务器上目前已经登录的用户信息。</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# w<br />
+21:43:15 up  1:06,  1 user,  load average: 0.00, 0.01, 0.05<br />
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT<br />
+root     pts/0    desktop-1ive13n  20:40    3.00s  0.17s  0.03s w</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">解释这个命令的结果：</span><br><span class="line">第一行其实和top命令的第一行非常类似，主要显示了系统当前时间，开机多久(up)，又多少用户登录(users)，1分钟、5分钟、15分钟前的平均fuzai(load average)</span><br><span class="line">第二行时项目说明，第三行开始每行代表一个用户。这些项目是：</span><br><span class="line">- USER：登录的用户名；</span><br><span class="line">- TTY：登录终端；</span><br><span class="line">- FROM：从哪个IP地址登录；</span><br><span class="line">- LOGIN@：登录时间；</span><br><span class="line">- IDLE：用户闲置时间；</span><br><span class="line">- JCPU：指的是和该终端连接的所有当前进程占用的CPU运算时间，这个时间里不包括过去的后台作业时间，但却包括当前正在运行的后台作业所占用的时间；</span><br><span class="line">- PCPU：是指但花钱进程所占用的CPU运算时间；</span><br><span class="line">- WHAT：当前正在运行的ml。</span><br><span class="line"></span><br><span class="line">who 命令比 w 命令简单一点，也可以用来查看系统中已经登陆的用户。如下：</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# who<br />
+root     pts/0        2021-04-18 20:40 (desktop-1ive13n)<br />
+#用户名  登录终端   登录时间(登录来源IP地址)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### uptime 命令</span><br><span class="line">uptime命令的作用就是显示系统的启动时间和平均负载，也就是top命令的第一行。</span><br></pre></td></tr></table></figure>
+<p>[root@localhost ~]# uptime<br />
+22:08:50 up  1:32,  1 user,  load average: 0.00, 0.01, 0.05</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 查看系统与内核相关信息</span><br><span class="line">使用uname命令查看内核相关信息：</span><br><span class="line">&#96;&#96;&#96; </span><br><span class="line">[root@localhost ~]# uname  [选项]</span><br><span class="line">选项：</span><br><span class="line">-a：查看系统所有相关信息</span><br><span class="line">-r：查看内核版本</span><br><span class="line">-s：查看内核名称</span><br></pre></td></tr></table></figure>
+<p>如果想要判断当前系统的位数，可以通过 file 命令来判断系统文件(主要是系统命令)的位数来土断系统的位数。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# file  &#x2F;bin&#x2F;ls</span><br><span class="line">&#x2F;bin&#x2F;ls: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU&#x2F;Linux 2.6.32, BuildID[sha1]&#x3D;aaf05615b6c91d3cbb076af81aeff531c5d7dfd9, stripped</span><br><span class="line">#当前系统是64位的。</span><br></pre></td></tr></table></figure>
+<p>如果我们想要查询Linux系统的发行版本，可以使用&quot;lsb_release  -a&quot;命令查看，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# lsb_release  -a</span><br><span class="line">LSB Version:	:core-4.1-amd64:core-4.1-noarch:cxx-4.1-amd64:cxx-4.1-noarch:desktop-4.1-amd64:desktop-4.1-noarch:languages-4.1-amd64:languages-4.1-noarch:printing-4.1-amd64:printing-4.1-noarch</span><br><span class="line">Distributor ID:	CentOS</span><br><span class="line">Description:	CentOS Linux release 7.7.1908 (Core)</span><br><span class="line">Release:	7.7.1908</span><br><span class="line">Codename:	Core</span><br></pre></td></tr></table></figure>
+<h2 id="系统定时任务"><a class="markdownIt-Anchor" href="#系统定时任务"></a> 系统定时任务</h2>
+<h3 id="at一次性执行定时任务"><a class="markdownIt-Anchor" href="#at一次性执行定时任务"></a> at一次性执行定时任务</h3>
+<p>1、at 服务管理与访问控制<br />
+at命令想要正确执行，需要atd服务的支持（默认是打开状态）。atd服务是独立的服务，所有启动的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# service  atd  start</span><br><span class="line">正在启动 atd：   											[确定]</span><br></pre></td></tr></table></figure>
+<p>如果想让atd服务开机时自动启动，可以使用如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# chkconfig  atd  on</span><br></pre></td></tr></table></figure>
+<p>atd 服务启动之后，at 命令才可以正常使用，不过我们还要学习下at命令的访问控制。这里的访问控制指的是允许哪些用户使用at命令设定定时任务。或者不允许哪些用户使用 at 命令。可以理解成黑名单和白名单。at的访问控制是依靠 <strong>/etc/at.allow</strong>文件(白名单)和**/etc/at.deny**文件(黑名单)这两个文件来实现的，具体规则如下：</p>
+<ul>
+<li>如果系统中有/etc/at.allow文件，那么只有写入/etc/at.allow文件（白名单）中的用户可以使用at命令，其他用户不能使用at命令（/etc/at.deny文件会被忽略，也就是说同一个用户既写入/etc/at.allow文件，也写入/etc/at.deny文件，那么这个用户是可以使用at命令的，因为/etc/at.allow文件优先级更高。）。</li>
+<li>如果系统中没有/etc/at.allow文件，只有/etc/at.deny文件，那么写入/etc/at.deny文件（黑名单）中的用户不能使用at命令，其他用户可以使用at命令。不过这个文件对root用户不生效。</li>
+<li>如果系统中这两个文件都不存在，那么只有root用户可以使用at命令。<br />
+系统中默认时只有/etc/at.deny文件，而且这个文件是空的，这样的话系统中所有的用户都可以使用at命令。不过如果我们打算控制用户的at命令权限，把用户写入/etc/at.deny文件即可/etc/at.allow文件的权限更高，如果/etc/at.allow文件存在，则/etc/at.deny文件失效。/etc/at.allow管理行为更加严格，因为只有写入这个文件的用户才能使用at命令，如果需要禁用at命令的用户较多，则可以把少数用户写入这个文件。/etc/at.deny文件的管理较为松散，如果允许使用at命令的用户较多，则可以把禁用的用户写入这个文件。不过这两个文件都不能对root用户生效。</li>
+</ul>
+<p>2、at命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# at  [选项]  时间</span><br><span class="line">选项：</span><br><span class="line">-m：当at工作完成后，无论是否命令有输出，都用email通知执行at命令用户</span><br><span class="line">-c 工作号： 显示该at工作的实际内容</span><br><span class="line"></span><br><span class="line">时间：</span><br><span class="line">	at支持的时间格式如下：</span><br><span class="line">		HH:MM      在指定的&quot;小时:分钟&quot; 执行命令，例如：14:31</span><br><span class="line">		HH:MM YYYY-MMDD        在指定&quot;小时：分钟  年-月-日&quot;执行，例如：14:31  2021-01-20</span><br><span class="line">		HH:MM[am|pm] [month] [date]    在指定的&quot;小时:分钟[上午|下午] [月] [日]&quot;执行，例如02:30 July  25</span><br><span class="line">		HH:MM[am|pm] + [minutes|hours|days|weeks]  在指定的时间&quot;再加多久执行&quot;，例如：now + 5 minutes，05am +2 hour</span><br></pre></td></tr></table></figure>
+<p>at命令只要指定正确的时间，就可以输入需要指定时间执行的命令，这个命令可以是系统目录也可以是shell脚本。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cat &#x2F;root&#x2F;hello.sh </span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">echo &quot;hello world!!&quot;</span><br><span class="line">#该脚本会打印“hello workd！！”</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# at  now  +2  minutes</span><br><span class="line">at&gt; &#x2F;root&#x2F;hello.sh &gt;&gt; &#x2F;root&#x2F;hello.log</span><br><span class="line">#执行 hello.sh脚本，并把输出写入&#x2F;root&#x2F;hello.log文件</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# at -c 8  </span><br><span class="line">#查询第8个at任务的内容</span><br><span class="line">...省略部分内容...      👈主要是定义系统的环境变量</span><br><span class="line">&#x2F;root&#x2F;hello.sh &gt;&gt; &#x2F;root&#x2F;hello.log</span><br><span class="line">#可以看到at执行的任务</span><br><span class="line"></span><br><span class="line">例子2：</span><br><span class="line">[root@localhost ~]# at 02:00 2018-07-26 </span><br><span class="line">at&gt; &#x2F;bin&#x2F;sync</span><br><span class="line">at&gt; &#x2F;sbin&#x2F;shutdown -h now </span><br><span class="line">at&gt; &lt;EOT&gt;</span><br><span class="line">job 9 at 2018-07-26 02:00</span><br><span class="line">#在指定的时间关机。在一个at任务中，是可以执行多个系统命令的</span><br></pre></td></tr></table></figure>
+<p>3、其他at管理命令<br />
+at还有查询和删除命令，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# atq</span><br><span class="line">#查询当前服务器上的at工作</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line">[root@localhost ~]# atq</span><br><span class="line">9       2018-07-26 02:00 a root</span><br><span class="line">#说明root用户有一个at任务在2018年7月26日的02:00执行，工作号是9</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# atrm [工作号] </span><br><span class="line">#删除指定的at任务</span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line">[root@localhost ~]# atrm 9</span><br><span class="line">[root@localhost ~]# atq</span><br><span class="line">#删除9号at任务，再查询就没有at任务存在了</span><br></pre></td></tr></table></figure>
+<h3 id="crontab-循环执行定时任务"><a class="markdownIt-Anchor" href="#crontab-循环执行定时任务"></a> crontab 循环执行定时任务</h3>
+<p>1、 cron访问管理与访问控制<br />
+crontab 命令是需要 crond 服务支持的，crond 服务同样是独立的服务，所以启动和自启动方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# service crond restart</span><br><span class="line">停止 crond：                                               [确定] </span><br><span class="line">正在启动 crond：</span><br><span class="line">#重启crond服务</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# chkconfig  crond  on</span><br><span class="line">#设定 crond 服务位开机自启动</span><br></pre></td></tr></table></figure>
+<p>crond服务默认是自启动的，如果服务器上有循环执行的系统定时任务，就不要关闭crond服务了<br />
+crontab命令和at命令类似，也是通过/etc/cron.allow和/etc/cron.deny文件来限制某些用户是否可以使用crontab命令的。而且原则也非常相似：</p>
+<ul>
+<li>当系统中有/etc/cron.allow文件时，只有希尔此文件的用户可以使用crontab命令，没有写入的用户不能使用crontab命令。同样如果有此文件，/etc/cron.deny文件会被忽略，/etc/cron.allow文件的优先级更高。</li>
+<li>当系统中只有/etc/cron.deny文件时，则写入此文件的用户不能使用crontab命令，没有写入文件的用户可以使用crontab命令。<br />
+这个规则基本和at的规则一直，同样/etc/cron.allow文件的优先级比/etc/cron.deny文件的优先级高，Linux中默认只有/etc/cron.deny文件。</li>
+</ul>
+<p>2、用户的 crontab 设置<br />
+每个用户都可以实现自己的 crontab 定时任务，只要是使用这个用户身份执行 &quot;crontab  -e&quot;命令即可，当然这个用户不能加入/etc/cron.deny 文件中。crontab命令格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# crontab  [选项]</span><br><span class="line">选项：</span><br><span class="line">-e：编辑crontab定时任务</span><br><span class="line">-l：查询crontab任务</span><br><span class="line">-r：删除当前用户所有的crontab任务，如果有多个任务，只想删除一个，可以用&quot;crontab  -e&quot;</span><br><span class="line">-u  用户名：修改或删除其他用户的crontab任务。只要root可用</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# crontab -e</span><br><span class="line">#进入crontab编辑界面。会打开vim编辑你的工作。</span><br><span class="line">* * * * * 执行任务</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">项目</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">第一个&quot;*&quot;</td>
+<td style="text-align:center">一天当中的第几分钟</td>
+<td style="text-align:center">0-59</td>
+</tr>
+<tr>
+<td style="text-align:center">第二个&quot;*&quot;</td>
+<td style="text-align:center">一天当中的第几小时</td>
+<td style="text-align:center">0-23</td>
+</tr>
+<tr>
+<td style="text-align:center">第三个&quot;*&quot;</td>
+<td style="text-align:center">一个月当中的第几天</td>
+<td style="text-align:center">1-31</td>
+</tr>
+<tr>
+<td style="text-align:center">第四个&quot;*&quot;</td>
+<td style="text-align:center">一年当中的第几月</td>
+<td style="text-align:center">1-12</td>
+</tr>
+<tr>
+<td style="text-align:center">第五个&quot;*&quot;</td>
+<td style="text-align:center">一周当中的星期几</td>
+<td style="text-align:center">0-7(0和7都代表星期日)</td>
+</tr>
+</tbody>
+</table>
+<p>在时间表示时，还有以下特殊符号需要学习，如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">特殊符号</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">代表任何时间。比如第一个&quot; * &quot;就代表一小时中每分钟都执行一次的意思</td>
+</tr>
+<tr>
+<td style="text-align:center">，</td>
+<td style="text-align:center">代表不连续的时间。比如&quot;0 8,12,16 * * * 命令&quot; ，就代表在媒体的 8点0分，12点0分，116点0分 都执行一次命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">代表连续的时间范围。比如&quot;0 5 * * 1-6 命令&quot; ，代表在周一到周六的凌晨5点0分执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:center">*/n</td>
+<td style="text-align:center">代表每隔多久执行一次。比如&quot;*/ * * * * 命令&quot; ，代表每隔10分钟执行一次命令。</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">例子1：让系统每隔5分钟，就向&#x2F;tmp&#x2F;test文件中写入一行“11”，验证一下系统定时任务是否会执行</span><br><span class="line">[root@localhost ~]# crontab -e </span><br><span class="line">#进入编辑界面</span><br><span class="line">*&#x2F;5 * * * * &#x2F;bin&#x2F;echo ”11” &gt;&gt; &#x2F;tmp&#x2F;test</span><br><span class="line"></span><br><span class="line">例子2：在系统在每周二的凌晨5点05分重启一次</span><br><span class="line">[root@localhost ~]# crontab -e </span><br><span class="line">5 5 * * 2 &#x2F;sbin&#x2F;shutdown -r now</span><br><span class="line"></span><br><span class="line">例子3：在每月的1号，10号，15号的凌晨3点30分都定时执行日志备份脚本autobak.sh</span><br><span class="line">[root@localhost ~]# crontab -e </span><br><span class="line">30 3 1,10,15 * * &#x2F;root&#x2F;sh&#x2F;autobak.sh</span><br><span class="line">[root@localhost ~]# crontab -l </span><br><span class="line">#查看root用户的crontab任务</span><br><span class="line">[root@localhost ~]# crontab -r </span><br><span class="line">#删除root用户所有的定时任务，如果只想删除某一个定时任务，可以“crontab -e”进入编辑模式手工删除</span><br></pre></td></tr></table></figure>
+<p>3、crontab 的注意事项<br />
+在书写crontab定时任务时，需要注意几个事项，如下：</p>
+<ul>
+<li>六个选项都不能为空，必须填写。如果不确定使用&quot; * &quot;代表任意时间。</li>
+<li>crontab定时任务，最小有效时间是分钟，最大有效时间是月。像2018年某时执行，3点30分30秒这样的时间都不能识别。</li>
+<li>在定义时间，日期和星期最好不要在一条定时任务中出现，因为它们都是以天为单位，非常容易让管理源混乱。</li>
+<li>在定时任务中，不管是直接写命令，还是在脚本中写命令，最好都是用绝对路径。有时相对路径的命令会报错。</li>
+</ul>
+<p>4、系统的crontab设置<br />
+“crontab -e”是每个用户执行的命令，也就是说不同的用户身份可以执行自己的定时任务。可是有些定时任务需要系统执行，这时我们就需要编辑/etc/crontab这个配置文件了。当然，并不是说写入/etc/crontab配置文件中的定时任务执行时，不需要用户身份，而是“crontab -e”命令定义定时任务时，默认用户身份是当前登录用户。而修改/etc/crontab配置文件时，定时任务的执行着身份是可以手工指定的。这样定时任务的执行会更加灵活，修改起来也更加方便。</p>
+<p>那我们打开这个文件看看吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi &#x2F;etc&#x2F;crontab</span><br><span class="line">SHELL&#x3D;&#x2F;bin&#x2F;bash</span><br><span class="line">#标示使用哪种shell </span><br><span class="line">PATH&#x3D;&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin</span><br><span class="line">#指定PATH环境变量，crontab是使用自己的PATH，而不是用系统默认的，所以在定时任务中出现的命令最好使用大写</span><br><span class="line">MAILTO&#x3D;root</span><br><span class="line">#如果有报错输出，或命令结果又输出，会向root发信息</span><br><span class="line">HOME&#x3D;&#x2F;</span><br><span class="line">#标示主目录</span><br><span class="line"></span><br><span class="line"># For details see man 4 crontabs</span><br><span class="line">#提示大家可以去“man 4 crontabs”查看帮助</span><br><span class="line"></span><br><span class="line"># Example of job definition:</span><br><span class="line"># .---------------- minute (0 - 59) </span><br><span class="line"># |  .------------- hour (0 - 23)  </span><br><span class="line"># |  |  .---------- day of month (1 - 31)  </span><br><span class="line"># |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...</span><br><span class="line"># |  |  |  |  .---- day of week (0 - 6) (Sunday&#x3D;0 or 7) OR sun,mon,tue,wed,thu,fri,sat</span><br><span class="line"># |  |  |  |  |# *  *  *  *  * user-name command to be executed </span><br><span class="line">#分 时 日 月 周 执行者身份 命令</span><br><span class="line">#列出文件格式，并加入了注释</span><br></pre></td></tr></table></figure>
+<p>在CentOS 6.x中，/etc/crontab这个文件也发生了变化，在CentOS 5.x中这个文件的内容大概是这个样子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#以下输出，是在CentOS 5.5当中</span><br><span class="line">[root@sc ~]# vi &#x2F;etc&#x2F;crontab </span><br><span class="line">SHELL&#x3D;&#x2F;bin&#x2F;bash</span><br><span class="line">PATH&#x3D;&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin</span><br><span class="line">MAILTO&#x3D;root</span><br><span class="line">HOME&#x3D;&#x2F;</span><br><span class="line"></span><br><span class="line"># run-parts</span><br><span class="line">01 * * * * root run-parts &#x2F;etc&#x2F;cron.hourly</span><br><span class="line">02 4 * * * root run-parts &#x2F;etc&#x2F;cron.daily</span><br><span class="line">22 4 * * 0 root run-parts &#x2F;etc&#x2F;cron.weekly</span><br><span class="line">42 4 1 * * root run-parts &#x2F;etc&#x2F;cron.monthly</span><br></pre></td></tr></table></figure>
+<p>在CentOS  5.x版本中，/etc/crontab文件会使用run-parts脚本执行/etc/cron.{daily,weekly,monthly}目录中的所有文件。这个run-parts其实是一个shell脚本，保存在/usr/bin/run-parts，它的作用就是把其后面跟随的目录中的所有可执行文件依次执行。也就是说，如果我们想让某个脚本在每天都执行一次，可以不用手工去写定时任务，而只需要给这个脚本赋予执行权限，并把它放入/etc/cron.daily/目录中。这样这个脚本就会在每天的凌晨4点02分执行了。<br />
+可是在CentOS 6.x版本中，/etc/crontab文件中不再有相关的段落，那么是否run-   ptars这种定时任务执行方法不可用了呢？我们看到/etc/crontab中有一句提示，让我们“man 4 crontabs”来查看帮助，那么我们就看看这个帮助吧！在这个帮助中，明确写明了“在旧版本的crontab配置文件中，是通过run -parts脚本来调用cron.{daily,weekly,monthly}目录，定时执行这些目录中的脚本。在当前系统中，为了避免cron和anacron之间产生冲突，只要anacron已经安装，就使用anacron来执行这些目录中的脚本。具体可以查看anacron（8）的帮助。”。对于anacron的用法，我们下一个小节来介绍.<br />
+其实对我们用户来讲，我们并不需要知道这个定时任务到底是由哪个程序调用的。我们需要知道的事情是如何使用系统的crontab设置。这个新老版本的CentOS没有区别，配置方法都有两种：</p>
+<ul>
+<li>第一种方法就是我刚刚说过的，把你需要定时执行的工作写成脚本程序，并赋予执行权限，然后直接把这个脚本复制到/etc/cron.{daily,weekly,monthly}目录中的任意一个。比如我需要让某个脚本每周执行，那么就把这个脚本复制到/etc/cron.weekly/目中中。这样这个脚本就会每周执行一次，具体的执行时间要参考anacron的配置.</li>
+<li>第二种方法就是修改/etc/crontab这个配置文件，自己加入自己的定时任务，不过需要注意指定脚本的执行者身份。例如：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi &#x2F;etc&#x2F;crontab</span><br><span class="line">...省略部分输出... </span><br><span class="line">* * * * * root run-parts &#x2F;root&#x2F;cron&#x2F;</span><br><span class="line">#让系统每分钟都执行一次&#x2F;root&#x2F;cron&#x2F;目录中的脚本，脚本执行者是root用户。</span><br><span class="line">#虽然在CentOS 6.x中，不是直接通过此配置文件调用&#x2F;etc&#x2F;cron.&#123;daily,weekly,monthly&#125;这些目录，</span><br><span class="line">#但是run-   parts脚本还是可以使用的。所以我完全可以参照CentOS 5.x的方法来写定时任务。</span><br><span class="line">#使用run-   parts脚本调用并执行&#x2F;root&#x2F;cron&#x2F;目录中所有的可执行文件</span><br><span class="line"></span><br><span class="line">[root@localhost ~]# mkdir cron</span><br><span class="line">#建立&#x2F;root&#x2F;cron目录</span><br><span class="line">[root@localhost cron]# vi &#x2F;root&#x2F;cron&#x2F;hello.sh</span><br><span class="line">#&#x2F;bin&#x2F;bash</span><br><span class="line">echo &quot;hello&quot; &gt;&gt; &#x2F;root&#x2F;cron&#x2F;hello.log</span><br><span class="line">#在&#x2F;root&#x2F;cron&#x2F;hello.log文件中写入hello </span><br><span class="line">[root@localhost cron]# chmod 755 hello.sh</span><br><span class="line">#赋予执行权限。</span><br><span class="line">#因为hello.sh脚本放入了&#x2F;root&#x2F;cron&#x2F;目录，所以会每分钟执行一次。</span><br></pre></td></tr></table></figure>
+<p>只要保存/etc/crontab文件，这个定时任务就可以执行了，当然要确定crond服务是运行的。这两种方法都是可以使用的，具体看个人的习惯吧！不过要想修改/etc/crontab文件，当然我要是root用户才可以，普通不能修改，只能使用用户身份的crontab命令。</p>
+<h3 id="anacron"><a class="markdownIt-Anchor" href="#anacron"></a> anacron</h3>
+<p>anacron是用来干什么的呢？我们的Linux服务器如果不是24小时开机的，那么刚好在关机的时间段之内有系统定时任务（cron）需要执行，那么这些定时任务是不会执行的。也就是说，假设我们需要在凌晨5点05分执行系统的日志备份，但是我们的Linux服务器不是24小时开机的，在晚上需要关机，白天上班之后才会再次开机。这个定时任务的执行时间我们的服务器刚好没有开机，那么这个任务就不会执行了。anacron就是用来解决这个问题的。<br />
+anacron会使用一天，七天，一个月作为检测周期，用来判断是否有定时任务在关机之后没有执行，如果有这样的任务，anacron会在特定的时间重新执行这些定时任务。那么anacron是如何判断这些定时任务已经超过了执行时间呢？在系统的/var/spool/anacron/目录中存在cron.{daily,weekly,monthly}文件，这些文件中都保存着anacron上次执行时的时间。anacron会去读取这些文件中的时间，然后和当前时间做比较，若果两个时间的差值超过了anacron的指定时间差值（一般是1天，7天和一个月），就说明有定时任务漏掉了没有被执行，这时anacron会介入而执行这个漏掉的定时任务，从而保证在关机时没有被执行的定时任务不会被漏掉。<br />
+在CentOS 6.x中，我们使用cronie-anacron取代了vixie-cron软件包。而且在原先的CentOS版本中/etc/cron.{daily,weekly,monthly}这些目录中的定时任务会同时被cron和anacron调用，这样非常容易出现重复执行同一个定时任务的错误。在现在的CentOS  6.x中，/etc/cron.{daily,weekly,monthly}目录中的定时任务程序只会被anacron调用，从而保证这些定时任务只会在每天、每周或每月被定时执行一次，而不会重复执行。这也是我们在上一个小节中介绍的CentOS 6.x的变化之一。<br />
+在CentOS 6.x中anacron还有一个变化，anacron不再是单独的服务，而变成了系统命令。也就是说我们不再可以使用“service anacron restart”命令来管理anacron服务了。而是需要使用anacron命令来管理anacron工作，具体命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# anacron  [选项]  [工作名]</span><br><span class="line">选项：</span><br><span class="line">-s ：开始anacron工作，依据&#x2F;etc&#x2F;anacron文件中的设定的延迟时间执行</span><br><span class="line">-n ：立即执行&#x2F;etc&#x2F;anacrontab 中的所有的工作，忽略所有的延迟时间</span><br><span class="line">-u： 更新&#x2F;var&#x2F;spool&#x2F;anacron&#x2F;cron.&#123;daily,weekly,monthly&#125;文件中的时间戳，但不执行任何工作</span><br><span class="line"></span><br><span class="line">参数：</span><br><span class="line">工作名： 是依据&#x2F;etc&#x2F;anacrontab 文件中定义的工作名</span><br></pre></td></tr></table></figure>
+<p>在我们当前的Li nux中，其实不需要执行任何anacron命令，只需要配置好/etc/anacrontab文件，系统就会依赖这个文件中的设定来通过anacron执行定时任务。那么关键就是/etc/anacrontab文件的内容了，这个文件如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi &#x2F;etc&#x2F;anacrontab</span><br><span class="line"># &#x2F;etc&#x2F;anacrontab: configuration file for anacron</span><br><span class="line"></span><br><span class="line"># See anacron(8) and anacrontab(5) for details. </span><br><span class="line">SHELL&#x3D;&#x2F;bin&#x2F;sh</span><br><span class="line">PATH&#x3D;&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin</span><br><span class="line">MAILTO&#x3D;root</span><br><span class="line">#前面的内容和&#x2F;etc&#x2F;crontab类似</span><br><span class="line"></span><br><span class="line"># the maximal random delay added to the base delay of the jobs</span><br><span class="line">RANDOM_DELAY&#x3D;45 </span><br><span class="line">#最大随机延迟。</span><br><span class="line"># the jobs will be started during the following hours only</span><br><span class="line">START_HOURS_RANGE&#x3D;3-22</span><br><span class="line">#anacron的执行时间范围是3:00-22:00 </span><br><span class="line"></span><br><span class="line">#period in days   delay in minutes   job-identifier   command</span><br><span class="line">1       5        cron.daily                nice run-parts &#x2F;etc&#x2F;cron.daily </span><br><span class="line">7       25      cron.weekly             nice run-parts &#x2F;etc&#x2F;cron.weekly </span><br><span class="line">@monthly 45     cron.monthly            nice run-parts &#x2F;etc&#x2F;cron.monthly</span><br><span class="line">#天数强制延迟（分）工作名称实际执行的命令</span><br><span class="line">#时间差超过天数时，强制延迟多少分钟之后，就执行命令</span><br></pre></td></tr></table></figure>
+<p>这个文件中“RANDOM_DELAY”定义的是最大随机延迟，也就是说cron.daily任务如果超过1天没有执行，并不会马上执行，而是先延迟强制延迟时间之后，再延迟随机延迟时间之后再执行命令。“START_HOURS_RANGE”定义anacron的执行时间范围，anacron只会在这个时间范围之内执行。<br />
+我们用cron.daily工作来说明下/etc/anacrontab的执行过程：<br />
+👉首先读取/var/spool/anacron/cron.daily中的上一次anacron执行的时间；<br />
+👉和当前时间比较，如果两个时间的差值超过1天，就执行cron.daily工作；<br />
+👉执行这个工作只能在03:00-22:00之间；<br />
+👉执行工作时强制延迟时间为5分钟，再随机延迟0-45分钟时间；<br />
+👉使用nice命令指定默认优先级，使用run-   parts脚本执行/etc/cron.daily目录中的所有可执行文件。</p>
+<p>大家发现了吧，/etc/cron.{daily,weekly,monthly}中的脚本，在当前的Linux中是被anacron调用的，不再依靠cron服务。不过anacron不用设置多余的配置，我们只需要把需要定时执行的脚本放入/etc/cron.{daily,weekly,monthly}目录当中，就会每天、每周或每月执行，而且也不再需要启动anacron服务了。我们如果做修改的话，只用修改/etc/anacrontab配置文件即可。比如我更加习惯让定时任务在凌晨03:00-05:00执行，就可以如下修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# vi &#x2F;etc&#x2F;anacrontab</span><br><span class="line"># &#x2F;etc&#x2F;anacrontab: configuration file for anacron</span><br><span class="line"></span><br><span class="line"># See anacron(8) and anacrontab(5) for details. </span><br><span class="line"></span><br><span class="line">SHELL&#x3D;&#x2F;bin&#x2F;sh</span><br><span class="line">PATH&#x3D;&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin</span><br><span class="line">MAILTO&#x3D;root</span><br><span class="line"># the maximal random delay added to the base delay of the jobs</span><br><span class="line">RANDOM_DELAY&#x3D;0</span><br><span class="line">#随机延迟改为0分钟，不再随机延迟</span><br><span class="line"># the jobs will be started during the following hours only</span><br><span class="line">START_HOURS_RANGE&#x3D;3-5</span><br><span class="line">#执行时间范围为03:00-05:00 </span><br><span class="line"></span><br><span class="line">#period in days   delay in minutes   job-identifier   command</span><br><span class="line">1       0       cron.daily              nice run-parts &#x2F;etc&#x2F;cron.daily </span><br><span class="line">7       0      cron.weekly             nice run-parts &#x2F;etc&#x2F;cron.weekly </span><br><span class="line">@monthly 0     cron.monthly            nice run-parts &#x2F;etc&#x2F;cron.monthly </span><br><span class="line">#强制延迟也改为0分钟，不再强制延迟</span><br></pre></td></tr></table></figure>
+<p>这样我们所有放入/etc/cron.{daily,weekly,monthly}目录中的脚本都会在指定时间运行了，而且也不怕服务器万一关机的情况了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Secular</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://www.wanchelai.com/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/">http://www.wanchelai.com/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://www.wanchelai.com" target="_blank">Secular</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" data-lazy-src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/02/02/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--24.%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/"><img class="prev-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux24.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Linux系统管理--日志管理</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/08/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--20.Shell%E7%BC%96%E7%A8%8B(2)/"><img class="next-cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux14.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Linux系统管理--Shell编程(2)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/02/02/Linux系统管理--24.日志管理/" title="Linux系统管理--日志管理"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux24.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-02-02</div><div class="title">Linux系统管理--日志管理</div></div></a></div><div><a href="/2021/01/08/Linux系统管理--20.Shell编程(2)/" title="Linux系统管理--Shell编程(2)"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux14.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-08</div><div class="title">Linux系统管理--Shell编程(2)</div></div></a></div><div><a href="/2020/12/29/Linux系统管理--22.服务管理/" title="Linux系统管理--服务管理"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux21.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-29</div><div class="title">Linux系统管理--服务管理</div></div></a></div><div><a href="/2020/12/27/Linux系统管理--21.启动引导与修复/" title="Linux系统管理--启动引导与修复"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux20.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-27</div><div class="title">Linux系统管理--启动引导与修复</div></div></a></div><div><a href="/2020/12/20/Linux系统管理--19.Shell编程(1)/" title="Linux系统管理--Shell编程(1)"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux19.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-20</div><div class="title">Linux系统管理--Shell编程(1)</div></div></a></div><div><a href="/2020/12/15/Linux系统管理--18.Shell基础(2)/" title="Linux系统管理--Shell基础(2)"><img class="cover" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images@master/cover_picture/lux18.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">Linux系统管理--Shell基础(2)</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside_content" id="aside_content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><img class="avatar-img" data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/hy.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Secular</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length_num">42</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length_num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length_num">3</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/kthxbi4" target="_blank" title="Github"><i class="iconfont icon-github card_icon"></i></a><a class="social-icon" href="mailto:489484418@qq.com" target="_blank" title="Email"><i class="fa fa-envelope"></i></a><a class="social-icon" href="https://steamcommunity.com/profiles/76561198346837639/" target="_blank" title=""><i class="iconfont icon-steam_icon card_icon"></i></a><a class="social-icon" href="https://space.bilibili.com" target="_blank" title=""><i class="iconfont icon-bilibili card_icon"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></div></div></div><div class="card-widget card-announcement"><div class="card-content"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="card-content"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> 进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text"> 进程简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.2.</span> <span class="toc-text"> 进程查看</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ps-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.1.</span> <span class="toc-text"> ps 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#top-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.2.</span> <span class="toc-text"> top 命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pstree-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.2.3.</span> <span class="toc-text"> pstree 命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%AE%A1%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text"> 进程的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#kill-%E5%91%BD%E4%BB%A4"><span class="toc-number">1.3.1.</span> <span class="toc-text"> kill 命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text"> 系统定时任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#at%E4%B8%80%E6%AC%A1%E6%80%A7%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.1.</span> <span class="toc-text"> at一次性执行定时任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#crontab-%E5%BE%AA%E7%8E%AF%E6%89%A7%E8%A1%8C%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.2.</span> <span class="toc-text"> crontab 循环执行定时任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#anacron"><span class="toc-number">2.3.</span> <span class="toc-text"> anacron</span></a></li></ol></li></ol></div></div></div><div class="card-widget card-recent-post"><div class="card-content"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/02/02/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--24.%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/" title="Linux系统管理--日志管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux24.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--日志管理"/></a><div class="content"><a class="title" href="/2021/02/02/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--24.%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86/" title="Linux系统管理--日志管理">Linux系统管理--日志管理</a><time datetime="2021-02-01T16:00:00.000Z" title="发表于 2021-02-02 00:00:00">2021-02-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理--系统管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux23.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--系统管理"/></a><div class="content"><a class="title" href="/2021/01/18/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--23.%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86/" title="Linux系统管理--系统管理">Linux系统管理--系统管理</a><time datetime="2021-01-17T16:00:00.000Z" title="发表于 2021-01-18 00:00:00">2021-01-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/08/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--20.Shell%E7%BC%96%E7%A8%8B(2)/" title="Linux系统管理--Shell编程(2)"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux14.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--Shell编程(2)"/></a><div class="content"><a class="title" href="/2021/01/08/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--20.Shell%E7%BC%96%E7%A8%8B(2)/" title="Linux系统管理--Shell编程(2)">Linux系统管理--Shell编程(2)</a><time datetime="2021-01-07T16:00:00.000Z" title="发表于 2021-01-08 00:00:00">2021-01-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/29/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--22.%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/" title="Linux系统管理--服务管理"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux21.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--服务管理"/></a><div class="content"><a class="title" href="/2020/12/29/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--22.%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/" title="Linux系统管理--服务管理">Linux系统管理--服务管理</a><time datetime="2020-12-28T16:00:00.000Z" title="发表于 2020-12-29 00:00:00">2020-12-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/27/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--21.%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC%E4%B8%8E%E4%BF%AE%E5%A4%8D/" title="Linux系统管理--启动引导与修复"><img data-lazy-src="https://cdn.jsdelivr.net/gh/Kthxbi4/images/cover_picture/lux20.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统管理--启动引导与修复"/></a><div class="content"><a class="title" href="/2020/12/27/Linux%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86--21.%E5%90%AF%E5%8A%A8%E5%BC%95%E5%AF%BC%E4%B8%8E%E4%BF%AE%E5%A4%8D/" title="Linux系统管理--启动引导与修复">Linux系统管理--启动引导与修复</a><time datetime="2020-12-26T16:00:00.000Z" title="发表于 2020-12-27 00:00:00">2020-12-27</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021  <i id="heartbeat" class="fa fas fa-heartbeat"></i> Secular</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><p><a style="margin-inline:5px" target="_blank" href="https://hexo.io/"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&logo=hexo" title="博客框架为Hexo"></a><a style="margin-inline:5px" target="_blank" href="https://butterfly.js.org/"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&logo=bitdefender" title="主题采用butterfly"></a><a style="margin-inline:5px" target="_blank" href="https://www.jsdelivr.com/"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&logo=jsDelivr" title="本站使用JsDelivr为静态资源提供CDN加速"></a><a style="margin-inline:5px" target="_blank" href="https://github.com/"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&logo=GitHub" title="本站项目由Gtihub托管"></a><a style="margin-inline:5px" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&logo=Claris" title="本博客所有文章除特别声明外，均采用 CC BY-NC-SA 4.0 许可协议。"></a></p></div></div><head><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/HCLonely/images@master/others/heartbeat.min.css"></head></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a target="_blank" rel="noopener" href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (document.getElementsByClassName('mermaid').length) {
+  if (window.mermaidJsLoad) mermaid.init()
+  else {
+    $.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js', function () {
+      window.mermaidJsLoad = true
+      mermaid.initialize({
+        theme: 'default',
+      })
+      false && mermaid.init()
+    })
+  }
+}</script><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '5eiehMYVOOVcnKMxA6g97OTI-MdYXbMMI',
+      appKey: 'LJvS2AG393gyE7RhK1c5LKiK',
+      placeholder: '有什么问题请在这里留言。',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'zh-CN',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '//i0.hdslb.com/bfs/emote/',
+      emojiMaps: {"2020":"dc709fac0d361370bcf0d36d32adb97df7c95824.png","tv_白眼":"c1d59f439e379ee50eef488bcb5e5378e5044ea4.png","tv_doge":"6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png","tv_坏笑":"1f0b87f731a671079842116e0991c91c2c88645a.png","tv_难过":"87f46748d3f142ebc6586ff58860d0e2fc8263ba.png","tv_生气":"26702dcafdab5e8225b43ffd23c94ac1ff932654.png","tv_委屈":"d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png","tv_斜眼笑":"911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png","tv_呆":"fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png","tv_发怒":"34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png","tv_惊吓":"0d15c7e2ee58e935adc6a7193ee042388adc22af.png","tv_呕吐":"9f996894a39e282ccf5e66856af49483f81870f3.png","tv_思考":"90cf159733e558137ed20aa04d09964436f618a1.png","tv_微笑":"70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png","tv_疑问":"0793d949b18d7be716078349c202c15ff166f314.png","tv_大哭":"23269aeb35f99daee28dda129676f6e9ea87934f.png","tv_鼓掌":"1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png","tv_抠鼻":"c666f55e88d471e51bbd9fab9bb308110824a6eb.png","tv_亲亲":"a8111ad55953ef5e3be3327ef94eb4a39d535d06.png","tv_调皮":"b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png","tv_笑哭":"1abc628f6d4f4caf9d0e7800878f4697abbc8273.png","tv_晕":"5443c22b4d07fb1907ccc610c8e6db254f2461b7.png","tv_点赞":"f85c354995bd99e28fc76c869bfe42ba6438eff4.png","tv_害羞":"a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png","tv_睡着":"8b196675b53af58264f383c50ad0945048290b33.png","tv_色":"61822c7e9aae5da76475e7892534545336b23a6f.png","tv_吐血":"09dd16a7aa59b77baa1155d47484409624470c77.png","tv_无奈":"ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png","tv_再见":"180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png","tv_流汗":"cead1c351ab8d79e9f369605beb90148db0fbed3.png","tv_偷笑":"bb690d4107620f1c15cff29509db529a73aee261.png","tv_抓狂":"fe31c08edad661d63762b04e17b8d5ae3c71a757.png","tv_黑人问号":"45821a01f51bc867da9edbaa2e070410819a95b2.png","tv_困":"241ee304e44c0af029adceb294399391e4737ef2.png","tv_打脸":"56ab10b624063e966bfcb76ea5dc4794d87dfd47.png","tv_闭嘴":"c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png","tv_鄙视":"6e72339f346a692a495b123174b49e4e8e781303.png","tv_腼腆":"89712c0d4af73e67f89e35cbc518420380a7f6f4.png","tv_馋":"fc7e829b845c43c623c8b490ee3602b7f0e76a31.png","tv_可爱":"9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png","tv_发财":"34db290afd2963723c6eb3c4560667db7253a21a.png","tv_生病":"8b0ec90e6b86771092a498c54f09fc94621c1900.png","tv_流鼻血":"c32d39db2737f89b904ca32700d140a9241b0767.png","tv_尴尬":"7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png","tv_大佬":"093c1e2c490161aca397afc45573c877cdead616.png","tv_流泪":"7e71cde7858f0cd50d74b0264aa26db612a8a167.png","tv_冷漠":"b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png","tv_皱眉":"72ccad6679fea0d14cce648b4d818e09b8ffea2d.png","tv_鬼脸":"0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png","tv_调侃":"4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png","tv_目瞪口呆":"0b8cb81a68de5d5365212c99375e7ace3e7891b7.png","2233娘_大笑":"16b8794be990cefa6caeba4d901b934a227ee3b8.png","2233娘_疑问":"0b41f509351958dbb63d472fec0132d1bd03bd14.png","2233娘_吃惊":"d1628c43d35b1530c0504a643ff80b6189fa0a43.png","2233娘_汗":"247cd9df8cdf84b18368c21e3b2dd374e84c0927.png","2233娘_大哭":"476a2a60f6e337b8c0697a592e0aa82781f6b33b.png","2233娘_困惑":"714eeb4eae0d0933b4ff08b7df788b1982f6b940.png","2233娘_耶":"d7178e258a0efc969b65ccc2b1322fb235f5dff4.png","2233娘_怒":"f31953119c51b9748016440ac0b632f779929b37.png","2233娘_卖萌":"ea893aa25355de95ab4f03c2dad3f0c58d0c159e.png","2233娘_委屈":"d9d0bf9d358af8d5761093ec66d4e3f60d963a63.png","2233娘_郁闷":"485203fe7100f2c8fc40b2800a18fe20b35f2f1a.png","2233娘_第一":"3754ee6e5985bd0bd7dfb668981f2a8733398ebd.png","2233娘_喝水":"695bf5429472049b52c1e0de586f8a2511195a23.png","2233娘_吐魂":"e999af499edf38a91ca68b1a9d2f97042c1d6734.png","2233娘_无言":"fdb5870f32cfaf7949e0f88a13f6feba4a48b719.png","热词系列_增加":"142409b595982b8210b2958f3d340f3b47942645.png","热词系列_泪目":"bba3703ab90b7d16fe9dbcb85ed949db687f8331.png","热词系列_保护":"55f8f6445ca7c3170cdfc5b16036abf639ce9b57.png","热词系列_害怕":"d77e2de26da143249f0c0ad7a608c27152c985bf.png","热词系列_爱了爱了":"2a165b555ba20391316366c664ed7891883dc5aa.png","热词系列_问号":"c1d1e76c12180adc8558f47006fe0e7ded4154bb.png","热词系列_吹爆":"b528220f9c37256ed6a37f05bf118e44b08b81e5.png","热词系列_三连":"21f15fe11b7a84d2f2121c16dec50a4e4556f865.png","热词系列_可以":"e08543c71202b36c590094417fcfbb80c3506cd8.png","热词系列_打卡":"a9cf77c78e1b9b40aa3ed4862402fba008ee2f51.png","热词系列_妙啊":"0e98299d7decf5eaffad854977946075c3e91cb8.png","热词系列_这次一定":"a01ca28923daa7cc896c42f27deb4914e20dd572.png","热词系列_AWSL":"c37f88cf799f9badf9d84b7671dc3dd98c0fc0c2.png","热词系列_递话筒":"98e6950e39fbb4dd1c576042063ca632074070ba.png","热词系列_你细品":"535e00658e7e47966f154d3a167fa2365ebc4321.png","热词系列_咕咕":"d8065c2e7ce48c929317a94553499a46fecc262a.png","热词系列_标准结局":"3de98174b510cf7dc5fd1bd08c5d881065e79137.png","热词系列_危":"5cc6c3357c4df544dd8de9d5c5c0cec97c7c9a56.png","热词系列_张三":"255a938f39cea625032b6650036b31aa26c50a3c.png","热词系列_害":"cbe798a194612958537c5282fcca7c3bcd2aa15c.png","热词系列_我裂开了":"29bd57ec4e8952880fea6c9e47aee924e91f10c4.png","热词系列_有内味了":"7ca61680a905b5b6e2e335c630e725b648b03b4d.png","热词系列_猛男必看":"c97064450528a0e45c7e7c365a15fbb13fd61d8c.png","热词系列_奥力给":"c9b8683827ec6c00fea5327c9bec14f581cef2aa.png","热词系列_我哭了":"9e0b3877d649aaf6538fbdd3f937e240a9d808e4.png","热词系列_高产":"9db817cba4a7f4a42398f3b2ec7c0a8e0c247c42.png","热词系列_我酸了":"a8cbf3f6b8cd9377eeb15b9172f3cd683b2e4650.png","热词系列_真香":"e68497c775feaac1c3b1a6cd63a50cfb11b767c4.png","热词系列_我全都要":"d424d1ad8d14c1c9b8367842bc68c658b9229bc1.png","热词系列_神仙UP":"a49e0d0db1e7d35a0f7411be13208951ab448f03.png","热词系列_你币有了":"84820c2b147a8ca02f3c4006b63f76c6313cbfa0.png","热词系列_不愧是你":"9ff2e356797c57ee3b1675ade0883d2d2247be9b.png","热词系列_锤":"35668cc12ae25b9545420e4a85bf21a0bfc03e5d.png","热词系列_秀":"50782fbf5d9b7f48f9467b5c53932981e321eedc.png","热词系列_爷关更":"faad40c56447f1f8abcb4045c17ce159d113d1fd.png","热词系列_有生之年":"f41fdafe2d0fbb8e8bc1598d2cf37e355560103a.png","热词系列_镇站之宝":"24e7a6a6e6383c987215fb905e3ee070aca259b5.png","热词系列_我太男了":"a523f3e4c63e4db1232365765d0ec452f83be97e.png","热词系列_完结撒花":"ea9db62ff5bca8e069cd70c4233353a802835422.png","热词系列_大师球":"f30089248dd137c568edabcb07cf67e0f6e98cf3.png","热词系列_知识盲区":"ccc94600b321a28116081e49ecedaa4ee8728312.png","热词系列_“狼火”":"33ccd3617bfa89e9d1498b13b7542b63f163e5de.png","加油武汉":"eb966aaa5b690d3f9308a9f936f5b5a72a7f956b.png","口罩":"3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png","鸡腿":"c7860392815d345fa69c4f00ef18d67dccfbd574.png","微笑":"685612eadc33f6bc233776c6241813385844f182.png","笑":"81edf17314cea3b48674312b4364df44d5c01f17.png","呲牙":"b5a5898491944a4268360f2e7a84623149672eb6.png","OK":"4683fd9ffc925fa6423110979d7dcac5eda297f4.png","星星眼":"63c9d1a31c0da745b61cdb35e0ecb28635675db2.png","哦呼":"362bded07ea5434886271d23fa25f5d85d8af06c.png","嫌弃":"de4c0783aaa60ec03de0a2b90858927bfad7154b.png","喜欢":"8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png","酸了":"92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png","大哭":"2caafee2e5db4db72104650d87810cc2c123fc86.png","害羞":"9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png","无语":"44667b7d9349957e903b1b62cb91fb9b13720f04.png","疑惑":"b7840db4b1f9f4726b7cb23c0972720c1698d661.png","调皮":"8290b7308325e3179d2154327c85640af1528617.png","喜极而泣":"485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png","奸笑":"bb84906573472f0a84cebad1e9000eb6164a6f5a.png","偷笑":"6c49d226e76c42cd8002abc47b3112bc5a92f66a.png","大笑":"ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png","阴险":"ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png","捂脸":"6921bb43f0c634870b92f4a8ad41dada94a5296d.png","囧":"12e41d357a9807cc80ef1e1ed258127fcc791424.png","呆":"33ad6000d9f9f168a0976bc60937786f239e5d8c.png","抠鼻":"cb89184c97e3f6d50acfd7961c313ce50360d70f.png","惊喜":"0afecaf3a3499479af946f29749e1a6c285b6f65.png","惊讶":"f8e9a59cad52ae1a19622805696a35f0a0d853f3.png","笑哭":"c3043ba94babf824dea03ce500d0e73763bf4f40.png","妙啊":"b4cb77159d58614a9b787b91b1cd22a81f383535.png","doge":"bba7c12aa51fed0199c241465560dfc2714c593e.png","滑稽":"d15121545a99ac46774f1f4465b895fe2d1411c3.png","吃瓜":"4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png","打call":"431432c43da3ee5aab5b0e4f8931953e649e9975.png","点赞":"1a67265993913f4c35d15a6028a30724e83e7d35.png","鼓掌":"895d1fc616b4b6c830cf96012880818c0e1de00d.png","尴尬":"cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png","冷":"cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png","灵魂出窍":"43d3db7d97343c01b47e22cfabeca84b4251f35a.png","委屈":"d2f26cbdd6c96960320af03f5514c5b524990840.png","傲娇":"010540d0f61220a0db4922e4a679a1d8eca94f4e.png","疼":"905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png","吓":"9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png","生病":"0f25ce04ae1d7baf98650986454c634f6612cb76.png","吐":"06946bfe71ac48a6078a0b662181bb5cad09decc.png","嘘声":"e64af664d20716e090f10411496998095f62f844.png","捂眼":"c5c6d6982e1e53e478daae554b239f2b227b172b.png","思考":"cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png","再见":"fc510306bae26c9aec7e287cdf201ded27b065b9.png","翻白眼":"eba54707c7168925b18f6f8b1f48d532fe08c2b1.png","哈欠":"888d877729cbec444ddbd1cf4c9af155a7a06086.png","奋斗":"bb2060c15dba7d3fd731c35079d1617f1afe3376.png","墨镜":"3a03aebfc06339d86a68c2d893303b46f4b85771.png","撇嘴":"531863568e5668c5ac181d395508a0eeb1f0cda4.png","难过":"a651db36701610aa70a781fa98c07c9789b11543.png","抓狂":"4c87afff88c22439c45b79e9d2035d21d5622eba.png","生气":"3195714219c4b582a4fb02033dd1519913d0246d.png","干杯":"8da12d5f55a2c7e9778dcc05b40571979fe208e6.png","爱心":"ed04066ea7124106d17ffcaf75600700e5442f5c.png","锦鲤":"643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png","胜利":"b49fa9f4b1e7c3477918153b82c60b114d87347c.png","加油":"c7aaeacb21e107292d3bb053e5abde4a4459ed30.png","保佑":"fafe8d3de0dc139ebe995491d2dac458a865fb30.png","抱拳":"89516218158dbea18ab78e8873060bf95d33bbbe.png","响指":"1b5c53cf14336903e1d2ae3527ca380a1256a077.png","支持":"3c210366a5585706c09d4c686a9d942b39feeb50.png","拥抱":"41780a4254750cdaaccb20735730a36044e98ef3.png","怪我咯":"07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png","跪了":"f2b3aee7e521de7799d4e3aa379b01be032698ac.png","黑洞":"e90ec4c799010f25391179118ccd9f66b3b279ba.png","老鼠":"8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png","福到了":"5de5373d354c373cf1617b6b836f3a8d53c5a655.png"},
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign({}, initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else $.getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js', initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.querySelector('#vcomment'),loadValine)
+  else setTimeout(() => loadValine(), 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/js/calendar.js"></script><script src="/js/languages.js"></script><script src="/js/other.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script></div></body></html>
